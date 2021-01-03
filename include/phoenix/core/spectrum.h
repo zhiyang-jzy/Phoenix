@@ -7,8 +7,6 @@
 
 PHOENIX_NAMESPACE_BEGIN
 
-
-
 class Spectrum{
 
 };

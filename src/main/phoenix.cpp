@@ -2,21 +2,16 @@
 
 
 #include <spdlog/spdlog.h>
+#include<phoenix/core/rng.h>
+#include<tfm/tinyformat.h>
 
-#include <phoenix/core/properlist.h>
-#include <phoenix/core/camera.h>
-#include <phoenix/core/object.h>
-
-using namespace std;
 
 int main()
 {
-    spdlog::info("test");
-
-    phoenix::PropertyList a;
-
-    phoenix::Camera r(a);
-    auto ss = phoenix::PhoenixObjectFactory::createInstance("camera",a);
-    spdlog::info(ss->toString());
-    spdlog::info(r.toString());
+    phoenix::RNG r;
+    for(int i=0;i<10;i++)
+    {
+        spdlog::info(r.nextInt());
+    }
+    spdlog::info(tinyformat::format("%d %d",3,2));
 }

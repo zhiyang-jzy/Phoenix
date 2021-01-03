@@ -10,20 +10,14 @@ include_directories(include)
 
 file ( GLOB PHOENIX_SOURCE src/core/*)
 
-add_library(phoenix_lib STATIC ${PHOENIX_SOURCE})
-
-
 find_package(spdlog CONFIG REQUIRED)
 find_package(Eigen3 CONFIG REQUIRED)
 
 
-set(all_package
-		spdlog::spdlog
-		Eigen3::Eigen
-		phoenix_lib
-)
+set(all_package spdlog::spdlog Eigen3::Eigen)
+message(${all_package})
 
-add_executable(phoenix "src/main/phoenix.cpp")
+add_executable(phoenix "src/main/phoenix.cpp" ${PHOENIX_SOURCE})
 
 
 target_link_libraries(phoenix ${all_package})

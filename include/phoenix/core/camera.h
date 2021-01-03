@@ -15,10 +15,10 @@ public:
 
     string toString()const override{return "Camera";}
 
+    //virtual Point2f Sample()
 
-
-
-
+protected:
+    Vector2i m_outputSize;
 };
 
 
