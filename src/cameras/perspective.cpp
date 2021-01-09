@@ -3,12 +3,14 @@
 //
 
 #include<phoenix/cameras/perspective.h>
+#include<phoenix/core/properlist.h>
 
 PHOENIX_NAMESPACE_BEGIN
 
 PerspectiveCamera::PerspectiveCamera(const PropertyList &prop) {
 
-private:
+    m_outputSize.x() = prop.getInteger("width");
+    m_outputSize.y() = prop.getInteger("height");
 
 
 }

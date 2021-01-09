@@ -12,17 +12,27 @@
 #include<memory>
 #include <Eigen/Dense>
 #include <Eigen/Geometry>
+#include<vector>
+#include<unordered_map>
 
 using std::string;
 using std::shared_ptr;
 using std::make_shared;
+using std::vector;
+using std::unordered_map;
 
 PHOENIX_NAMESPACE_BEGIN
 
-class PhonixObject;
+class PhoenixObject;
 class PropertyList;
 class Camera;
 class Spectrum;
+class Sampler;
+class Integrator;
+class Shape;
+class Ray;
+class Intersection;
+class Pembree;
 
 
 typedef Eigen::Vector2f Point2f;

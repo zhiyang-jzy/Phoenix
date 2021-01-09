@@ -10,9 +10,15 @@ PHOENIX_NAMESPACE_BEGIN
     public:
         enum class PClassType {
             PCamera,
-
+            PEmitter,
+            PIntegrator,
+            Psampler,
+            PScene,
+            PShape
         };
 
+        virtual void addChild(shared_ptr<PhoenixObject> child){}
+        virtual void setParent(shared_ptr<PhoenixObject> parent){}
 
         virtual PClassType getClassType() const = 0;
 

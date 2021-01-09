@@ -4,10 +4,12 @@
 #pragma once
 
 #include<phoenix/core/phoenix.h>
+#include<Eigen/Dense>
 
 PHOENIX_NAMESPACE_BEGIN
 
-class Spectrum{
+class Color3f: public Eigen::Array3f{
+
 
 };
 

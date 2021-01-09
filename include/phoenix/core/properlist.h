@@ -92,7 +92,6 @@ PHOENIX_NAMESPACE_BEGIN
                 vector_type, transform_type
             } type;
 
-            /* Visual studio lacks support for unrestricted unions (as of ver. 2013) */
             struct Value
             {
                 Value() : boolean_value(false) { }
@@ -109,14 +108,8 @@ PHOENIX_NAMESPACE_BEGIN
 
             Property() : type(boolean_type) { }
         };
-
         std::map<std::string, Property> m_properties;
     };
-
-
-
-
-
 
 
 PHOENIX_NAMESPACE_END
