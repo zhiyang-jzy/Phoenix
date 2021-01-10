@@ -31,7 +31,7 @@ PHOENIX_NAMESPACE_BEGIN
 
     }
 
-    void addChild(shared_ptr<PhoenixObject> child)override;
+    void addChild(const shared_ptr<PhoenixObject> child)override;
 
     };
 

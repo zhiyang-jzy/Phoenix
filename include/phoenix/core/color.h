@@ -10,6 +10,11 @@ PHOENIX_NAMESPACE_BEGIN
 
 class Color3f: public Eigen::Array3f{
 
+};
+
+
+class Color4f: public Eigen::Array4f
+{
 
 };
 

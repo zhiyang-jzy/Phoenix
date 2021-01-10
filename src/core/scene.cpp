@@ -5,26 +5,26 @@
 #include <phoenix/core/scene.h>
 #include<spdlog/spdlog.h>
 #include<phoenix/core/camera.h>
+#include<phoenix/core/integrator.h>
+#include<phoenix/core/sampler.h>
 
 PHOENIX_NAMESPACE_BEGIN
 
-    void Scene::addChild(shared_ptr<PhoenixObject> child) {
+    void Scene::addChild(const shared_ptr<PhoenixObject> child) {
         switch (child->getClassType()) {
             case PClassType::PCamera:{
-                if(m_camera)
-                    throw std::exception("already has ");
-                m_camera =  std::static_pointer_cast<shared_ptr<Camera>>(child);
+                m_camera =  std::dynamic_pointer_cast<Camera>(child);
                 break;
             }
                 break;
             case PClassType::PEmitter:
                 break;
             case PClassType::PIntegrator:{
-                m_integrator = std::static_pointer_cast<shared_ptr<Integrator>>(child);
+                m_integrator = std::dynamic_pointer_cast<Integrator>(child);
                 break;
             }
             case PClassType::Psampler:{
-                m_sampler = std::static_pointer_cast<shared_ptr<Sampler>>(child);
+                m_sampler = std::dynamic_pointer_cast<Sampler>(child);
                 break;
             }
             case PClassType::PScene:{
