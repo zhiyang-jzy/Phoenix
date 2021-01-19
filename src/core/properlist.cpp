@@ -24,6 +24,7 @@ PHOENIX_NAMESPACE_BEGIN
     \
     Type PropertyList::Get##TypeName(const std::string &name, const Type &defVal) const { \
         auto it = properties_.find(name); \
+        if(it==properties_.end()) return defVal;\
         return it->second.value.XmlName##_value; \
     }
 

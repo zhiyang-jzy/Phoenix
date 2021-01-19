@@ -14,7 +14,7 @@
 PHOENIX_NAMESPACE_BEGIN
 
     class Scene : public PhoenixObject {
-    private:
+    public:
         shared_ptr<Camera> camera_;
         shared_ptr<Sampler> sampler_;
         shared_ptr<Integrator> integrator_;

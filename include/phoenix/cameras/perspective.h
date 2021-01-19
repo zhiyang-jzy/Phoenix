@@ -14,21 +14,12 @@ public:
     float GenerateRay(const CameraSample& sample,Ray& ray) const override;
     void AddChild(shared_ptr<PhoenixObject> child) override;
 
-
- protected:
+ private:
 
   shared_ptr<Film> film_;
-
-  Point3f look_from_,look_at_;
-  Vector3f look_up_;
-
-
-  Transform screen_to_raster_,raster_to_screen_;
-  Transform camera_to_screen_,screen_to_camera_;
-  Transform raster_to_camera_;
-  Transform camera_to_world_;
-  float lens_radius_,focal_length_,fov_;
-
+  Transform camera_to_world_,sample_to_camera_;
+  float near_clip_,far_clip_,fov_;
+  Vector2f inv_output_size_;
 
 
 };

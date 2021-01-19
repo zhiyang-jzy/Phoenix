@@ -42,6 +42,8 @@ typedef Eigen::Vector2i Vector2i;
 typedef Eigen::Vector2i Point2i;
 typedef Eigen::Affine3f Transform;
 
+const float PI = static_cast<float>(acos(-1.0));
+
 
 
 PHOENIX_NAMESPACE_END

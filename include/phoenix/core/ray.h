@@ -15,7 +15,10 @@ class Ray
 public:
     Point3f orig_;
     Vector3f dir_;
+    float mint_;
+    float maxt_;
     Ray(const Point3f& orig,const Point3f& dir):orig_(orig),dir_(dir){}
+    Ray()=default;
 
 };
 

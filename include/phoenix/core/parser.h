@@ -38,6 +38,8 @@ class SceneParser {
   shared_ptr<PhoenixObject> ParseTag(pugi::xml_node& node,PropertyList& prop,ParserType parent_tag);
   std::map<string,ParserType> str_to_type_;
 
+  Transform transform_;
+
 
 
 };

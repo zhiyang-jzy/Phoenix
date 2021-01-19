@@ -11,7 +11,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 include_directories(include)
 
-file ( GLOB PHOENIX_SOURCE src/core/* src/cameras/*
+file ( GLOB PHOENIX_SOURCE src/core/* src/cameras/* src/shapes
 
         )
 

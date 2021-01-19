@@ -3,11 +3,12 @@
 
 #include <spdlog/spdlog.h>
 #include<tfm/tinyformat.h>
-#include<tinyxml2.h>
 #include<phoenix/cameras/perspective.h>
 #include<phoenix/core/properlist.h>
 #include<phoenix/core/scene.h>
 #include<phoenix/core/parser.h>
+#include<phoenix/core/ray.h>
+#include<pcg/pcg32.h>
 
 #include<filesystem>
 
@@ -33,6 +34,20 @@ int main()
   phoenix::SceneParser parser;
   shared_ptr<phoenix::PhoenixObject> t_scene =  parser.Parse(R"(C:\Users\jzy99\Desktop\test.xml)");
   shared_ptr<phoenix::Scene> scene = std::dynamic_pointer_cast<phoenix::Scene>(t_scene);
+  auto camera = scene->camera_;
+
+  pcg32 pcg;
+
+  phoenix::Ray ray;
+
+  phoenix::Vector2f vec(pcg.nextFloat(),pcg.nextFloat());
+
+  phoenix::CameraSample sample{vec};
+
+  camera->GenerateRay(sample,ray);
+
+  phoenix::Vector3f r(0,1,0);
+
   int a = 3;
 
 }

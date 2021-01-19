@@ -44,13 +44,13 @@ shared_ptr<PhoenixObject> phoenix::SceneParser::ParseTag(pugi::xml_node& node,Pr
   bool parent_is_transform = parent_tag==ParserType::PTransform;
   bool current_is_transform_op = false;
 
-  Transform transform;
+
 
   if(tag==ParserType::PScene)
     node.append_attribute("type")="scene";
 
   if(tag==ParserType::PTransform)
-    transform.setIdentity();
+    transform_.setIdentity();
 
   PropertyList prop_list;
 
@@ -96,11 +96,13 @@ shared_ptr<PhoenixObject> phoenix::SceneParser::ParseTag(pugi::xml_node& node,Pr
         trafo << left, newUp, dir, origin,
             0, 0, 0, 1;
 
-        transform = Eigen::Affine3f(trafo) * transform;
+        transform_ = Eigen::Affine3f(trafo) * transform_;
+
+        break;
       }
 
       case ParserType::PTransform:{
-        prop.SetTransform(node.attribute("name").value(), transform);
+        prop.SetTransform(node.attribute("name").value(), transform_);
         break;
       }
 

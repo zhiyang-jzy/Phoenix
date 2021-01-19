@@ -4,42 +4,64 @@
 
 #include<phoenix/cameras/perspective.h>
 #include<phoenix/core/properlist.h>
+#include<phoenix/core/common.h>
+#include<phoenix/core/ray.h>
 
 PHOENIX_NAMESPACE_BEGIN
 
-
-
 PerspectiveCamera::PerspectiveCamera(const PropertyList &prop) {
+  fov_ = prop.GetFloat("fov");
+  camera_to_world_ = prop.GetTransform("toWorld");
+  output_size_.x() = prop.GetInteger("width", 1280);
+  output_size_.y() = prop.GetInteger("height", 720);
+  inv_output_size_ = output_size_.cast<float>().cwiseInverse();
 
-//  focal_length_ = prop.GetFloat("focal_length");
-//  look_from_ = prop.GetPoint("look_from");
-//  look_at_ = prop.GetPoint("look_at");
-//  look_up_ = prop.GetVector("look_from");
-    fov_ = prop.GetFloat("fov");
-    camera_to_world_ = prop.GetTransform("toWorld");
-
+  near_clip_ = prop.GetFloat("nearClip", 1e-4f);
+  far_clip_ = prop.GetFloat("farClip", 1e4f);
+  filter_ = nullptr;
 
 }
 
 float PerspectiveCamera::GenerateRay(const CameraSample &sample, Ray &ray) const {
 
-  Point3f film = Point3f(sample.film.x(),sample.film.y(),0);
-  Point3f camera = raster_to_camera_*film;
+  Point3f near_p = sample_to_camera_ * Point3f(
+      sample.film.x() * inv_output_size_.x(),
+      sample.film.y() * inv_output_size_.y(), 0.0f);
 
+  /* Turn into a normalized ray direction, and
+     adjust the ray interval accordingly */
+  Vector3f d = near_p.normalized();
+  float invZ = 1.0f / d.z();
 
+  ray.orig_ = camera_to_world_ * Point3f(0, 0, 0);
+  ray.dir_ = camera_to_world_ * d;
+  ray.mint_ = near_clip_ * invZ;
+  ray.maxt_ = far_clip_ * invZ;
 
-  return .1f;
+  return 1.0f;
 }
 void PerspectiveCamera::Active() {
+  float aspect = output_size_.x() / (float) (output_size_.y());
+  float recip = 1.0f / (far_clip_ - near_clip_), cot = 1.0f / std::tan(deg_to_rad(fov_ / 2.0f));
+
+  Eigen::Matrix4f perspective;
+
+  perspective<<
+    cot,0,0,0,
+    0,cot,0,0,
+    0,0,far_clip_*recip,-near_clip_*far_clip_*recip,
+    0,0,1,0;
+  sample_to_camera_ = Transform(
+      Eigen::DiagonalMatrix<float, 3>(Vector3f(-0.5f, -0.5f * aspect, 1.0f)) *
+          Eigen::Translation<float, 3>(-1.0f, -1.0f/aspect, 0.0f) * perspective).inverse();
 
 }
 void PerspectiveCamera::AddChild(shared_ptr<PhoenixObject> child) {
   switch (child->GetClassType()) {
-    case PClassType::PFilm:
-      film_ = std::dynamic_pointer_cast<Film>(child);
+    case PClassType::PFilm:film_ = std::dynamic_pointer_cast<Film>(child);
       break;
 
   }
 }
-PHOENIX_REGISTER_CLASS(PerspectiveCamera,"perspective");
+PHOENIX_REGISTER_CLASS(PerspectiveCamera, "perspective");
 PHOENIX_NAMESPACE_END
