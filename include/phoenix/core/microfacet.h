@@ -1,0 +1,17 @@
+//
+// Created by jzy99 on 2021/1/13.
+//
+
+#ifndef PHOENIX_MICROFACED_H
+#define PHOENIX_MICROFACED_H
+
+PHOENIX_NAMESPACE_BEGIN
+
+class Microfaced
+{
+
+};
+
+PHOENIX_NAMESPACE_END
+
+#endif //PHOENIX_MICROFACED_H

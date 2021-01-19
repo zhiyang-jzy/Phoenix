@@ -11,11 +11,11 @@ PHOENIX_NAMESPACE_BEGIN
 
 class Intersection{
 public:
-    Point2f uv;
-    shared_ptr<Shape> shape;
-    Point3f point;
-    bool isHit;
-    float tfar;
+    Point2f uv_;
+    shared_ptr<Shape> shape_;
+    Point3f point_;
+    bool isHit_;
+    float tfar_;
 
 
 public:
