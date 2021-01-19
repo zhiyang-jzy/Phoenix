@@ -7,7 +7,7 @@
 
 PHOENIX_NAMESPACE_BEGIN
 
-class Microfaced
+class Microfacet
 {
 
 };

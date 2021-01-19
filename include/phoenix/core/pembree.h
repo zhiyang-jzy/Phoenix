@@ -32,16 +32,16 @@ class Pembree
 {
 
 public:
-    RTCDevice device{};
-    RTCScene scene;
+    RTCDevice device_{};
+    RTCScene scene_;
 private:
-    void initializeDevice();
+    void InitializeDevice();
 
 public:
-    [[nodiscard]] RTCRayHit castRay(const Eigen::Vector3f& origin, const Eigen::Vector3f& dir, float tnear = 1e-3, float tfar = std::numeric_limits<float>::infinity())const;
-    unsigned int addMesh(const std::vector<Eigen::Vector3f>& vertices, const std::vector<uint32_t> indices);
-    unsigned int addSphere(const Eigen::Vector4f& info);
-    void endAdd();
+    [[nodiscard]] RTCRayHit CastRay(const Eigen::Vector3f& origin, const Eigen::Vector3f& dir, float tnear = 1e-3, float tfar = std::numeric_limits<float>::infinity())const;
+    unsigned int AddMesh(const std::vector<Eigen::Vector3f>& vertices, const std::vector<uint32_t> indices);
+    unsigned int AddSphere(const Eigen::Vector4f& info);
+    void EndAdd();
     Pembree();
 
 };

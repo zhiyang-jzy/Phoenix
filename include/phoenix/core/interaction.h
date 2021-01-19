@@ -2,20 +2,20 @@
 // Created by jzy99 on 2021/1/6.
 //
 
-#ifndef PHOENIX_INTERSECTION_H
-#define PHOENIX_INTERSECTION_H
+#ifndef PHOENIX_Interaction_H
+#define PHOENIX_Interaction_H
 
 #include<phoenix/core/phoenix.h>
 
 PHOENIX_NAMESPACE_BEGIN
 
-class Intersection{
+struct Interaction{
 public:
-    Point2f uv_;
-    shared_ptr<Shape> shape_;
-    Point3f point_;
-    bool isHit_;
-    float tfar_;
+    Point2f uv;
+    shared_ptr<Shape> shape;
+    Point3f point;
+    bool isHit;
+    float tfar;
 
 
 public:
@@ -27,4 +27,4 @@ public:
 PHOENIX_NAMESPACE_END
 
 
-#endif //PHOENIX_INTERSECTION_H
+#endif //PHOENIX_Interaction_H

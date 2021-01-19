@@ -12,9 +12,9 @@ PHOENIX_NAMESPACE_BEGIN
 
     class Emitter : public PhoenixObject {
 
-    PClassType getClassType()const override{return PClassType::PEmitter;}
+    PClassType GetClassType()const override{return PClassType::PEmitter;}
 
-    string toString()const override{return "emitter"};
+    string ToString()const override{return "emitter"};
 
     };
 

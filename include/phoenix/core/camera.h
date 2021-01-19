@@ -7,18 +7,29 @@
 
 PHOENIX_NAMESPACE_BEGIN
 
+
+struct CameraSample{
+  Point2f film;
+
+};
+
 class Camera : public PhoenixObject{
 
 public:
 
-    PClassType getClassType()const override{return PClassType::PCamera;}
+    PClassType GetClassType()const override{return PClassType::PCamera;}
 
-    string toString()const override{return "Camera";}
+    string ToString()const override{return "Camera";}
+
+    virtual float GenerateRay(const CameraSample& sample,Ray& ray)const = 0;
+
+
 
     //virtual Point2f Sample()
 
 protected:
-    Vector2i m_outputSize;
+  Transform camera_to_world_;
+
 };
 
 

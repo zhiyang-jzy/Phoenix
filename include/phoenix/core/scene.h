@@ -15,23 +15,25 @@ PHOENIX_NAMESPACE_BEGIN
 
     class Scene : public PhoenixObject {
     private:
-        shared_ptr<Camera> m_camera;
-        shared_ptr<Sampler> m_sampler;
-        shared_ptr<Integrator> m_integrator;
-        vector<shared_ptr<Shape> > m_shapes;
-        shared_ptr<Pembree> m_embree;
+        shared_ptr<Camera> camera_;
+        shared_ptr<Sampler> sampler_;
+        shared_ptr<Integrator> integrator_;
+        vector<shared_ptr<Shape> > shapes_;
+        shared_ptr<Pembree> embree_;
 
 
     public:
-    [[nodiscard]] PClassType getClassType()const override{return PClassType::PScene;}
-    string toString()const override{return "scene";}
+    [[nodiscard]] PClassType GetClassType()const override{return PClassType::PScene;}
+    string ToString()const override{return "scene";}
 
-    bool castRay(const Ray& ray,Intersection& it)const
+    Scene(const PropertyList& props);
+
+    bool CastRay(const Ray& ray,Interaction& it)const
     {
 
     }
 
-    void addChild(const shared_ptr<PhoenixObject> child)override;
+    void AddChild(shared_ptr<PhoenixObject> child)override;
 
     };
 

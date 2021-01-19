@@ -10,21 +10,21 @@
 
 PHOENIX_NAMESPACE_BEGIN
 
-    void Scene::addChild(const shared_ptr<PhoenixObject> child) {
-        switch (child->getClassType()) {
+    void Scene::AddChild(const shared_ptr<PhoenixObject> child) {
+        switch (child->GetClassType()) {
             case PClassType::PCamera:{
-                m_camera =  std::dynamic_pointer_cast<Camera>(child);
+                camera_ =  std::dynamic_pointer_cast<Camera>(child);
                 break;
             }
                 break;
             case PClassType::PEmitter:
                 break;
             case PClassType::PIntegrator:{
-                m_integrator = std::dynamic_pointer_cast<Integrator>(child);
+                integrator_ = std::dynamic_pointer_cast<Integrator>(child);
                 break;
             }
-            case PClassType::Psampler:{
-                m_sampler = std::dynamic_pointer_cast<Sampler>(child);
+            case PClassType::PSampler:{
+                sampler_ = std::dynamic_pointer_cast<Sampler>(child);
                 break;
             }
             case PClassType::PScene:{
@@ -36,7 +36,11 @@ PHOENIX_NAMESPACE_BEGIN
             }
         }
     }
+Scene::Scene(const PropertyList &props) {
 
+}
+
+PHOENIX_REGISTER_CLASS(Scene,"scene");
 
 PHOENIX_NAMESPACE_END
 

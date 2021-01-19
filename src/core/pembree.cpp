@@ -11,17 +11,17 @@ PHOENIX_NAMESPACE_BEGIN
         printf("error %d: %s\n", error, str);
     }
 
-    void Pembree::initializeDevice() {
-        device = rtcNewDevice(nullptr);
+    void Pembree::InitializeDevice() {
+        device_ = rtcNewDevice(nullptr);
 
-        if (!device)
+        if (!device_)
             printf("error %d: cannot create device\n", rtcGetDeviceError(nullptr));
 
-        rtcSetDeviceErrorFunction(device, errorFunction, nullptr);
+        rtcSetDeviceErrorFunction(device_, errorFunction, nullptr);
     }
 
-    unsigned int Pembree::addMesh(const std::vector<Eigen::Vector3f> &_vertices, const std::vector<uint32_t> _indices) {
-        RTCGeometry geom = rtcNewGeometry(device, RTC_GEOMETRY_TYPE_TRIANGLE);
+    unsigned int Pembree::AddMesh(const std::vector<Eigen::Vector3f> &_vertices, const std::vector<uint32_t> _indices) {
+        RTCGeometry geom = rtcNewGeometry(device_, RTC_GEOMETRY_TYPE_TRIANGLE);
 
         auto *vertices = (float *) rtcSetNewGeometryBuffer(geom,
                                                            RTC_BUFFER_TYPE_VERTEX,
@@ -65,19 +65,19 @@ PHOENIX_NAMESPACE_BEGIN
          * rtcAttachGeometry() returns a geometry ID. We could use this to
          * identify intersected objects later on.
          */
-        unsigned int id = rtcAttachGeometry(scene, geom);
+        unsigned int id = rtcAttachGeometry(scene_, geom);
         rtcReleaseGeometry(geom);
         return id;
 
 
     }
 
-    void Pembree::endAdd() {
-        rtcCommitScene(scene);
+    void Pembree::EndAdd() {
+        rtcCommitScene(scene_);
     }
 
     RTCRayHit
-    Pembree::castRay(const Eigen::Vector3f &origin, const Eigen::Vector3f &dir, float tnear, float tfar) const {
+    Pembree::CastRay(const Eigen::Vector3f &origin, const Eigen::Vector3f &dir, float tnear, float tfar) const {
         struct RTCIntersectContext context{};
         rtcInitIntersectContext(&context);
 
@@ -104,7 +104,7 @@ PHOENIX_NAMESPACE_BEGIN
          * There are multiple variants of rtcIntersect. This one
          * intersects a single ray with the scene.
          */
-        rtcIntersect1(scene, &context, &rayhit);
+        rtcIntersect1(scene_, &context, &rayhit);
 
         return rayhit;
 
@@ -129,12 +129,12 @@ PHOENIX_NAMESPACE_BEGIN
     }
 
     Pembree::Pembree() {
-        initializeDevice();
-        scene = rtcNewScene(device);
+        InitializeDevice();
+        scene_ = rtcNewScene(device_);
     }
 
-    unsigned int Pembree::addSphere(const Eigen::Vector4f &info) {
-        RTCGeometry geom = rtcNewGeometry(device, RTC_GEOMETRY_TYPE_SPHERE_POINT);
+    unsigned int Pembree::AddSphere(const Eigen::Vector4f &info) {
+        RTCGeometry geom = rtcNewGeometry(device_, RTC_GEOMETRY_TYPE_SPHERE_POINT);
 
         auto *vertices = (float *) rtcSetNewGeometryBuffer(geom,
                                                            RTC_BUFFER_TYPE_VERTEX,
@@ -150,7 +150,7 @@ PHOENIX_NAMESPACE_BEGIN
         vertices[3] = static_cast<float>(info.w());
 
         rtcCommitGeometry(geom);
-        unsigned int id = rtcAttachGeometry(scene, geom);
+        unsigned int id = rtcAttachGeometry(scene_, geom);
         rtcReleaseGeometry(geom);
 
         return id;

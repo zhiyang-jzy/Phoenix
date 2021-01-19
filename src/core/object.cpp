@@ -7,11 +7,11 @@
 PHOENIX_NAMESPACE_BEGIN
 
 
-std::map<std::string, PhoenixObjectFactory::Constructor> *PhoenixObjectFactory::m_constructors = nullptr;
-void PhoenixObjectFactory::registerClass(const std::string &name, const Constructor &constr) {
-    if (!m_constructors)
-        m_constructors = new std::map<std::string, PhoenixObjectFactory::Constructor>();
-    (*m_constructors)[name] = constr;
+std::map<std::string, PhoenixObjectFactory::Constructor> *PhoenixObjectFactory::constructors_ = nullptr;
+void PhoenixObjectFactory::RegisterClass(const std::string &name, const Constructor &constr) {
+    if (!constructors_)
+        constructors_ = new std::map<std::string, PhoenixObjectFactory::Constructor>();
+    (*constructors_)[name] = constr;
 }
 
 

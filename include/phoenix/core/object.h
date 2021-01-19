@@ -12,17 +12,19 @@ PHOENIX_NAMESPACE_BEGIN
             PCamera,
             PEmitter,
             PIntegrator,
-            Psampler,
+            PSampler,
             PScene,
-            PShape
+            PShape,
+            PFilm
         };
 
-        virtual void addChild(shared_ptr<PhoenixObject> child){}
-        virtual void setParent(shared_ptr<PhoenixObject> parent){}
+        virtual void AddChild(const shared_ptr<PhoenixObject> child){}
+        virtual void SetParent(const shared_ptr<PhoenixObject> parent){}
+        virtual void Active(){}
 
-        virtual PClassType getClassType() const = 0;
+        [[nodiscard]] virtual PClassType GetClassType() const = 0;
 
-        virtual string toString() const = 0;
+        virtual string ToString() const = 0;
 
     };
 
@@ -44,7 +46,7 @@ PHOENIX_NAMESPACE_BEGIN
          *     A function pointer to an anonymous function that is
          *     able to call the constructor of the class.
          */
-        static void registerClass(const std::string &name, const Constructor &constr);
+        static void RegisterClass(const std::string &name, const Constructor &constr);
 
         /**
          * \brief Construct an instance from the class of the given name
@@ -57,15 +59,15 @@ PHOENIX_NAMESPACE_BEGIN
          *     A list of properties that will be passed to the constructor
          *     of the class.
          */
-        static shared_ptr<PhoenixObject> createInstance(const std::string &name,
+        static shared_ptr<PhoenixObject> CreateInstance(const std::string &name,
                                           const PropertyList &propList) {
 //            if (!m_constructors || m_constructors->find(name) == m_constructors->end())
 //                throw NoriException("A constructor for class \"%s\" could not be found!", name);
-            return (*m_constructors)[name](propList);
+            return (*constructors_)[name](propList);
         }
 
     private:
-        static std::map<std::string, Constructor> *m_constructors;
+        static std::map<std::string, Constructor> *constructors_;
     };
 
 #define PHOENIX_REGISTER_CLASS(cls, name) \
@@ -74,7 +76,7 @@ PHOENIX_NAMESPACE_BEGIN
     } \
     static struct cls ##_{ \
         cls ##_() { \
-            PhoenixObjectFactory::registerClass(name, cls ##_create); \
+            PhoenixObjectFactory::RegisterClass(name, cls ##_create); \
         } \
     } cls ##__PHOENIX_;
 

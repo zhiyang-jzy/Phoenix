@@ -11,14 +11,17 @@ set(CMAKE_CXX_STANDARD 17)
 
 include_directories(include)
 
-file ( GLOB PHOENIX_SOURCE src/core/*)
+file ( GLOB PHOENIX_SOURCE src/core/* src/cameras/*
+
+        )
 
 find_package(spdlog CONFIG REQUIRED)
 find_package(Eigen3 CONFIG REQUIRED)
 find_package(tinyxml2 CONFIG REQUIRED)
 find_package(embree 3.0 REQUIRED)
+find_package(pugixml CONFIG REQUIRED)
 
-set(all_package spdlog::spdlog Eigen3::Eigen tinyxml2::tinyxml2 embree)
+set(all_package spdlog::spdlog Eigen3::Eigen tinyxml2::tinyxml2 embree pugixml)
 
 add_executable(phoenix "src/main/phoenix.cpp" ${PHOENIX_SOURCE})
 

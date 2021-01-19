@@ -11,9 +11,11 @@ PHOENIX_NAMESPACE_BEGIN
 
 class Ray
 {
-public:
-    Point3f orig,dir;
 
+public:
+    Point3f orig_;
+    Vector3f dir_;
+    Ray(const Point3f& orig,const Point3f& dir):orig_(orig),dir_(dir){}
 
 };
 
