@@ -9,7 +9,7 @@
 #include<phoenix/core/phoenix.h>
 #include<phoenix/core/object.h>
 #include<phoenix/core/shape.h>
-
+#include "pembree.h"
 
 PHOENIX_NAMESPACE_BEGIN
 
@@ -19,23 +19,22 @@ PHOENIX_NAMESPACE_BEGIN
         shared_ptr<Sampler> sampler_;
         shared_ptr<Integrator> integrator_;
         vector<shared_ptr<Shape> > shapes_;
-        shared_ptr<Pembree> embree_;
+        Pembree embree_;
+        unordered_map<unsigned int,shared_ptr<Shape>> shapes_dict_;
 
 
     public:
     [[nodiscard]] PClassType GetClassType()const override{return PClassType::PScene;}
-    string ToString()const override{return "scene";}
+    [[nodiscard]] string ToString()const override{return "scene";}
 
-    Scene(const PropertyList& props);
+    explicit Scene(const PropertyList& props);
 
-    bool CastRay(const Ray& ray,Interaction& it)const
-    {
-
-    }
-
+    bool Intersect(const Ray& ray,Interaction& it)const;
     void AddChild(shared_ptr<PhoenixObject> child)override;
+    void Active()override;
 
     };
+
 
 
 PHOENIX_NAMESPACE_END

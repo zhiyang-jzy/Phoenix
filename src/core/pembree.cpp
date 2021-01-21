@@ -133,7 +133,7 @@ PHOENIX_NAMESPACE_BEGIN
         scene_ = rtcNewScene(device_);
     }
 
-    unsigned int Pembree::AddSphere(const Eigen::Vector4f &info) {
+    unsigned int Pembree::AddSphere(const Eigen::Vector3f& center,float radius) {
         RTCGeometry geom = rtcNewGeometry(device_, RTC_GEOMETRY_TYPE_SPHERE_POINT);
 
         auto *vertices = (float *) rtcSetNewGeometryBuffer(geom,
@@ -144,10 +144,10 @@ PHOENIX_NAMESPACE_BEGIN
                                                            1);
 
 
-        vertices[0] = static_cast<float>(info.x());
-        vertices[1] = static_cast<float>(info.y());
-        vertices[2] = static_cast<float>(info.z());
-        vertices[3] = static_cast<float>(info.w());
+        vertices[0] = static_cast<float>(center.x());
+        vertices[1] = static_cast<float>(center.y());
+        vertices[2] = static_cast<float>(center.z());
+        vertices[3] = static_cast<float>(radius);
 
         rtcCommitGeometry(geom);
         unsigned int id = rtcAttachGeometry(scene_, geom);

@@ -3,6 +3,7 @@
 
 
 #define PHOENIX_NAMESPACE_BEGIN namespace phoenix {
+
 #define PHOENIX_NAMESPACE_END }
 
 #include<string>
@@ -30,17 +31,41 @@ class Sampler;
 class Integrator;
 class Shape;
 class Ray;
-class Interaction;
+struct Interaction;
+struct Transform;
 class Pembree;
 
 
-typedef Eigen::Vector2f Point2f;
-typedef Eigen::Vector3f Point3f;
-typedef Eigen::Vector3f Vector3f;
-typedef Eigen::Vector2f Vector2f;
-typedef Eigen::Vector2i Vector2i;
-typedef Eigen::Vector2i Point2i;
-typedef Eigen::Affine3f Transform;
+template <typename Scalar, int Dimension>  struct TVector;
+template <typename Scalar, int Dimension>  struct TPoint;
+template <typename Point, typename Vector> struct TRay;
+template <typename Point>                  struct TBoundingBox;
+
+typedef TVector<float, 1>       Vector1f;
+typedef TVector<float, 2>       Vector2f;
+typedef TVector<float, 3>       Vector3f;
+typedef TVector<float, 4>       Vector4f;
+typedef TVector<double, 1>      Vector1d;
+typedef TVector<double, 2>      Vector2d;
+typedef TVector<double, 3>      Vector3d;
+typedef TVector<double, 4>      Vector4d;
+typedef TVector<int, 1>         Vector1i;
+typedef TVector<int, 2>         Vector2i;
+typedef TVector<int, 3>         Vector3i;
+typedef TVector<int, 4>         Vector4i;
+typedef TPoint<float, 1>        Point1f;
+typedef TPoint<float, 2>        Point2f;
+typedef TPoint<float, 3>        Point3f;
+typedef TPoint<float, 4>        Point4f;
+typedef TPoint<double, 1>       Point1d;
+typedef TPoint<double, 2>       Point2d;
+typedef TPoint<double, 3>       Point3d;
+typedef TPoint<double, 4>       Point4d;
+typedef TPoint<int, 1>          Point1i;
+typedef TPoint<int, 2>          Point2i;
+typedef TPoint<int, 3>          Point3i;
+typedef TPoint<int, 4>          Point4i;
+
 
 const float PI = static_cast<float>(acos(-1.0));
 

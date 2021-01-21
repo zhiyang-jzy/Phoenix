@@ -6,6 +6,7 @@
 
 #include<phoenix/core/phoenix.h>
 #include<phoenix/core/color.h>
+#include<phoenix/core/transform.h>
 
 PHOENIX_NAMESPACE_BEGIN
 

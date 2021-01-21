@@ -20,6 +20,8 @@ public:
     Ray(const Point3f& orig,const Point3f& dir):orig_(orig),dir_(dir){}
     Ray()=default;
 
+    Point3f At(float time)const{return orig_+dir_*time;}
+
 };
 
 

@@ -3,6 +3,7 @@
 //
 
 #include<phoenix/core/parsertool.h>
+#include<phoenix/core/vector.h>
 
 PHOENIX_NAMESPACE_BEGIN
 
@@ -18,6 +19,8 @@ Vector3f str_to_vector3f(const string &str) {
     result[i] = str_to_float(tokens[i]);
   return result;
 }
+
+
 vector<string> tokenize(const string &s, const string &delim, bool includeEmpty) {
   std::string::size_type lastPos = 0, pos = s.find_first_of(delim, lastPos);
   std::vector<std::string> tokens;
@@ -33,6 +36,18 @@ vector<string> tokenize(const string &s, const string &delim, bool includeEmpty)
   }
 
   return tokens;
+}
+Point3f str_to_point3f(const string &str) {
+  std::vector<std::string> tokens = tokenize(str);
+  Point3f result;
+  for (int i=0; i<3; ++i)
+    result[i] = str_to_float(tokens[i]);
+  return result;
+}
+int str_to_integer(const string &str) {
+  char *end_ptr = nullptr;
+  int result = (int) strtol(str.c_str(), &end_ptr, 10);
+  return result;
 }
 
 PHOENIX_NAMESPACE_END

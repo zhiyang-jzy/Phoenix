@@ -30,6 +30,8 @@ phoenix::SceneParser::SceneParser() {
   str_to_type_["lookat"] = ParserType::PLookAt;
   str_to_type_["scene"] = ParserType::PScene;
   str_to_type_["camera"] = ParserType::PCamera;
+  str_to_type_["shape"] = ParserType::PShape;
+  str_to_type_["point"] = ParserType::PPoint;
 
 }
 shared_ptr<PhoenixObject> phoenix::SceneParser::ParseTag(pugi::xml_node& node,PropertyList& prop,ParserType parent_tag) {
@@ -96,14 +98,22 @@ shared_ptr<PhoenixObject> phoenix::SceneParser::ParseTag(pugi::xml_node& node,Pr
         trafo << left, newUp, dir, origin,
             0, 0, 0, 1;
 
+
         transform_ = Eigen::Affine3f(trafo) * transform_;
 
         break;
       }
-
       case ParserType::PTransform:{
-        prop.SetTransform(node.attribute("name").value(), transform_);
+        prop.SetTransform(node.attribute("name").value(), transform_.matrix());
         break;
+      }
+
+      case ParserType::PPoint:{
+        prop.SetPoint(node.attribute("name").value(), str_to_point3f(node.attribute("value").value()));
+        break;
+      }
+      case ParserType::PInteger:{
+        prop.SetInteger(node.attribute("name").value(), str_to_integer(node.attribute("value").value()));
       }
 
     }

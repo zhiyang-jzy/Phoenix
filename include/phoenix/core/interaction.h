@@ -9,22 +9,20 @@
 
 PHOENIX_NAMESPACE_BEGIN
 
-struct Interaction{
-public:
-    Point2f uv;
-    shared_ptr<Shape> shape;
-    Point3f point;
-    bool isHit;
-    float tfar;
+struct Interaction {
+ public:
+  Point2f uv;
+  shared_ptr<Shape> shape;
+  Point3f point;
+  Vector3f normal;
+  bool isHit;
+  float tfar;
+  unsigned geoID, primID;
 
-
-public:
+ public:
 
 };
 
-
-
 PHOENIX_NAMESPACE_END
-
 
 #endif //PHOENIX_Interaction_H

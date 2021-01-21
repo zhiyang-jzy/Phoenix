@@ -3,6 +3,7 @@
 #include<phoenix/core/phoenix.h>
 #include<phoenix/core/camera.h>
 #include<phoenix/core/film.h>
+#include<phoenix/core/transform.h>
 
 
 PHOENIX_NAMESPACE_BEGIN

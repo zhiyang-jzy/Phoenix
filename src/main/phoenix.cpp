@@ -8,7 +8,10 @@
 #include<phoenix/core/scene.h>
 #include<phoenix/core/parser.h>
 #include<phoenix/core/ray.h>
+#include<phoenix/core/ppm.h>
+#include<phoenix/core/interaction.h>
 #include<pcg/pcg32.h>
+#include<iostream>
 
 #include<filesystem>
 
@@ -34,18 +37,32 @@ int main()
   phoenix::SceneParser parser;
   shared_ptr<phoenix::PhoenixObject> t_scene =  parser.Parse(R"(C:\Users\jzy99\Desktop\test.xml)");
   shared_ptr<phoenix::Scene> scene = std::dynamic_pointer_cast<phoenix::Scene>(t_scene);
-  auto camera = scene->camera_;
 
-  pcg32 pcg;
 
-  phoenix::Ray ray;
+  int width = scene->camera_->output_size_.x(),height = scene->camera_->output_size_.y();
+  phoenix::PPM ppm("test",width,height);
+  spdlog::info("{} {}",width,height);
 
-  phoenix::Vector2f vec(pcg.nextFloat(),pcg.nextFloat());
-
-  phoenix::CameraSample sample{vec};
-
-  camera->GenerateRay(sample,ray);
-
+  for(int i=0;i<width;i++)
+  {
+    for(int j=0;j<height;j++)
+    {
+      phoenix::Ray ray;
+      phoenix::Vector2f vec(i,j);
+      phoenix::CameraSample sample{vec};
+      phoenix::Interaction it;
+      scene->camera_->GenerateRay(sample,ray);
+      if(scene->Intersect(ray,it))
+      {
+        ppm.setpixel(i,j,phoenix::Vector3f(255,0,0));
+//        spdlog::info("hit!");
+      }
+      else
+        ppm.setpixel(i,j,phoenix::Vector3f(0,0,0));
+//      std::cout<<ray.dir_<<std::endl;
+    }
+  }
+  ppm.write_file();
   phoenix::Vector3f r(0,1,0);
 
   int a = 3;

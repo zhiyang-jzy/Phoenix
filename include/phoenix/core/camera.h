@@ -4,6 +4,7 @@
 #include<phoenix/core/phoenix.h>
 #include<phoenix/core/object.h>
 #include<phoenix/core/filter.h>
+#include<phoenix/core/vector.h>
 
 
 PHOENIX_NAMESPACE_BEGIN
@@ -27,7 +28,7 @@ public:
 
 
     //virtual Point2f Sample()
- protected:
+ public:
   Vector2i output_size_;
   shared_ptr<Filter> filter_;
 

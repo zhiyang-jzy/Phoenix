@@ -6,6 +6,7 @@
 #include<map>
 #include<phoenix/core/phoenix.h>
 #include<phoenix/core/object.h>
+#include <phoenix/core/transform.h>
 
 #pragma once
 
@@ -38,7 +39,7 @@ class SceneParser {
   shared_ptr<PhoenixObject> ParseTag(pugi::xml_node& node,PropertyList& prop,ParserType parent_tag);
   std::map<string,ParserType> str_to_type_;
 
-  Transform transform_;
+  Eigen::Affine3f transform_;
 
 
 
