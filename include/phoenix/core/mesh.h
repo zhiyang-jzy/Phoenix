@@ -9,15 +9,16 @@
 #include <memory>
 #include <vector>
 #include<phoenix/core/phoenix.h>
+#include<phoenix/core/vector.h>
 
-class ImageTexture;
+PHOENIX_NAMESPACE_BEGIN
 
 struct Vertex {
   Point3f position;
   Vector3f normal;
   Vector2f texcoord;
 
-  Vertex();
+  Vertex()=default;
 
 };
 
@@ -31,10 +32,16 @@ class Mesh {
   Mesh(std::vector<Vertex> vertices, std::vector<uint32_t> indices) :
       vertices(std::move(vertices)), indices(std::move(indices)) {}
 
-  Vec2 getTexcood(unsigned int indice,float u,float v) const;
+  [[nodiscard]] Vector2f getTexcood(unsigned int indice,float u,float v) const{
+    auto ind1 = indices[indice*3],ind2 = indices[indice*3+1],ind3 = indices[indice*3+2];
+    auto coord1 = vertices[ind1].texcoord,coord2 = vertices[ind2].texcoord,coord3 = vertices[ind3].texcoord;
+    return (1-u-v)*coord1+u*coord2+v*coord3;
+  }
 
-  Mesh();
+  Mesh()=default;
 };
+
+PHOENIX_NAMESPACE_END
 
 
 #endif //PHOENIX_INCLUDE_PHOENIX_CORE_MESH_H_

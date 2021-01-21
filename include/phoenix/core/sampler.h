@@ -14,7 +14,10 @@ PHOENIX_NAMESPACE_BEGIN
 class Sampler : public PhoenixObject{
 
 public:
-
+  virtual float Next1D()=0;
+  virtual Point2f Next2D()=0;
+  PhoenixObject::PClassType GetClassType()const override{return PhoenixObject::PClassType::PSampler;}
+  string ToString()const override{return "";}
 
 };
 

@@ -14,8 +14,7 @@ endif(CMAKE_TOOLCHAIN_FILE)
 
 include_directories(include)
 
-file ( GLOB PHOENIX_SOURCE src/core/* src/cameras/* src/shapes/*
-
+file ( GLOB PHOENIX_SOURCE src/core/* src/cameras/* src/shapes/* src/samplers/* src/integrators/*
         )
 
 find_package(spdlog CONFIG REQUIRED)
@@ -25,8 +24,9 @@ find_package(embree 3.0 REQUIRED)
 find_package(pugixml CONFIG REQUIRED)
 find_package(TBB CONFIG REQUIRED)
 find_package(tinyobjloader CONFIG REQUIRED)
+find_package(assimp CONFIG REQUIRED)
 
-set(all_package spdlog::spdlog Eigen3::Eigen tinyxml2::tinyxml2 embree pugixml  TBB::tbb tinyobjloader::tinyobjloader)
+set(all_package spdlog::spdlog Eigen3::Eigen tinyxml2::tinyxml2 embree pugixml  TBB::tbb tinyobjloader::tinyobjloader  assimp::assimp)
 
 add_executable(phoenix "src/main/phoenix.cpp" ${PHOENIX_SOURCE})
 

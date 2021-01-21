@@ -10,6 +10,7 @@
 #include<phoenix/core/ray.h>
 #include<phoenix/core/ppm.h>
 #include<phoenix/core/interaction.h>
+#include<phoenix/core/integrator.h>
 #include<pcg/pcg32.h>
 #include<iostream>
 
@@ -52,14 +53,8 @@ int main()
       phoenix::CameraSample sample{vec};
       phoenix::Interaction it;
       scene->camera_->GenerateRay(sample,ray);
-      if(scene->Intersect(ray,it))
-      {
-        ppm.setpixel(i,j,phoenix::Vector3f(255,0,0));
-//        spdlog::info("hit!");
-      }
-      else
-        ppm.setpixel(i,j,phoenix::Vector3f(0,0,0));
-//      std::cout<<ray.dir_<<std::endl;
+      auto color = scene->integrator_->Li(scene,scene->sampler_,ray);
+      ppm.setpixel(i,j,Eigen::Vector3f(color.x(),color.y(),color.z()));
     }
   }
   ppm.write_file();

@@ -29,10 +29,12 @@ class SceneParser {
 
 
     PFloat,
+    PString,
     PInteger,
     PPoint,
     PLookAt,
     PTransform,
+    PColor,
     PInvalid
   };
 

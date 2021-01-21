@@ -32,6 +32,10 @@ phoenix::SceneParser::SceneParser() {
   str_to_type_["camera"] = ParserType::PCamera;
   str_to_type_["shape"] = ParserType::PShape;
   str_to_type_["point"] = ParserType::PPoint;
+  str_to_type_["string"] = ParserType::PString;
+  str_to_type_["sampler"] = ParserType::PSampler;
+  str_to_type_["integrator"] = ParserType::PIntegrator;
+  str_to_type_["color"] = ParserType::PColor;
 
 }
 shared_ptr<PhoenixObject> phoenix::SceneParser::ParseTag(pugi::xml_node& node,PropertyList& prop,ParserType parent_tag) {
@@ -114,6 +118,15 @@ shared_ptr<PhoenixObject> phoenix::SceneParser::ParseTag(pugi::xml_node& node,Pr
       }
       case ParserType::PInteger:{
         prop.SetInteger(node.attribute("name").value(), str_to_integer(node.attribute("value").value()));
+        break;
+      }
+      case ParserType::PString:{
+        prop.SetString(node.attribute("name").value(), node.attribute("value").value());
+        break;
+      }
+      case ParserType::PColor:{
+        prop.SetColor(node.attribute("name").value(), str_to_vector3f(node.attribute("value").value()).array());
+        break;
       }
 
     }

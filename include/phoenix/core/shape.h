@@ -20,7 +20,7 @@ class Shape : public PhoenixObject {
   [[nodiscard]] shared_ptr<BSDF> GetBSDF()const{return bsdf_;}
   [[nodiscard]] PClassType GetClassType()const override{return PClassType::PShape;}
   [[nodiscard]] string ToString() const override{return "shape";}
-  virtual unsigned int AddToEmbree(Pembree& embree)const =0;
+  virtual vector<unsigned int> AddToEmbree(Pembree& embree)const =0;
 
 };
 

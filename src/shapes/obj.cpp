@@ -5,38 +5,41 @@
 #include<phoenix/core/phoenix.h>
 #include<phoenix/core/shape.h>
 #include<phoenix/core/properlist.h>
-#define TINYOBJLOADER_IMPLEMENTATION // define this in only *one* .cc
-#include "tiny_obj_loader.h"
+#include<phoenix/core/model.h>
+#include<phoenix/core/pembree.h>
 
 PHOENIX_NAMESPACE_BEGIN
 
 class OBJ: public Shape
 {
  protected:
-  tinyobj::ObjReaderConfig reader_config;
-  tinyobj::ObjReader reader;
+  Model model;
  public:
   explicit OBJ(const PropertyList& props){
     string filename = props.GetString("filename");
-    reader_config.mtl_search_path = "./"; // Path to material files
-    reader.ParseFromFile(filename);
+    model.Load(filename);
 
-    auto& attrib = reader.GetAttrib();
-    auto& shapes = reader.GetShapes();
-    auto& materials = reader.GetMaterials();
   }
 
-  unsigned int AddToEmbree(Pembree& embree)const override{
-    auto& attrib = reader.GetAttrib();
-    auto& shapes = reader.GetShapes();
-    auto& materials = reader.GetMaterials();
-
-
-
+  vector<unsigned int> AddToEmbree(Pembree& embree)const override{
+    vector<unsigned int> res;
+    for (auto & mesh : model.meshes)
+    {
+      std::vector<Eigen::Vector3f> temp;
+      for(auto & vertex : mesh->vertices)
+      {
+        temp.push_back(vertex.position);
+      }
+//	    std::cout<<"add "<<meshe.vertices.size()<<std::endl;
+      unsigned int id = embree.AddMesh(temp, mesh->indices);
+      res.push_back(id);
+    }
+    return res;
   }
 
 };
 
+PHOENIX_REGISTER_CLASS(OBJ,"obj");
 
 
 PHOENIX_NAMESPACE_END

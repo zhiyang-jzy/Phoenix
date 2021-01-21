@@ -20,8 +20,8 @@ class Sphere: public Shape{
     center_ = props.GetPoint("center");
     radius_ = props.GetFloat("radius");
  }
- unsigned int AddToEmbree(Pembree& embree)const override{
-    return embree.AddSphere(center_,radius_);
+ vector<unsigned int> AddToEmbree(Pembree& embree)const override{
+    return {embree.AddSphere(center_,radius_)};
   }
 
 };

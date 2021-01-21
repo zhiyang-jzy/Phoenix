@@ -68,7 +68,9 @@ typedef TPoint<int, 4>          Point4i;
 
 
 const float PI = static_cast<float>(acos(-1.0));
-
+const float INV_PI = 1.0f/PI;
+const float PI2 = PI*PI;
+const float INV_PI2 = 1.0f/PI2;
 
 
 PHOENIX_NAMESPACE_END
