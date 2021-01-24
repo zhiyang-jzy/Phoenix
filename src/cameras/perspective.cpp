@@ -73,8 +73,16 @@ void PerspectiveCamera::Active() {
 }
 void PerspectiveCamera::AddChild(shared_ptr<PhoenixObject> child) {
   switch (child->GetClassType()) {
-    case PClassType::PFilm:film_ = std::dynamic_pointer_cast<Film>(child);
+    case PClassType::PFilm:{
+      film_ = std::dynamic_pointer_cast<Film>(child);
       break;
+    }
+    case PClassType::PFilter:{
+      filter_ = std::dynamic_pointer_cast<Filter>(child);
+      spdlog::info("add filter");
+
+      break;
+    }
 
   }
 }

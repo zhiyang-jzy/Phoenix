@@ -17,6 +17,7 @@ class OBJ: public Shape
  public:
   explicit OBJ(const PropertyList& props){
     string filename = props.GetString("filename");
+    spdlog::info("loading obj file: {}",filename);
     model.Load(filename);
 
   }

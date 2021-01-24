@@ -21,6 +21,7 @@ inline void rtchit_to_interaction(const RTCRayHit &hit, Interaction &result) {
   result.uv = Point2f(hit.hit.u, hit.hit.v);
   result.normal = Vector3f(hit.hit.Ng_x, hit.hit.Ng_y, hit.hit.Ng_z).normalized();
   result.tfar = hit.ray.tfar;
+  result.geoFrame = Frame(result.normal);
 
 }
 

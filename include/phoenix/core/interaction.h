@@ -6,6 +6,8 @@
 #define PHOENIX_Interaction_H
 
 #include<phoenix/core/phoenix.h>
+#include<phoenix/core/vector.h>
+#include<phoenix/core/frame.h>
 
 PHOENIX_NAMESPACE_BEGIN
 
@@ -14,9 +16,10 @@ struct Interaction {
   Point2f uv;
   shared_ptr<Shape> shape;
   Point3f point;
-  Vector3f normal;
+  Normal3f normal;
   bool isHit;
   float tfar;
+  Frame geoFrame;
   unsigned geoID, primID;
 
  public:

@@ -36,6 +36,7 @@ phoenix::SceneParser::SceneParser() {
   str_to_type_["sampler"] = ParserType::PSampler;
   str_to_type_["integrator"] = ParserType::PIntegrator;
   str_to_type_["color"] = ParserType::PColor;
+  str_to_type_["filter"] = ParserType::PFilter;
 
 }
 shared_ptr<PhoenixObject> phoenix::SceneParser::ParseTag(pugi::xml_node& node,PropertyList& prop,ParserType parent_tag) {
@@ -50,7 +51,8 @@ shared_ptr<PhoenixObject> phoenix::SceneParser::ParseTag(pugi::xml_node& node,Pr
   bool parent_is_transform = parent_tag==ParserType::PTransform;
   bool current_is_transform_op = false;
 
-
+  if (node.type() == pugi::node_comment || node.type() == pugi::node_declaration)
+    return nullptr;
 
   if(tag==ParserType::PScene)
     node.append_attribute("type")="scene";

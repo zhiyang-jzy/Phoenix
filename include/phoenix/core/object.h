@@ -15,7 +15,8 @@ public:
         PSampler,
         PScene,
         PShape,
-        PFilm
+        PFilm,
+        PFilter
     };
 
     virtual void AddChild(shared_ptr<PhoenixObject> child) {}
@@ -46,7 +47,7 @@ public:
      *     A function pointer to an anonymous function that is
      *     able to call the constructor of the class.
      */
-    static void RegisterClass(const std::string& name, const Constructor& constr);
+    static void MRegisterClass(const std::string& name, const Constructor& constr);
 
     /**
      * \brief Construct an instance from the class of the given name
@@ -76,7 +77,7 @@ private:
     } \
     static struct cls ##_{ \
         cls ##_() { \
-            PhoenixObjectFactory::RegisterClass(name, cls ##_create); \
+            PhoenixObjectFactory::MRegisterClass(name, cls ##_create); \
         } \
     } cls ##__PHOENIX_;\
 

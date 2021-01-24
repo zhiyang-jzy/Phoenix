@@ -12,6 +12,7 @@ PHOENIX_NAMESPACE_BEGIN
 
 struct CameraSample{
   Point2f film;
+  CameraSample(Point2f _film):film(_film){}
 
 };
 
@@ -25,6 +26,7 @@ public:
 
     virtual float GenerateRay(const CameraSample& sample,Ray& ray)const = 0;
 
+  void AddChild(shared_ptr<PhoenixObject> child)override;
 
 
     //virtual Point2f Sample()

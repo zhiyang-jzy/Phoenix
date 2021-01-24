@@ -9,6 +9,10 @@
 #include<phoenix/core/phoenix.h>
 #include<phoenix/core/color.h>
 #include<phoenix/core/scene.h>
+#include<phoenix/core/properlist.h>
+#include<phoenix/core/interaction.h>
+#include<phoenix/core/sampler.h>
+#include<phoenix/core/ray.h>
 
 PHOENIX_NAMESPACE_BEGIN
 

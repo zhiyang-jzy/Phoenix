@@ -15,6 +15,7 @@
 #include <Eigen/Geometry>
 #include<vector>
 #include<unordered_map>
+#include<spdlog/spdlog.h>
 
 using std::string;
 using std::shared_ptr;
@@ -71,6 +72,11 @@ const float PI = static_cast<float>(acos(-1.0));
 const float INV_PI = 1.0f/PI;
 const float PI2 = PI*PI;
 const float INV_PI2 = 1.0f/PI2;
+
+
+#define PHOENIX_FILTER_RESOLUTION 32
+#define PHOENIX_BLOCK_SIZE 32
+
 
 
 PHOENIX_NAMESPACE_END

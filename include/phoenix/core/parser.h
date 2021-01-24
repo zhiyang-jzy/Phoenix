@@ -26,6 +26,7 @@ class SceneParser {
     PScene,
     PShape,
     PFilm,
+    PFilter,
 
 
     PFloat,
