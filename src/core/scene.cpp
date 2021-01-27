@@ -31,7 +31,7 @@ void Scene::AddChild(shared_ptr<PhoenixObject> child) {
       camera_ = std::dynamic_pointer_cast<Camera>(child);
       break;
     }
-    case PClassType::PEmitter:{
+    case PClassType::PEmitter: {
       break;
     }
     case PClassType::PIntegrator: {
@@ -50,6 +50,10 @@ void Scene::AddChild(shared_ptr<PhoenixObject> child) {
     }
     case PClassType::PShape: {
       auto shape = std::dynamic_pointer_cast<Shape>(child);
+      if(shape->GetEmitter())
+      {
+        emitters_.push_back(shape->GetEmitter());
+      }
       shapes_.push_back(shape);
       auto ids = shape->AddToEmbree(embree_);
       for (auto id:ids) {
@@ -64,7 +68,7 @@ Scene::Scene(const PropertyList &props) {
 
 }
 bool Scene::Intersect(const Ray &ray, Interaction &it) const {
-  rtchit_to_interaction(embree_.CastRay(ray.orig_, ray.dir_), it);
+  rtchit_to_interaction(embree_.CastRay(ray.orig_, ray.dir_, ray.mint_, ray.maxt_), it);
   if (!it.isHit)
     return false;
   auto shape = shapes_dict_.at(it.geoID);

@@ -70,21 +70,11 @@ void PerspectiveCamera::Active() {
       Eigen::DiagonalMatrix<float, 3>(Vector3f(-0.5f, -0.5f * aspect, 1.0f)) *
           Eigen::Translation<float, 3>(-1.0f, -1.0f/aspect, 0.0f) * perspective).inverse();
 
-}
-void PerspectiveCamera::AddChild(shared_ptr<PhoenixObject> child) {
-  switch (child->GetClassType()) {
-    case PClassType::PFilm:{
-      film_ = std::dynamic_pointer_cast<Film>(child);
-      break;
-    }
-    case PClassType::PFilter:{
-      filter_ = std::dynamic_pointer_cast<Filter>(child);
-      spdlog::info("add filter");
-
-      break;
-    }
-
+  if(filter_== nullptr)
+  {
+    filter_ = std::dynamic_pointer_cast<Filter>(PhoenixObjectFactory::CreateInstance("gaussian",PropertyList()));
   }
+
 }
 PHOENIX_REGISTER_CLASS(PerspectiveCamera, "perspective");
 

@@ -6,27 +6,32 @@
 #define PHOENIX_RAY_H
 
 #include<phoenix/core/phoenix.h>
+#include<limits>
 
 PHOENIX_NAMESPACE_BEGIN
 
-class Ray
-{
+class Ray {
 
-public:
-    Point3f orig_;
-    Vector3f dir_;
-    float mint_;
-    float maxt_;
-    Ray(const Point3f& orig,const Point3f& dir):orig_(orig),dir_(dir){}
-    Ray()=default;
+ public:
+  Point3f orig_;
+  Vector3f dir_;
+  float mint_;
+  float maxt_;
+  Ray(const Point3f &orig, const Point3f &dir) : orig_(orig), dir_(dir) {
+    mint_ = EPSILON;
+    maxt_ = std::numeric_limits<float>::infinity();
+  }
+  Ray(const Point3f &orig, const Vector3f &dir, float mint, float maxt)
+      : orig_(orig), dir_(dir), mint_(mint), maxt_(maxt) {}
+  Ray() {
+    mint_ = EPSILON;
+    maxt_ = std::numeric_limits<float>::infinity();
+  };
 
-    Point3f At(float time)const{return orig_+dir_*time;}
+  [[nodiscard]] Point3f At(float time) const { return orig_ + dir_ * time; }
 
 };
 
-
 PHOENIX_NAMESPACE_END
-
-
 
 #endif //PHOENIX_RAY_H

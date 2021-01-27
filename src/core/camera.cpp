@@ -16,6 +16,10 @@ void Camera::AddChild(shared_ptr<PhoenixObject> child) {
 
       break;
     }
+    case PClassType::PFilm:{
+      film_ = std::dynamic_pointer_cast<Film>(child);
+      break;
+    }
   }
 }
 

@@ -13,7 +13,6 @@ public:
     PerspectiveCamera(const PropertyList& prop);
     void Active()override;
     float GenerateRay(const CameraSample& sample,Ray& ray) const override;
-    void AddChild(shared_ptr<PhoenixObject> child) override;
 
  private:
 

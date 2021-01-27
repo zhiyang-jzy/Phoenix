@@ -9,15 +9,15 @@
 
 PHOENIX_NAMESPACE_BEGIN
 
-Point2f SquareToUniformSquare(const Point2f &sample) {
+inline Point2f SquareToUniformSquare(const Point2f &sample) {
   return sample;
 }
 
-float SquareToUniformSquarePdf(const Point2f &sample) {
+inline float SquareToUniformSquarePdf(const Point2f &sample) {
   return ((sample.array() >= 0).all() && (sample.array() <= 1).all()) ? 1.0f : 0.0f;
 }
 
-Point2f SquareToTent(const Point2f &sample) {
+inline Point2f SquareToTent(const Point2f &sample) {
 
   float x = sample.x() <= 0.5 ? sqrt(2 * sample.x()) - 1 : 1 - sqrt(2 * (1 - sample.x()));
   float y = sample.y() <= 0.5 ? sqrt(2 * sample.y()) - 1 : 1 - sqrt(2 * (1 - sample.y()));
@@ -25,7 +25,7 @@ Point2f SquareToTent(const Point2f &sample) {
   /*throw NoriException("Warp::squareToTent() is not yet implemented!");*/
 }
 
-float SquareToTentPdf(const Point2f &p) {
+inline float SquareToTentPdf(const Point2f &p) {
   /*throw NoriException("Warp::squareToTentPdf() is not yet implemented!");*/
   //return ((p.array() >= -1).all() && (p.array() <= 1).all()) ? 0.25*(1-abs(p.x()))* (1 - abs(p.y())) : 0.0f;
   //return ((p.array() >= -1).all() && (p.array() <= 1).all()) ? 0.25 : 0.0f;
@@ -33,14 +33,14 @@ float SquareToTentPdf(const Point2f &p) {
   return ((p.array() >= -1).all() && (p.array() <= 1).all()) ? (1 - abs(p.x())) * (1 - abs(p.y())) : 0.0f;
 }
 
-Point2f SquareToUniformDisk(const Point2f &sample) {
+inline Point2f SquareToUniformDisk(const Point2f &sample) {
   /*throw NoriException("Warp::squareToUniformDisk() is not yet implemented!");*/
   /*return sample * 2 - Point2f(1, 1);*/
   Point2f a(sin(sample.x() * 2 * PI), cos(sample.x() * 2 * PI));
   return sqrt(sample.y()) * a;
 }
 
-float SquareToUniformDiskPdf(const Point2f &p) {
+inline float SquareToUniformDiskPdf(const Point2f &p) {
   /*throw NoriException("Warp::squareToUniformDiskPdf() is not yet implemented!");*/
 
   return p.squaredNorm() <= 1.0 ? INV_PI : 0;
@@ -49,7 +49,7 @@ float SquareToUniformDiskPdf(const Point2f &p) {
   //return INV_PI;
 }
 
-Vector3f SquareToUniformSphere(const Point2f &sample) {
+inline Vector3f SquareToUniformSphere(const Point2f &sample) {
   /*throw NoriException("Warp::squareToUniformSphere() is not yet implemented!");*/
   Point2f a = SquareToUniformDisk(sample);
 
@@ -63,20 +63,20 @@ Vector3f SquareToUniformSphere(const Point2f &sample) {
 
 }
 
-float SquareToUniformSpherePdf(const Vector3f &v) {
+inline float SquareToUniformSpherePdf(const Vector3f &v) {
   /*throw NoriException("Warp::squareToUniformSpherePdf() is not yet implemented!");*/
 
   return 0.25f * INV_PI;
 }
 
-Vector3f SquareToUniformHemisphere(const Point2f &sample) {
+inline Vector3f SquareToUniformHemisphere(const Point2f &sample) {
   double theta = 2 * PI * sample[0];
   double phi = acos(1 - sample[1]);
 
   return Vector3f(sin(phi) * cos(theta), sin(phi) * sin(theta), cos(phi));
 }
 
-float SquareToUniformHemispherePdf(const Vector3f &v) {
+inline float SquareToUniformHemispherePdf(const Vector3f &v) {
   /*throw NoriException("Warp::squareToUniformHemispherePdf() is not yet implemented!");*/
 
   if(sqrt(v[0]*v[0] + v[1]*v[1] + v[2]*v[2]) > 1 || v[2] < 0)
@@ -85,7 +85,7 @@ float SquareToUniformHemispherePdf(const Vector3f &v) {
   return 1.f/(2*PI);
 }
 
-Vector3f SquareToCosineHemisphere(const Point2f &sample) {
+inline Vector3f SquareToCosineHemisphere(const Point2f &sample) {
   float theta = acos(2 * sample.x() - 1) / 2;
   float z = cos(theta);
   float r = sqrtf(1.f - z * z);
@@ -93,11 +93,11 @@ Vector3f SquareToCosineHemisphere(const Point2f &sample) {
   return Vector3f(r * cos(phi), r * sin(phi), z);
 }
 
-float SquareToCosineHemispherePdf(const Vector3f &v) {
+inline float SquareToCosineHemispherePdf(const Vector3f &v) {
   return v.z() > 0 ? v.z() / PI : 0.f;
 }
 
-Vector3f SquareToBeckmann(const Point2f &sample, float alpha) {
+inline Vector3f SquareToBeckmann(const Point2f &sample, float alpha) {
   float phi = 2 * PI * sample.y();
   float theta = atan(sqrtf(-1 * alpha * alpha * log(1 - sample.x())));
   float z = cos(theta);
@@ -105,7 +105,7 @@ Vector3f SquareToBeckmann(const Point2f &sample, float alpha) {
   return Vector3f(r * cos(phi), r * sin(phi), z);
 }
 
-float SquareToBeckmannPdf(const Vector3f &m, float alpha) {
+inline float SquareToBeckmannPdf(const Vector3f &m, float alpha) {
   float theta = acos(m.z());
   float D = 1 / (PI * alpha * alpha * cos(theta) * cos(theta) * cos(theta) * cos(theta))
       * exp(-tan(theta) * tan(theta) / (alpha * alpha));

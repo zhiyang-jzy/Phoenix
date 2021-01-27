@@ -19,12 +19,14 @@ class OBJ: public Shape
     string filename = props.GetString("filename");
     spdlog::info("loading obj file: {}",filename);
     model.Load(filename);
-
+    spdlog::info("area_: {}",model.area_);
+    area_ = model.area_;
+    inv_area_ = 1.0f/area_;
   }
 
   vector<unsigned int> AddToEmbree(Pembree& embree)const override{
     vector<unsigned int> res;
-    for (auto & mesh : model.meshes)
+    for (auto & mesh : model.meshes_)
     {
       std::vector<Eigen::Vector3f> temp;
       for(auto & vertex : mesh->vertices)
@@ -37,6 +39,11 @@ class OBJ: public Shape
     }
     return res;
   }
+
+  SampleData SampleSurface(const Point2f& sample)const override{
+    return model.SampleSurface(sample);
+  }
+
 
 };
 

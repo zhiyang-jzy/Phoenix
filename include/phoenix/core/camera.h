@@ -5,7 +5,7 @@
 #include<phoenix/core/object.h>
 #include<phoenix/core/filter.h>
 #include<phoenix/core/vector.h>
-
+#include<phoenix/core/film.h>
 
 PHOENIX_NAMESPACE_BEGIN
 
@@ -33,6 +33,7 @@ public:
  public:
   Vector2i output_size_;
   shared_ptr<Filter> filter_;
+  shared_ptr<Film> film_;
 
 };
 

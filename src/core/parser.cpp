@@ -15,6 +15,12 @@ shared_ptr<PhoenixObject> phoenix::SceneParser::Parse(const string &path) {
   pugi::xml_document doc;
   pugi::xml_parse_result result = doc.load_file(local_path.c_str());
 
+  if(!result)
+  {
+    spdlog::error("parse xml faild");
+    exit(0);
+  }
+
   PropertyList props;
   auto res = ParseTag(*doc.begin(),props,ParserType::PInvalid);
   return res;
@@ -37,6 +43,8 @@ phoenix::SceneParser::SceneParser() {
   str_to_type_["integrator"] = ParserType::PIntegrator;
   str_to_type_["color"] = ParserType::PColor;
   str_to_type_["filter"] = ParserType::PFilter;
+  str_to_type_["emitter"] = ParserType::PEmitter;
+  str_to_type_["bsdf"] = ParserType::PBSDF;
 
 }
 shared_ptr<PhoenixObject> phoenix::SceneParser::ParseTag(pugi::xml_node& node,PropertyList& prop,ParserType parent_tag) {

@@ -72,6 +72,7 @@ const float PI = static_cast<float>(acos(-1.0));
 const float INV_PI = 1.0f/PI;
 const float PI2 = PI*PI;
 const float INV_PI2 = 1.0f/PI2;
+const float EPSILON = 1e-4f;
 
 
 #define PHOENIX_FILTER_RESOLUTION 32

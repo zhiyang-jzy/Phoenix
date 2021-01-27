@@ -34,7 +34,7 @@ private:
     void InitializeDevice();
 
 public:
-    [[nodiscard]] RTCRayHit CastRay(const Eigen::Vector3f& origin, const Eigen::Vector3f& dir, float tnear = 1e-3f, float tfar = std::numeric_limits<float>::infinity())const;
+    [[nodiscard]] RTCRayHit CastRay(const Eigen::Vector3f& origin, const Eigen::Vector3f& dir, float tnear = EPSILON, float tfar = std::numeric_limits<float>::infinity())const;
     unsigned int AddMesh(const std::vector<Eigen::Vector3f>& vertices, const std::vector<uint32_t> indices);
     unsigned int AddSphere(const Eigen::Vector3f& center,float radius);
     void EndAdd();

@@ -16,7 +16,8 @@ public:
         PScene,
         PShape,
         PFilm,
-        PFilter
+        PFilter,
+        PBSDF
     };
 
     virtual void AddChild(shared_ptr<PhoenixObject> child) {}

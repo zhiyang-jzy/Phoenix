@@ -18,6 +18,7 @@ int main(int argc, char** argv) {
     exit(0);
   }
   phoenix::Renderer render;
+  render.SetThread(result["nthread"].as<int>());
   render.ParseXML(result["file"].as<std::string>());
   render.Render();
   render.OutputEXR();

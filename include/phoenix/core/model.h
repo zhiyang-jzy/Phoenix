@@ -8,17 +8,23 @@
 #include<assimp/postprocess.h>
 #include <eigen3/Eigen/Dense>
 #include <unordered_map>
+#include<phoenix/core/sampledata.h>
+#include<phoenix/core/dpdf.h>
 #include "mesh.h"
 
 PHOENIX_NAMESPACE_BEGIN
 
 class Model {
  public:
-  std::vector<shared_ptr<Mesh> > meshes;
+  std::vector<shared_ptr<Mesh> > meshes_;
+  float area_;
+  DiscretePDF dpdf_;
 
  public:
-  Model()=default;
+  Model(){ area_=0.0f;};
   void Load(const string& path);
+  SampleData SampleSurface(Point2f sample)const;
+
 
  private:
   void processNode(aiNode* node, const aiScene* scene);
