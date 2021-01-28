@@ -28,7 +28,10 @@ class Scene : public PhoenixObject {
 
   explicit Scene(const PropertyList &props);
 
+  [[nodiscard]] unsigned int GetEmiitersCount()const {return emitters_.size();}
+  [[nodiscard]] const vector<shared_ptr<Emitter>>& GetEmitters()const{return emitters_;}
   bool Intersect(const Ray &ray, Interaction &it) const;
+  bool Intersect(const Ray &ray)const;
   void AddChild(shared_ptr<PhoenixObject> child) override;
   void Active() override;
 

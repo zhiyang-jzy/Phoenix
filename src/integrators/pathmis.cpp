@@ -1,6 +1,6 @@
-//
-// Created by jzy99 on 2021/1/26.
-//
+   
+   
+   
 
 #include<phoenix/core/integrator.h>
 
@@ -13,21 +13,21 @@ class PathmisIntegrator : public Integrator
   Color3f Li(shared_ptr<Scene> scene, shared_ptr<Sampler> sampler, const Ray &ray) const override {
     Interaction its;
 
-    // If not visible return black
+       
     if (!scene->Intersect(ray, its))
       return Color3f(0.0f);
-    //Get Le
+       
 
     Color3f Le = Color3f(0.0f);
     auto emi2 = its.shape->GetEmitter();
     if (emi2) {
-      //Its an Emitter.
+         
       EmitterQueryRecord iRec2(ray.orig_, its.point, its.normal);
       Le = emi2->Eval(iRec2);
     }
 
     auto bsdf = its.shape->GetBSDF();
-    // No Ld
+       
 
 
     int rand_index = rand() % scene->emitters_.size();
@@ -54,7 +54,7 @@ class PathmisIntegrator : public Integrator
     float pdfa1 = emmit->Pdf(iRec);
     float pdfa2 = bsdf->Pdf(query1);
 
-    //std::cout << "a  " << pdfa1 << " " << pdfa2 << std::endl;
+       
 
 
     Color3f bsdfVal1 = bsdf->Eval(query1);
@@ -63,13 +63,13 @@ class PathmisIntegrator : public Integrator
 
 
 
-    //Get Li
+       
 
     Vector3f toCam = -ray.dir_.normalized();
 
 
-    BSDFQueryRecord query(its.geoFrame.ToLocal(toCam)); //wi Camera, wo sampled ray
-    //query.p = its.p;
+    BSDFQueryRecord query(its.geoFrame.ToLocal(toCam));    
+       
     Color3f bsdfVal = bsdf->Sample(query, sampler->Next2D());
     Ray lightRay(its.point, its.geoFrame.ToWorld(query.wo));
 
@@ -77,14 +77,14 @@ class PathmisIntegrator : public Integrator
     float pdfb1 = bsdf->Pdf(query);
     float pdfb2 = 0;
 
-    //std::cout << pdfb1 << std::endl;
+       
 
     Interaction temp;
 
 
 
 
-    //Check if intersect with emitter
+       
 
 
     if (scene->Intersect(lightRay, temp))
@@ -95,11 +95,11 @@ class PathmisIntegrator : public Integrator
 
         temp.shape->GetEmitter()->Sample(eqr, sampler->Next2D());
         pdfb2 = eqr.pdf;
-        //std::cout << pdfb2  <<" ----"<< std::endl;
+           
       }
     }
 
-    //std::cout << "b  " << pdfb1 << " " << pdfb2 << std::endl;
+       
 
     float w1, w2;
 
@@ -113,21 +113,11 @@ class PathmisIntegrator : public Integrator
       w2 = .0f;
     }
 
-    //std::cout << w1 << " " << w2 << std::endl;
-
-
-    //if (sampler->next1D() > m_q)
-    //	return  Le + Ld + this->Li(scene, sampler, lightRay) * bsdfVal / (1.f - m_q);
-    //else
-    //	return  Le + Ld;
-
-    //std::cout << w1 << " " << w2 << " "<<bsdfVal<<std::endl;
-
     Color3f res;
 
     if (sampler->Next1D() > 0.05f)
       res = Le + w1 * Ld +w2 * this->Li(scene, sampler, lightRay) * bsdfVal / (1.f - 0.05f);
-      //res = Le + Ld;
+         
 
     else
       res = Le;

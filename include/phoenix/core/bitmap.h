@@ -17,9 +17,8 @@ class Bitmap : public Eigen::Array<Color3f, Eigen::Dynamic, Eigen::Dynamic, Eige
 
   Bitmap(const Vector2i &size = Vector2i(0, 0))
       : Base(size.y(), size.x()) { }
-
-  /// Save the bitmap as an EXR file with the specified filename
   void SaveEXR(const std::string &filename);
+  void SavePNG(const string& filename);
 
 };
 

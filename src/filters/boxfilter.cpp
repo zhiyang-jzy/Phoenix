@@ -24,9 +24,8 @@ PHOENIX_REGISTER_CLASS(BoxFilter,"box");
 class GaussianFilter : public Filter {
  public:
   GaussianFilter(const PropertyList &propList) {
-    /* Half filter size */
+
     radius_ = propList.GetFloat("radius", 2.0f);
-    /* Standard deviation of the Gaussian */
     stddev_ = propList.GetFloat("stddev", 0.5f);
   }
 

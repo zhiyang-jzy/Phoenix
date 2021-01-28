@@ -11,8 +11,6 @@ PHOENIX_NAMESPACE_BEGIN
 class AoIntegrator : public Integrator {
  public:
   AoIntegrator(const PropertyList& props) {
-
-    /* No parameters this time */
   }
 
   Color3f Li(shared_ptr<Scene> scene,shared_ptr<Sampler> sampler,const Ray& ray) const override{

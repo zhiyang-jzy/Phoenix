@@ -13,20 +13,14 @@
 PHOENIX_NAMESPACE_BEGIN
 
 struct BSDFQueryRecord {
-  /// Incident direction (in the local frame)
   Vector3f wi;
-
-  /// Outgoing direction (in the local frame)
   Vector3f wo;
-
-  /// Relative refractive index in the sampled direction
   float eta;
 
   /// Create a new record for sampling the BSDF
   BSDFQueryRecord(Vector3f wi)
       : wi(std::move(wi)), eta(1.f) {}
 
-  /// Create a new record for querying the BSDF
   BSDFQueryRecord(Vector3f wi,
                   Vector3f wo)
       : wi(std::move(wi)), wo(std::move(wo)), eta(1.f) {}

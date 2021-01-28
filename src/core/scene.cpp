@@ -3,12 +3,8 @@
 //
 
 #include <phoenix/core/scene.h>
-#include<spdlog/spdlog.h>
 #include<phoenix/core/camera.h>
 #include<phoenix/core/integrator.h>
-#include<phoenix/core/sampler.h>
-#include<phoenix/core/ray.h>
-#include<phoenix/core/interaction.h>
 
 PHOENIX_NAMESPACE_BEGIN
 
@@ -50,8 +46,7 @@ void Scene::AddChild(shared_ptr<PhoenixObject> child) {
     }
     case PClassType::PShape: {
       auto shape = std::dynamic_pointer_cast<Shape>(child);
-      if(shape->GetEmitter())
-      {
+      if (shape->GetEmitter()) {
         emitters_.push_back(shape->GetEmitter());
       }
       shapes_.push_back(shape);
@@ -80,6 +75,10 @@ bool Scene::Intersect(const Ray &ray, Interaction &it) const {
 void Scene::Active() {
   embree_.EndAdd();
   spdlog::info("end add");
+}
+bool Scene::Intersect(const Ray &ray) const {
+  auto res = embree_.CastRay(ray.orig_, ray.dir_, ray.mint_, ray.maxt_);
+  return res.hit.primID != RTC_INVALID_GEOMETRY_ID;
 }
 
 PHOENIX_REGISTER_CLASS(Scene, "scene");

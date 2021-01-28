@@ -1,6 +1,6 @@
-//
-// Created by jzy99 on 2021/1/25.
-//
+   
+   
+   
 
 #include<phoenix/core/bsdf.h>
 #include<phoenix/core/common.h>
@@ -34,7 +34,7 @@ class Dielectric : public BSDF {
       n2 = extIOR_;
     }
 
-    //Sample depending on Fresnel
+       
     float snell = n1 / n2;
 
     if (isRefl)
@@ -60,7 +60,7 @@ class Dielectric : public BSDF {
       cosT = -cosT;
     }
 
-    //Sample depending on Fresnel
+       
     float F = Fresnel(cosT, n1, n2);
 
     Vector3f refrac = GetRefraction(bRec);
@@ -91,25 +91,25 @@ class Dielectric : public BSDF {
       cosT = -cosT;
     }
 
-    //Sample depending on Fresnel
+       
     float F = Fresnel(cosT, n1, n2);
     float snell = n1 / n2;
 
     float cons = sqrt(1.0f - (snell * snell) * (1.0f - cosT * cosT));
 
-    // Total Reflection?
+       
     bool isTReflec = cons > 1;
 
     if (sample.x() < F || isTReflec) {
       bRec.wo = GetReflection(bRec);
-      //return Color3f(1.f)*F;///Color3f(1.f)*F cosT;
-      return Color3f(1.f); //Montecarlo deterministic
+         
+      return Color3f(1.f);    
 
     } else {
       bRec.wo = GetRefraction(bRec);
-      //return snell * snell * (1 - F) * Color3f(1.f)/cos;
-      return snell * snell * Color3f(1.f); //Montecarlo deterministic (1-F)/pdf=(1-F)
-//			return Color3f(1.f);
+         
+      return snell * snell * Color3f(1.f);    
+   
     }
 
   }
@@ -129,11 +129,11 @@ class Dielectric : public BSDF {
       cosT = -cosT;
     }
 
-    //Sample depending on Fresnel
-    //	float F = fresnel(cosT, n1, n2);
+       
+       
     float snell = n1 / n2;
 
-    //Refraction
+       
     Vector3f part1 = -snell * (bRec.wi - cosT * n);
     float cons = sqrt(1.0f - (snell * snell) * (1.0f - cosT * cosT));
     Vector3f part2 = n * cons;
@@ -141,7 +141,7 @@ class Dielectric : public BSDF {
     Vector3f refraction = part1 - part2;
     refraction = refraction.normalized();
 
-    //Reflection
+       
     Vector3f reflection = Vector3f(-bRec.wi.x(), -bRec.wi.y(), bRec.wi.z());
 
     if (returnRefract)

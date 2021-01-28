@@ -17,7 +17,6 @@ class MirrorBSDF : public BSDF{
   }
 
   float Pdf(const BSDFQueryRecord &) const override {
-    /* Discrete BRDFs always evaluate to zero in Nori */
     return 0.0f;
   }
   Color3f Sample(BSDFQueryRecord &rec, const Point2f &) const override {

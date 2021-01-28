@@ -45,6 +45,8 @@ phoenix::SceneParser::SceneParser() {
   str_to_type_["filter"] = ParserType::PFilter;
   str_to_type_["emitter"] = ParserType::PEmitter;
   str_to_type_["bsdf"] = ParserType::PBSDF;
+  str_to_type_["translate"] = ParserType::PTranslate;
+  str_to_type_["scale"] = ParserType::PScale;
 
 }
 shared_ptr<PhoenixObject> phoenix::SceneParser::ParseTag(pugi::xml_node& node,PropertyList& prop,ParserType parent_tag) {
@@ -122,10 +124,22 @@ shared_ptr<PhoenixObject> phoenix::SceneParser::ParseTag(pugi::xml_node& node,Pr
         break;
       }
 
+      case ParserType::PTranslate:{
+        auto v = str_to_vector3f(node.attribute("value").value());
+        transform_ =  Eigen::Translation<float, 3>(v.x(), v.y(), v.z()) * transform_;
+        break;
+      };
+
+      case ParserType::PScale:{
+        Eigen::Vector3f v = str_to_vector3f(node.attribute("value").value());
+        transform_ = Eigen::DiagonalMatrix<float, 3>(v) * transform_;
+        break;
+      }
       case ParserType::PPoint:{
         prop.SetPoint(node.attribute("name").value(), str_to_point3f(node.attribute("value").value()));
         break;
       }
+
       case ParserType::PInteger:{
         prop.SetInteger(node.attribute("name").value(), str_to_integer(node.attribute("value").value()));
         break;

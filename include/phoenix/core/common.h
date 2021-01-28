@@ -18,21 +18,15 @@ inline float Fresnel(float cosThetaI, float extIOR, float intIOR) {
 
   if (extIOR == intIOR)
     return 0.0f;
-
-  /* Swap the indices of refraction if the interaction starts
-     at the inside of the object */
   if (cosThetaI < 0.0f) {
     std::swap(etaI, etaT);
     cosThetaI = -cosThetaI;
   }
-
-  /* Using Snell's law, calculate the squared sine of the
-     angle between the normal and the transmitted ray */
   float eta = etaI / etaT,
       sinThetaTSqr = eta * eta * (1 - cosThetaI * cosThetaI);
 
   if (sinThetaTSqr > 1.0f)
-    return 1.0f;  /* Total internal reflection! */
+    return 1.0f;
 
   float cosThetaT = std::sqrt(1.0f - sinThetaTSqr);
 
@@ -42,6 +36,14 @@ inline float Fresnel(float cosThetaI, float extIOR, float intIOR) {
       / (etaT * cosThetaI + etaI * cosThetaT);
 
   return (Rs * Rs + Rp * Rp) / 2.0f;
+}
+
+inline float Clamp(float value, float min, float max) {
+  if (value < min)
+    return min;
+  else if (value > max)
+    return max;
+  else return value;
 }
 
 PHOENIX_NAMESPACE_END

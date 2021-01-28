@@ -12,7 +12,7 @@ void Shape::AddChild(shared_ptr<PhoenixObject> child) {
   switch (child->GetClassType()) {
     case PhoenixObject::PClassType::PEmitter:{
       emitter_ = std::dynamic_pointer_cast<Emitter>(child);
-      emitter_->SetMesh(shared_ptr<Shape>(this));
+      emitter_->SetShape(shared_ptr<Shape>(this));
       spdlog::info("add emitter");
       break;
     }

@@ -28,8 +28,6 @@ class AreaLight : public Emitter
 
     SampleData sRec =  shape_->SampleSurface(sample);
 
-    //ShapeQueryRecord sRec(lRec.ref);
-    //m_shape->sampleSurface(sRec, sample);
     lRec.p = sRec.point;
     lRec.pdf = sRec.pdf;
     lRec.n = sRec.normal;

@@ -51,26 +51,9 @@ class ImageBlock: public Eigen::Array<Color4f,Eigen::Dynamic, Eigen::Dynamic,Eig
 
 class BlockGenerator {
  public:
-  /**
-   * \brief Create a block generator with
-   * \param size
-   *      Size of the image that should be split into blocks
-   * \param blockSize
-   *      Maximum size of the individual blocks
-   */
   BlockGenerator(const Vector2i &size, int blockSize);
 
-  /**
-   * \brief Return the next block to be rendered
-   *
-   * This function is thread-safe
-   *
-   * \return \c false if there were no more blocks
-   */
   bool Next(ImageBlock &block);
-
-
-  /// Return the total number of blocks
   [[nodiscard]] int GetBlockCount() const { return blocks_left_; }
  protected:
   enum EDirection { ERight = 0, EDown, ELeft, EUp };

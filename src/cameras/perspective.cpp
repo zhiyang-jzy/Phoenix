@@ -28,8 +28,6 @@ float PerspectiveCamera::GenerateRay(const CameraSample &sample, Ray &ray) const
       sample.film.x() * inv_output_size_.x(),
       sample.film.y() * inv_output_size_.y(), 0.0f);
 
-  /* Turn into a normalized ray direction, and
-     adjust the ray interval accordingly */
   Vector3f d = nearP.normalized();
   float invZ = 1.0f / d.z();
 
@@ -44,14 +42,6 @@ float PerspectiveCamera::GenerateRay(const CameraSample &sample, Ray &ray) const
 void PerspectiveCamera::Active() {
   float aspect = output_size_.x() / (float) output_size_.y();
 
-  /* Project vectors in camera space onto a plane at z=1:
-   *
-   *  xProj = cot * x / z
-   *  yProj = cot * y / z
-   *  zProj = (far * (z - near)) / (z * (far-near))
-   *  The cotangent factor ensures that the field of view is
-   *  mapped to the interval [-1, 1].
-   */
   float recip = 1.0f / (far_clip_ - near_clip_),
       cot = 1.0f / std::tan(deg_to_rad(fov_ / 2.0f));
 
@@ -62,10 +52,6 @@ void PerspectiveCamera::Active() {
       0,   0,   far_clip_ * recip, -near_clip_ * far_clip_ * recip,
       0,   0,   1,   0;
 
-  /**
-   * Translation and scaling to shift the clip coordinates into the
-   * range from zero to one. Also takes the aspect ratio into account.
-   */
   sample_to_camera_ = Transform(
       Eigen::DiagonalMatrix<float, 3>(Vector3f(-0.5f, -0.5f * aspect, 1.0f)) *
           Eigen::Translation<float, 3>(-1.0f, -1.0f/aspect, 0.0f) * perspective).inverse();

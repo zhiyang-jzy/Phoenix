@@ -17,8 +17,9 @@ PHOENIX_NAMESPACE_BEGIN
 void Renderer::ParseXML(const string &xml_path) {
 
   std::filesystem::path t_path(xml_path);
-
-  filename_ = t_path.string();
+  std::filesystem::current_path(t_path.parent_path());
+  spdlog::info(t_path.parent_path().string());
+  filename_ = t_path.filename().string();
   SceneParser parser;
   auto t_scene = parser.Parse(filename_);
   scene_ = std::dynamic_pointer_cast<phoenix::Scene>(t_scene);
@@ -90,6 +91,7 @@ void Renderer::OutputEXR() {
   if (lastdot != std::string::npos)
     outputName.erase(lastdot, std::string::npos);
   bitmap->SaveEXR(outputName);
+  bitmap->SavePNG(outputName);
 }
 
 PHOENIX_NAMESPACE_END

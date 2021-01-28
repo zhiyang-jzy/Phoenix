@@ -28,7 +28,7 @@ find_package(assimp CONFIG REQUIRED)
 FIND_PACKAGE(OpenMP REQUIRED)
 find_package(OpenEXR CONFIG REQUIRED)
 
-set(all_package spdlog::spdlog Eigen3::Eigen tinyxml2::tinyxml2 embree pugixml TBB::tbb tinyobjloader::tinyobjloader assimp::assimp OpenMP::OpenMP_CXX OpenEXR::IlmImf OpenEXR::IlmImfUtil OpenEXR::IlmImfConfig)
+set(all_package spdlog::spdlog Eigen3::Eigen embree pugixml TBB::tbb assimp::assimp OpenMP::OpenMP_CXX OpenEXR::IlmImf OpenEXR::IlmImfUtil OpenEXR::IlmImfConfig)
 
 add_executable(phoenix "src/main/phoenix.cpp" ${PHOENIX_SOURCE})
 

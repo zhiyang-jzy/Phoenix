@@ -35,8 +35,6 @@ class Frame {
         v.dot(s), v.dot(t), v.dot(n)
     );
   }
-
-  /// Convert from local coordinates to world coordinates
   Vector3f ToWorld(const Vector3f &v) const {
     return s * v.x() + t * v.y() + n * v.z();
   }

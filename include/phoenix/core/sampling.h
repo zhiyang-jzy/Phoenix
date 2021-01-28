@@ -22,11 +22,9 @@ inline Point2f SquareToTent(const Point2f &sample) {
   float x = sample.x() <= 0.5 ? sqrt(2 * sample.x()) - 1 : 1 - sqrt(2 * (1 - sample.x()));
   float y = sample.y() <= 0.5 ? sqrt(2 * sample.y()) - 1 : 1 - sqrt(2 * (1 - sample.y()));
   return Point2f(x, y);
-  /*throw NoriException("Warp::squareToTent() is not yet implemented!");*/
 }
 
 inline float SquareToTentPdf(const Point2f &p) {
-  /*throw NoriException("Warp::squareToTentPdf() is not yet implemented!");*/
   //return ((p.array() >= -1).all() && (p.array() <= 1).all()) ? 0.25*(1-abs(p.x()))* (1 - abs(p.y())) : 0.0f;
   //return ((p.array() >= -1).all() && (p.array() <= 1).all()) ? 0.25 : 0.0f;
 
@@ -34,14 +32,12 @@ inline float SquareToTentPdf(const Point2f &p) {
 }
 
 inline Point2f SquareToUniformDisk(const Point2f &sample) {
-  /*throw NoriException("Warp::squareToUniformDisk() is not yet implemented!");*/
   /*return sample * 2 - Point2f(1, 1);*/
   Point2f a(sin(sample.x() * 2 * PI), cos(sample.x() * 2 * PI));
   return sqrt(sample.y()) * a;
 }
 
 inline float SquareToUniformDiskPdf(const Point2f &p) {
-  /*throw NoriException("Warp::squareToUniformDiskPdf() is not yet implemented!");*/
 
   return p.squaredNorm() <= 1.0 ? INV_PI : 0;
   //p.norm()
@@ -77,7 +73,6 @@ inline Vector3f SquareToUniformHemisphere(const Point2f &sample) {
 }
 
 inline float SquareToUniformHemispherePdf(const Vector3f &v) {
-  /*throw NoriException("Warp::squareToUniformHemispherePdf() is not yet implemented!");*/
 
   if(sqrt(v[0]*v[0] + v[1]*v[1] + v[2]*v[2]) > 1 || v[2] < 0)
     return 0.f;

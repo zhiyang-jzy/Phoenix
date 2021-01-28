@@ -18,6 +18,7 @@ public:
   int sample_count_;
   virtual float Next1D()=0;
   virtual Point2f Next2D()=0;
+  virtual unsigned int Next1DUInt()=0;
 
   virtual shared_ptr<Sampler> Clone()const=0;
   virtual void Prepare(const ImageBlock& block){}

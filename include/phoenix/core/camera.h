@@ -28,8 +28,6 @@ public:
 
   void AddChild(shared_ptr<PhoenixObject> child)override;
 
-
-    //virtual Point2f Sample()
  public:
   Vector2i output_size_;
   shared_ptr<Filter> filter_;

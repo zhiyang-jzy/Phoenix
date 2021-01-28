@@ -12,40 +12,37 @@ PHOENIX_NAMESPACE_BEGIN
 
 class DiscretePDF {
  public:
-  /// Allocate memory for a distribution with the given number of entries
   explicit DiscretePDF(size_t nEntries = 0) {
     Reserve(nEntries);
     Clear();
   }
-
-  /// Clear all entries
   void Clear() {
     cdf_.clear();
     cdf_.push_back(0.0f);
     normalized_ = false;
   }
 
-  /// Reserve memory for a certain number of entries
+    
   void Reserve(size_t nEntries) {
     cdf_.reserve(nEntries+1);
   }
 
-  /// Append an entry with the specified discrete probability
+    
   void Append(float pdf_value) {
     cdf_.push_back(cdf_[cdf_.size()-1] + pdf_value);
   }
 
-  /// Return the number of entries so far
+    
   size_t Size() const {
     return cdf_.size()-1;
   }
 
-  /// Access an entry by its index
+    
   float operator[](size_t entry) const {
     return cdf_[entry+1] - cdf_[entry];
   }
 
-  /// Have the probability densities been normalized?
+    
   bool IsNormalized() const {
     return normalized_;
   }

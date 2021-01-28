@@ -36,8 +36,10 @@ class SceneParser {
     PPoint,
     PLookAt,
     PTransform,
+    PTranslate,
+    PScale,
     PColor,
-    PInvalid
+    PInvalid,
   };
 
   shared_ptr<PhoenixObject> ParseTag(pugi::xml_node& node,PropertyList& prop,ParserType parent_tag);

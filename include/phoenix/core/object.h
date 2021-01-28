@@ -35,32 +35,8 @@ class PhoenixObjectFactory {
 public:
     typedef std::function<shared_ptr<PhoenixObject>(const PropertyList&)> Constructor;
 
-    /**
-     * \brief Register an object constructor with the object factory
-     *
-     * This function is called by the macro \ref NORI_REGISTER_CLASS
-     *
-     * \param name
-     *     An internal name that is associated with this class. This is the
-     *     'type' field found in the scene description XML files
-     *
-     * \param constr
-     *     A function pointer to an anonymous function that is
-     *     able to call the constructor of the class.
-     */
     static void MRegisterClass(const std::string& name, const Constructor& constr);
 
-    /**
-     * \brief Construct an instance from the class of the given name
-     *
-     * \param name
-     *     An internal name that is associated with this class. This is the
-     *     'type' field found in the scene description XML files
-     *
-     * \param propList
-     *     A list of properties that will be passed to the constructor
-     *     of the class.
-     */
     static shared_ptr<PhoenixObject> CreateInstance(const std::string& name,
         const PropertyList& propList) {
         //            if (!m_constructors || m_constructors->find(name) == m_constructors->end())
