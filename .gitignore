@@ -6,3 +6,4 @@ out/
 cmake-build-gcc/
 build/
 cmake-build-release/
+*.zip

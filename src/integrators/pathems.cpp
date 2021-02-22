@@ -34,7 +34,7 @@ class PathemsIntegrator : public Integrator {
     float cos_light = std::abs(ray.dir_.normalized().dot(its.normal.normalized()));
 
     if (!scene->Intersect(ldir_que.shadowRay))
-      L_dir = emitter_color * scene->GetEmiitersCount()*cos_light;
+      L_dir = emitter_color * scene->GetEmiitersCount()*cos_light/ldir_que.pdf;
 
     Color3f L_indir(0.0f);
 

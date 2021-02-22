@@ -48,6 +48,7 @@ void Scene::AddChild(shared_ptr<PhoenixObject> child) {
       auto shape = std::dynamic_pointer_cast<Shape>(child);
       if (shape->GetEmitter()) {
         emitters_.push_back(shape->GetEmitter());
+        light_dpdf_.Append(shape->GetArea());
       }
       shapes_.push_back(shape);
       auto ids = shape->AddToEmbree(embree_);
@@ -60,6 +61,7 @@ void Scene::AddChild(shared_ptr<PhoenixObject> child) {
   }
 }
 Scene::Scene(const PropertyList &props) {
+  light_dpdf_.Clear();
 
 }
 bool Scene::Intersect(const Ray &ray, Interaction &it) const {
@@ -74,11 +76,18 @@ bool Scene::Intersect(const Ray &ray, Interaction &it) const {
 }
 void Scene::Active() {
   embree_.EndAdd();
+  light_dpdf_.normalize();
   spdlog::info("end add");
 }
 bool Scene::Intersect(const Ray &ray) const {
   auto res = embree_.CastRay(ray.orig_, ray.dir_, ray.mint_, ray.maxt_);
   return res.hit.primID != RTC_INVALID_GEOMETRY_ID;
+}
+shared_ptr<Emitter> Scene::GetRandomEmitter(shared_ptr<Sampler> sampler,float & pdf) {
+  float random = sampler->Next1D();
+  auto index = light_dpdf_.Sample(random,pdf);
+  return emitters_.at(index);
+
 }
 
 PHOENIX_REGISTER_CLASS(Scene, "scene");
