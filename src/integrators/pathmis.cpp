@@ -11,28 +11,67 @@ class PathmisIntegrator : public Integrator {
     return {.0f};
   }
 
-  Color3f SampleLight(shared_ptr<Scene> scene, shared_ptr<Sampler> sampler, const Ray &ray) {
+  Color3f SampleLight(shared_ptr<Scene> scene, shared_ptr<Sampler> sampler, const Ray &ray, int depth = 0) {
     Interaction its;
     if (!scene->Intersect(ray, its)) {
       return Color3f(0.0f);
     }
 
-    if (its.shape->IsEmitter()) {
-      EmitterQueryRecord iRec2(ray.orig_, its.point, its.normal);
-      return its.shape->GetEmitter()->Eval(iRec2);
+    if (its.shape->GetBSDF()->IsDiffuse()) {
+      if (sampler->Next1D() > 0.95)
+        return Color3f(.0f);
+      else {
+        BSDFQueryRecord bsdfQ(its.geoFrame.ToLocal(-ray.dir_));
+        Color3f albedo = its.shape->GetBSDF()->Sample(bsdfQ, sampler->Next2D());
+        return 1.057 * albedo * SampleLight(scene, sampler, Ray(its.point, its.geoFrame.ToWorld(bsdfQ.wo)));
+      }
     }
 
-    float light_pdf;
-    auto emitter = scene->GetRandomEmitter(sampler,light_pdf);
-
-
+    float emit_pdf;
+    auto emit = scene->GetRandomEmitter(sampler, emit_pdf);
     EmitterQueryRecord eqr(its.point);
-    Color3f Le = emitter->Sample(eqr,sampler->Next2D());
-    light_pdf*=eqr.pdf;
+    Color3f Le = emit->Sample(eqr, sampler->Next2D());
+    Vector3f distace_vec = eqr.wi.normalized();
+    Color3f directColor = Color3f(.0f);
 
-    BSDFQueryRecord bsdfQ();
+    float object_normal = abs(its.normal.dot(distace_vec));
 
-    return {0.0f};
+    if (its.shape->IsEmitter()) {
+      if (depth == 0) {
+        return its.shape->GetEmitter()->Sample(eqr, sampler->Next2D());
+      } else {
+        return Color3f(.0f);
+      }
+    }
+
+    //BRDF of given its.p material
+    BSDFQueryRecord bsdfQ = BSDFQueryRecord(its.geoFrame.ToLocal(ray.dir_), its.geoFrame.ToLocal(distace_vec));
+    Color3f bsdf = its.shape->GetBSDF()->Eval(bsdfQ);
+
+    //Pdf value for light (diffuse area light)
+    float lightPdf = emit_pdf * emit->Pdf(eqr);
+
+    //Weighting
+    float modifiedLightPdf = lightPdf;
+    float distance = eqr.wi.dot(eqr.wi);
+    modifiedLightPdf *= distance;
+
+    float bsdfPdf = its.shape->GetBSDF()->Pdf(bsdfQ);
+    float weight = modifiedLightPdf / (modifiedLightPdf + bsdfPdf);
+
+    Color3f albedo = its.shape->GetBSDF()->Sample(bsdfQ, sampler->Next2D());
+
+    //MC integral
+    Interaction temp_its;
+    if (!scene->Intersect(eqr.shadowRay, temp_its) || its.shape->GetEmitter() != emit) {
+      directColor = object_normal * Le * bsdf * 1.f / emit_pdf;
+    }
+
+    if (sampler->Next1D() < 0.95f && depth < 10)
+      return weight * 1.f / 0.95 * (directColor
+          + albedo * SampleLight(scene, sampler, Ray(its.point, its.geoFrame.ToWorld((bsdfQ.wo))), depth + 1));
+    else
+      return Color3f(0.f);
 
   }
 

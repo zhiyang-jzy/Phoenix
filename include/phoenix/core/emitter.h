@@ -61,6 +61,7 @@ class Emitter : public PhoenixObject {
 
   [[nodiscard]] virtual float Pdf(const EmitterQueryRecord& lRec) const = 0;
 
+
   void SetParent(shared_ptr<PhoenixObject> father)override{
 //    shape_ = std::dynamic_pointer_cast<Shape>(father);
 //    spdlog::info("set shape");
