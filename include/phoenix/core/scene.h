@@ -23,6 +23,7 @@ class Scene : public PhoenixObject {
   Pembree embree_;
   unordered_map<unsigned int, shared_ptr<Shape>> shapes_dict_;
   DiscretePDF light_dpdf_;
+  shared_ptr<Emitter> env_light_;
 
 
  public:

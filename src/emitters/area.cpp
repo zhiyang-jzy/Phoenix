@@ -56,6 +56,9 @@ class AreaLight : public Emitter
     }
   }
 
+  Color3f GetColor()const override{
+    return radiance;
+  }
   [[nodiscard]] float Pdf(const EmitterQueryRecord& lRec) const override
   {
     float _pdf = lRec.pdf;

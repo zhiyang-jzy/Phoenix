@@ -42,6 +42,7 @@ class PathemsIntegrator : public Integrator {
       auto bsdf = its.shape->GetBSDF();
       auto bsdf_que = BSDFQueryRecord(its.geoFrame.ToLocal(-ray.dir_).normalized());
       auto bsdf_value = bsdf->Sample(bsdf_que, sampler->Next2D());
+
       Ray light_ray(its.point, its.geoFrame.ToWorld(bsdf_que.wo));
       float cos0 = std::abs(its.normal.normalized().dot(its.geoFrame.ToWorld(bsdf_que.wo).normalized()));
       L_indir = Li(scene, sampler, light_ray) * bsdf_value / russian_;

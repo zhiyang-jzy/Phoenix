@@ -10,6 +10,8 @@
 #include <unordered_map>
 #include<phoenix/core/sampledata.h>
 #include<phoenix/core/dpdf.h>
+#include<phoenix/core/texture.h>
+#include<filesystem>
 #include "mesh.h"
 
 PHOENIX_NAMESPACE_BEGIN
@@ -21,14 +23,19 @@ class Model {
   DiscretePDF dpdf_;
 
  public:
-  Model(){ area_=0.0f;};
-  void Load(const string& path);
-  SampleData SampleSurface(Point2f sample)const;
-
+  Model() { area_ = 0.0f; };
+  void Load(const string &path);
+  [[nodiscard]] SampleData SampleSurface(Point2f sample) const;
+  Color3f GetTextureColor(unsigned int geoid, unsigned int priid, Point2f uv) const;
 
  private:
-  void processNode(aiNode* node, const aiScene* scene);
-  shared_ptr<Mesh> processMesh(aiMesh* mesh, const aiScene* scene);
+  void processNode(aiNode *node, const aiScene *scene);
+  std::filesystem::path dir_;
+  shared_ptr<Mesh> processMesh(aiMesh *mesh, const aiScene *scene);
+  shared_ptr<Texture> LoadMaterialTextures(aiMaterial *mat,
+                                           aiTextureType type,
+                                           std::string typeName,
+                                           const aiScene *scene);
 
 };
 

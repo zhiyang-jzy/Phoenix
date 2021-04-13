@@ -12,6 +12,7 @@
 #include<phoenix/core/vector.h>
 #include<phoenix/core/dpdf.h>
 #include<phoenix/core/sampledata.h>
+#include<phoenix/core/texture.h>
 
 PHOENIX_NAMESPACE_BEGIN
 
@@ -30,6 +31,7 @@ class Mesh {
   vector<uint32_t> indices;
   float area_;
   DiscretePDF dpdf_;
+  shared_ptr<Texture> texture_;
 
  public:
   Mesh(std::vector<Vertex> vertices, std::vector<uint32_t> indices) :

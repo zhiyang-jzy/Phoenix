@@ -22,11 +22,11 @@ class Sphere : public Shape {
     area_ = 4.0f * PI * radius_ * radius_;
     inv_area_ = 1.0f / area_;
   }
-  vector<unsigned int> AddToEmbree(Pembree &embree) const override {
+  vector<unsigned int> AddToEmbree(Pembree &embree) override {
     return {embree.AddSphere(center_, radius_)};
   }
 
-  [[nodiscard]] SampleData SampleSurface(const Point2f& sample) const override {
+  [[nodiscard]] SampleData SampleSurface(const Point2f &sample) const override {
     auto dir = SquareToUniformSphere(sample);
     SampleData res;
 
@@ -35,6 +35,9 @@ class Sphere : public Shape {
     res.pdf = inv_area_;
 
     return res;
+  }
+  Color3f GetTextureColor(unsigned int geoid, unsigned int priid, Point2f uv) const override {
+    return bsdf_->GetTextureColor(geoid,priid,uv);
   }
 
 };

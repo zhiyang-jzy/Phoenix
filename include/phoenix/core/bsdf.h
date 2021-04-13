@@ -16,6 +16,7 @@ struct BSDFQueryRecord {
   Vector3f wi;
   Vector3f wo;
   float eta;
+  Point2f uv;
 
   /// Create a new record for sampling the BSDF
   BSDFQueryRecord(Vector3f wi)
@@ -29,16 +30,25 @@ struct BSDFQueryRecord {
 class BSDF : public PhoenixObject {
  public:
   virtual Color3f Sample(BSDFQueryRecord &rec, const Point2f &sample) const = 0;
+  virtual Color3f Sample(BSDFQueryRecord &rec, const Point2f &sample, Color3f albedo) const {
+    return Color3f(0.3,
+                   0.4,
+                   0.5);
+  }
 
   virtual Color3f Eval(const BSDFQueryRecord &rec) const = 0;
 
+  virtual Color3f Eval(const BSDFQueryRecord &rec, Color3f albedo) const { return Color3f(0.3, 0.4, 0.5); }
+
   virtual float Pdf(const BSDFQueryRecord &rec) const = 0;
+
+  virtual Color3f GetTextureColor(unsigned int geoid, unsigned int primid, Point2f uv) const { return {0.3, 0.4, 0.5}; }
 
   PhoenixObject::PClassType GetClassType() const { return PhoenixObject::PClassType::PBSDF; }
 
   virtual bool IsDiffuse() const { return false; }
 
-  string ToString()const override{return "";}
+  string ToString() const override { return ""; }
 };
 
 PHOENIX_NAMESPACE_END

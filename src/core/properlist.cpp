@@ -7,7 +7,6 @@
 
 PHOENIX_NAMESPACE_BEGIN
 
-
 #define DEFINE_PROPERTY_ACCESSOR(Type, TypeName, XmlName) \
     void PropertyList::Set##TypeName(const std::string &name, const Type &value) { \
         if (properties_.find(name) != properties_.end())  \
@@ -37,6 +36,9 @@ DEFINE_PROPERTY_ACCESSOR(Vector3f, Vector, vector)
 DEFINE_PROPERTY_ACCESSOR(std::string, String, string)
 DEFINE_PROPERTY_ACCESSOR(Transform, Transform, transform)
 
+bool PropertyList::HasVal(const string &name) const {
+  return properties_.count(name) > 0;
+}
 
 PHOENIX_NAMESPACE_END
 

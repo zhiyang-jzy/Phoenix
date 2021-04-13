@@ -23,6 +23,8 @@ class PropertyList {
      
   bool GetBoolean(const std::string &name, const bool &defaultValue) const;
 
+  bool HasVal(const std::string &name)const;
+
      
   void SetInteger(const std::string &name, const int &value);
 

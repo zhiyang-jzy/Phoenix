@@ -47,7 +47,7 @@ void PerspectiveCamera::Active() {
 
   Eigen::Matrix4f perspective;
   perspective <<
-              cot, 0,   0,   0,
+      cot, 0,   0,   0,
       0, cot,   0,   0,
       0,   0,   far_clip_ * recip, -near_clip_ * far_clip_ * recip,
       0,   0,   1,   0;

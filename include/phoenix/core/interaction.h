@@ -8,6 +8,7 @@
 #include<phoenix/core/phoenix.h>
 #include<phoenix/core/vector.h>
 #include<phoenix/core/frame.h>
+#include<phoenix/core/texture.h>
 
 PHOENIX_NAMESPACE_BEGIN
 
@@ -15,6 +16,8 @@ struct Interaction {
  public:
   Point2f uv;
   shared_ptr<Shape> shape;
+  shared_ptr<Texture> texture;
+  Color3f albedo;
   Point3f point;
   Normal3f normal;
   bool isHit;

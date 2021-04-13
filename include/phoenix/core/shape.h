@@ -19,19 +19,21 @@ class Shape : public PhoenixObject {
  protected:
   shared_ptr<BSDF> bsdf_;
   shared_ptr<Emitter> emitter_;
-  float area_,inv_area_;
+  float area_, inv_area_;
   Transform object_to_world_, world_to_object_;
  public:
   [[nodiscard]] shared_ptr<BSDF> GetBSDF() const { return bsdf_; }
   [[nodiscard]] PClassType GetClassType() const override { return PClassType::PShape; }
   [[nodiscard]] string ToString() const override { return "shape"; }
-  virtual vector<unsigned int> AddToEmbree(Pembree &embree) const = 0;
+  virtual vector<unsigned int> AddToEmbree(Pembree &embree) = 0;
   [[nodiscard]] float GetArea() const { return area_; };
-  [[nodiscard]] virtual SampleData SampleSurface(const Point2f& sample)const = 0 ;
-  void AddChild(shared_ptr<PhoenixObject> child) override ;
-  shared_ptr<Emitter> GetEmitter()const{return emitter_;}
-  void Active()override;
-  bool IsEmitter(){return emitter_!= nullptr;}
+  [[nodiscard]] virtual SampleData SampleSurface(const Point2f &sample) const = 0;
+  void AddChild(shared_ptr<PhoenixObject> child) override;
+  virtual Color3f GetTextureColor(unsigned int geoid,unsigned int priid, Point2f uv) const { return {0.0f}; };
+  shared_ptr<Emitter> GetEmitter() const { return emitter_; }
+
+  void Active() override;
+  bool IsEmitter() { return emitter_ != nullptr; }
 
 };
 

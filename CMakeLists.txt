@@ -14,7 +14,7 @@ endif (CMAKE_TOOLCHAIN_FILE)
 
 include_directories(include)
 
-file(GLOB PHOENIX_SOURCE src/core/* src/cameras/* src/shapes/* src/samplers/* src/integrators/* src/filters/* src/emitters/* src/bsdfs/*
+file(GLOB PHOENIX_SOURCE src/core/* src/cameras/* src/shapes/* src/samplers/* src/integrators/* src/filters/* src/emitters/* src/bsdfs/* src/textures/*
         )
 
 find_package(spdlog CONFIG REQUIRED)

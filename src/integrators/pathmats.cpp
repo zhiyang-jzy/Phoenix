@@ -22,7 +22,14 @@ class PathmatsIntegrator : public Integrator {
     Color3f res(0.0f);
 
     if (!scene->Intersect(ray, its))
-      return Color3f(0.0f);
+    {
+      if(scene->env_light_!= nullptr){
+        return scene->env_light_->GetColor();
+      }
+      else{
+        return res;
+      }
+    }
 
 
     if (its.shape->IsEmitter()) {
@@ -31,7 +38,7 @@ class PathmatsIntegrator : public Integrator {
     }
 
     BSDFQueryRecord rec(its.geoFrame.ToLocal(-ray.dir_).normalized());
-    Color3f bsdfvalue = its.shape->GetBSDF()->Sample(rec, sampler->Next2D());
+    Color3f bsdfvalue = its.shape->GetBSDF()->Sample(rec, sampler->Next2D(),its.albedo);
 
     Ray light_ray(its.point, its.geoFrame.ToWorld(rec.wo));
     float cos0 = std::abs(its.geoFrame.n.normalized().dot(rec.wo.normalized()));

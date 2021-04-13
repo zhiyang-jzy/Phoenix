@@ -53,13 +53,15 @@ class Emitter : public PhoenixObject {
 
   void SetShape(const shared_ptr<Shape>& shape){ shape_=shape; spdlog::info("set emitter father");}
 
-  const shared_ptr<Shape>& GetShape()const{return shape_;}
+  [[nodiscard]] const shared_ptr<Shape>& GetShape()const{return shape_;}
 
   virtual Color3f Sample(EmitterQueryRecord& IRec, const Point2f& sample) const = 0;
 
   [[nodiscard]] virtual Color3f Eval(const EmitterQueryRecord& lRec) const = 0;
 
   [[nodiscard]] virtual float Pdf(const EmitterQueryRecord& lRec) const = 0;
+
+  [[nodiscard]] virtual Color3f GetColor()const{return Color3f(0.0f);}
 
 
   void SetParent(shared_ptr<PhoenixObject> father)override{

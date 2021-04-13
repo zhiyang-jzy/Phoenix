@@ -18,7 +18,7 @@ class PathmisIntegrator : public Integrator {
     }
 
     if (its.shape->GetBSDF()->IsDiffuse()) {
-      if (sampler->Next1D() > 0.95)
+      if (sampler->Next1D() > 0.95f)
         return Color3f(.0f);
       else {
         BSDFQueryRecord bsdfQ(its.geoFrame.ToLocal(-ray.dir_));
@@ -44,14 +44,11 @@ class PathmisIntegrator : public Integrator {
       }
     }
 
-    //BRDF of given its.p material
     BSDFQueryRecord bsdfQ = BSDFQueryRecord(its.geoFrame.ToLocal(ray.dir_), its.geoFrame.ToLocal(distace_vec));
     Color3f bsdf = its.shape->GetBSDF()->Eval(bsdfQ);
 
-    //Pdf value for light (diffuse area light)
     float lightPdf = emit_pdf * emit->Pdf(eqr);
 
-    //Weighting
     float modifiedLightPdf = lightPdf;
     float distance = eqr.wi.dot(eqr.wi);
     modifiedLightPdf *= distance;
@@ -61,7 +58,7 @@ class PathmisIntegrator : public Integrator {
 
     Color3f albedo = its.shape->GetBSDF()->Sample(bsdfQ, sampler->Next2D());
 
-    //MC integral
+
     Interaction temp_its;
     if (!scene->Intersect(eqr.shadowRay, temp_its) || its.shape->GetEmitter() != emit) {
       directColor = object_normal * Le * bsdf * 1.f / emit_pdf;

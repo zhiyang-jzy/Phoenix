@@ -28,6 +28,8 @@ void Scene::AddChild(shared_ptr<PhoenixObject> child) {
       break;
     }
     case PClassType::PEmitter: {
+      env_light_ = std::dynamic_pointer_cast<Emitter>(child);
+      spdlog::info("add env light");
       break;
     }
     case PClassType::PIntegrator: {
@@ -69,6 +71,8 @@ bool Scene::Intersect(const Ray &ray, Interaction &it) const {
   if (!it.isHit)
     return false;
   auto shape = shapes_dict_.at(it.geoID);
+  it.albedo = shape->GetTextureColor(it.geoID, it.primID, it.uv);
+
   it.point = ray.At(it.tfar);
   it.shape = shape;
   return true;
@@ -83,9 +87,9 @@ bool Scene::Intersect(const Ray &ray) const {
   auto res = embree_.CastRay(ray.orig_, ray.dir_, ray.mint_, ray.maxt_);
   return res.hit.primID != RTC_INVALID_GEOMETRY_ID;
 }
-shared_ptr<Emitter> Scene::GetRandomEmitter(shared_ptr<Sampler> sampler,float & pdf) {
+shared_ptr<Emitter> Scene::GetRandomEmitter(shared_ptr<Sampler> sampler, float &pdf) {
   float random = sampler->Next1D();
-  auto index = light_dpdf_.Sample(random,pdf);
+  auto index = light_dpdf_.Sample(random, pdf);
   return emitters_.at(index);
 
 }
