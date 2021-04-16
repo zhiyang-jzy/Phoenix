@@ -14,11 +14,18 @@ class OBJ : public Shape {
  protected:
   Model model;
   std::map<unsigned int, shared_ptr<Mesh> > dict_;
+
+ private:
+  void ApplyTransform(Transform transform){
+    model.ApplyTransform(transform);
+  }
  public:
   explicit OBJ(const PropertyList &props) {
     string filename = props.GetString("filename");
     spdlog::info("loading obj file: {}", filename);
     model.Load(filename);
+    Transform transform = props.GetTransform("toWorld",Transform());
+    ApplyTransform(transform);
     spdlog::info("area_: {}", model.area_);
     area_ = model.area_;
     inv_area_ = 1.0f / area_;

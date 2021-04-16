@@ -26,7 +26,8 @@ class Model {
   Model() { area_ = 0.0f; };
   void Load(const string &path);
   [[nodiscard]] SampleData SampleSurface(Point2f sample) const;
-  Color3f GetTextureColor(unsigned int geoid, unsigned int priid, Point2f uv) const;
+
+  void ApplyTransform(Transform transform);
 
  private:
   void processNode(aiNode *node, const aiScene *scene);

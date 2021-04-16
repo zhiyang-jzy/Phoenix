@@ -76,6 +76,7 @@ inline void Mesh::CalcArea() {
     area_ += area;
     dpdf_.Append(area);
   }
+  spdlog::info("calc area {}",area_);
   dpdf_.normalize();
 }
 

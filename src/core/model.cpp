@@ -8,6 +8,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include<stb/stb_image.h>
 #include<phoenix/core/texture.h>
+#include<phoenix/core/transform.h>
 
 PHOENIX_NAMESPACE_BEGIN
 
@@ -149,13 +150,18 @@ shared_ptr<Texture> Model::LoadMaterialTextures(aiMaterial *mat,
   return make_shared<ImageTexture>(image_data, width, height, 3 * width);
 
 }
-Color3f Model::GetTextureColor(unsigned int geoid, unsigned int priid, Point2f uv) const {
-  auto mesh = meshes_[geoid];
-  if (mesh->texture_ == nullptr) {
-    return Color3f(0.3, 0.4, 0.5);
+void Model::ApplyTransform(Transform transform) {
+  area_ = 0;
+  dpdf_.Clear();
+  for (auto &mesh : meshes_) {
+    for (auto &vertice : mesh->vertices) {
+      vertice.position = transform * vertice.position;
+    }
+    mesh->CalcArea();
+    area_ += mesh->area_;
+    dpdf_.Append(mesh->area_);
   }
-  Point2f now_uv = mesh->getTexcood(priid, uv.x(), uv.y());
-  return mesh->texture_->GetColor(now_uv);
+  dpdf_.normalize();
 }
 
 PHOENIX_NAMESPACE_END
