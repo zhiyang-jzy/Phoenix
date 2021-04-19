@@ -11,6 +11,7 @@
 #include<phoenix/core/integrator.h>
 #include<iostream>
 #include<filesystem>
+#include<thread>
 
 PHOENIX_NAMESPACE_BEGIN
 

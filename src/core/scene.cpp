@@ -43,7 +43,6 @@ void Scene::AddChild(shared_ptr<PhoenixObject> child) {
       break;
     }
     case PClassType::PScene: {
-      throw std::exception("waea");
       break;
     }
     case PClassType::PShape: {
