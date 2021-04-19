@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<scene>
+    <integrator type="naivepath">
+        <float name = "russian" value = "0.95"/>
+    </integrator>
+
+    <emitter type="area">
+        <color name="radiance" value="0.5,0.5,0.5"/>
+    </emitter>
+
+    <camera type="perspective">
+        <float name="fov" value="27.7856"/>
+        <transform name="toWorld">
+            <lookat target="0, 10, 0" origin="0, 50, 50" up="0, 1, 0"/>
+        </transform>
+        <filter type="gaussian"/>
+        <integer name="height" value="600"/>
+        <integer name="width" value="800"/>
+    </camera>
+
+    <sampler type="independent">
+        <integer name="sampleCount" value="1"/>
+    </sampler>
+
+
+    <!-- <shape type="sphere">
+        <point name = "center" value = "0,0,0"/>
+        <float name = "radius" value = "0.5"/>
+        <emitter type="area">
+            <color name="radiance" value="40,40,40"/>
+        </emitter>
+    </shape> -->
+
+    <shape type="obj">
+        <string name="filename" value="meshes/ball.obj"/>
+
+        <transform name="toWorld">
+            <scale value="0.5,0.5,0.5"/>
+        </transform>
+
+        <bsdf type="diffuse">
+            <!-- <color name="albedo" value="0.630 0.065 0.05"/> -->
+        </bsdf>
+    </shape>
+
+
+
+    <!-- <shape type="sphere">
+        <point name = "center" value = "1,1,1"/>
+        <float name = "radius" value = "0.32"/>
+
+        <bsdf type="diffuse"/>
+    </shape> -->
+
+</scene>
