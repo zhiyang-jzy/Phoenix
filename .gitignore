@@ -1,6 +1,7 @@
 .idea/
 .vs/
 bin/
+scene/
 cmake-build-debug/
 out/
 cmake-build-gcc/
