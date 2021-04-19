@@ -8,3 +8,4 @@ build/
 cmake-build-release/
 *.zip
 *.udb
+*.exr
