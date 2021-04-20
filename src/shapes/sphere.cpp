@@ -26,13 +26,16 @@ class Sphere : public Shape {
     return {embree.AddSphere(center_, radius_)};
   }
 
+  float PdfSurface(const SampleData& sRec) const override{
+      return inv_area_* SquareToUniformSpherePdf(Vector3f(0,0,1));
+  }
   [[nodiscard]] SampleData SampleSurface(const Point2f &sample) const override {
     auto dir = SquareToUniformSphere(sample);
     SampleData res;
 
     res.point = center_ + dir * radius_;
-    res.normal = (center_ + dir).normalized();
-    res.pdf = inv_area_;
+    res.normal = dir;
+    res.pdf = SquareToUniformSpherePdf(Vector3f(0,0,1))*inv_area_;
 
     return res;
   }

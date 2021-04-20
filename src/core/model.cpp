@@ -99,7 +99,7 @@ SampleData Model::SampleSurface(Point2f sample) const {
   float pdf;
   auto index = dpdf_.Sample(sample.x(), pdf);
   auto res = meshes_[index]->SamplePoint(sample);
-  res.pdf *= pdf;
+  res.pdf = dpdf_.GetNormalization();
   return meshes_[index]->SamplePoint(sample);
 }
 shared_ptr<Texture> Model::LoadMaterialTextures(aiMaterial *mat,

@@ -4,80 +4,104 @@
 
 PHOENIX_NAMESPACE_BEGIN
 
-class PathmisIntegrator : public Integrator {
- public:
-  PathmisIntegrator(const PropertyList &props) {}
-  Color3f Li(shared_ptr<Scene> scene, shared_ptr<Sampler> sampler, const Ray &ray) const override {
-    return {.0f};
-  }
+    class PathmisIntegrator : public Integrator {
+    public:
+        PathmisIntegrator(const PropertyList &props) {}
 
-  Color3f SampleLight(shared_ptr<Scene> scene, shared_ptr<Sampler> sampler, const Ray &ray, int depth = 0) {
-    Interaction its;
-    if (!scene->Intersect(ray, its)) {
-      return Color3f(0.0f);
-    }
+        Color3f Li(shared_ptr<Scene> scene, shared_ptr<Sampler> sampler, const Ray &ray) const override {
+            Color3f Li = 0, t = 1;
+            Ray rayR = ray;
+            float prob = 1, w_mats = 1, w_ems = 1;
+            Color3f f(1, 1, 1);
 
-    if (its.shape->GetBSDF()->IsDiffuse()) {
-      if (sampler->Next1D() > 0.95f)
-        return Color3f(.0f);
-      else {
-        BSDFQueryRecord bsdfQ(its.geoFrame.ToLocal(-ray.dir_));
-        Color3f albedo = its.shape->GetBSDF()->Sample(bsdfQ, sampler->Next2D());
-        return 1.057 * albedo * SampleLight(scene, sampler, Ray(its.point, its.geoFrame.ToWorld(bsdfQ.wo)));
-      }
-    }
+            while (true) {
+                Interaction its;
 
-    float emit_pdf;
-    auto emit = scene->GetRandomEmitter(sampler, emit_pdf);
-    EmitterQueryRecord eqr(its.point);
-    Color3f Le = emit->Sample(eqr, sampler->Next2D());
-    Vector3f distace_vec = eqr.wi.normalized();
-    Color3f directColor = Color3f(.0f);
+                if (!scene->Intersect(rayR, its)) {
+                    if (scene->env_light_ == nullptr) {
+                        return Li;
+                    } else {
+                        EmitterQueryRecord lRec;
+                        lRec.wi = rayR.dir_;
+                        return Li + w_mats * t * scene->env_light_->Eval(lRec);
+                    }
+                }
 
-    float object_normal = abs(its.normal.dot(distace_vec));
+                // -------------------------------------Emitted--------------------------------------- //
+                Color3f Le = 0;
+                if (its.shape->IsEmitter()) {
+                    EmitterQueryRecord lRecE(rayR.orig_, its.point, its.geoFrame.n);
+                    Le = its.shape->GetEmitter()->Eval(lRecE);
+                    Le = Color3f(1);
+                }
+                Li += t * w_mats * Le;
+//                Li=Le;
 
-    if (its.shape->IsEmitter()) {
-      if (depth == 0) {
-        return its.shape->GetEmitter()->Sample(eqr, sampler->Next2D());
-      } else {
-        return Color3f(.0f);
-      }
-    }
+                // -------------------------------------Russian roulette--------------------------------------- //
+                prob = std::min(t.maxCoeff(), .99f);
+                if (sampler->Next1D() >= prob) {
+                    return Li;
+                }
 
-    BSDFQueryRecord bsdfQ = BSDFQueryRecord(its.geoFrame.ToLocal(ray.dir_), its.geoFrame.ToLocal(distace_vec));
-    Color3f bsdf = its.shape->GetBSDF()->Eval(bsdfQ);
+                t /= prob;
 
-    float lightPdf = emit_pdf * emit->Pdf(eqr);
+                // -------------------------------------EMS--------------------------------------- //
+                Color3f L_ems = 0;
 
-    float modifiedLightPdf = lightPdf;
-    float distance = eqr.wi.dot(eqr.wi);
-    modifiedLightPdf *= distance;
+                // get a random emitter
+                float emiter_pdf;
+                const auto emitter = scene->GetRandomEmitter(sampler, emiter_pdf);
 
-    float bsdfPdf = its.shape->GetBSDF()->Pdf(bsdfQ);
-    float weight = modifiedLightPdf / (modifiedLightPdf + bsdfPdf);
+                // reflected
+                EmitterQueryRecord lRec_ems;
+                lRec_ems.ref = its.point;
+                Color3f Li_ems = emitter->Sample(lRec_ems, sampler->Next2D()) * scene->GetEmitters().size();
+                float pdf_ems = emitter->Pdf(lRec_ems);
 
-    Color3f albedo = its.shape->GetBSDF()->Sample(bsdfQ, sampler->Next2D());
+                // BSDF
+                BSDFQueryRecord bRec_ems(its.geoFrame.ToLocal(-rayR.dir_), its.geoFrame.ToLocal(lRec_ems.wi));
+                bRec_ems.uv = its.uv;
+                Color3f f_ems = its.shape->GetBSDF()->Eval(bRec_ems, its.albedo);
+                if (abs(pdf_ems + its.shape->GetBSDF()->Pdf(bRec_ems)) > EPSILON)
+                    w_ems = pdf_ems / (pdf_ems + its.shape->GetBSDF()->Pdf(bRec_ems));
 
+                // check if shadow ray is occluded
+                Interaction its_ems;
+                if (!scene->Intersect(lRec_ems.shadowRay, its_ems))
+                    L_ems = f_ems * Li_ems * std::max(0.f, its.geoFrame.ToLocal(lRec_ems.wi).z());
 
-    Interaction temp_its;
-    if (!scene->Intersect(eqr.shadowRay, temp_its) || its.shape->GetEmitter() != emit) {
-      directColor = object_normal * Le * bsdf * 1.f / emit_pdf;
-    }
+                Li += t * w_ems *L_ems;
+//                Li=Li.abs();
+//                    Li=Color3f(1);
 
-    if (sampler->Next1D() < 0.95f && depth < 10)
-      return weight * 1.f / 0.95 * (directColor
-          + albedo * SampleLight(scene, sampler, Ray(its.point, its.geoFrame.ToWorld((bsdfQ.wo))), depth + 1));
-    else
-      return Color3f(0.f);
+                // -------------------------------------BSDF sampling--------------------------------------- //
+                BSDFQueryRecord bRec(its.geoFrame.ToLocal(-rayR.dir_));
+                Color3f f = its.shape->GetBSDF()->Sample(bRec, sampler->Next2D(), its.albedo);
+                t *= f;
+                // shoot next ray
+                rayR = Ray(its.point, its.geoFrame.ToWorld(bRec.wo));
 
-  }
+                // ----------------------------------MATS weight for next Le----------------------------------- //
+                float pdf_mats = its.shape->GetBSDF()->Pdf(bRec);
 
-  Color3f SampleBSDF(shared_ptr<Scene> scene, shared_ptr<Sampler> sampler, const Ray &ray) {
+                Interaction itsR;
+                if (scene->Intersect(rayR, itsR)) {
+                    if (itsR.shape->IsEmitter()) {
+                        EmitterQueryRecord lRec_mats = EmitterQueryRecord(its.point, itsR.point, itsR.geoFrame.n);
+                        if ((pdf_mats + itsR.shape->GetEmitter()->Pdf(lRec_mats)) > EPSILON)
+                            w_mats = pdf_mats / (pdf_mats + itsR.shape->GetEmitter()->Pdf(lRec_mats));
+                    }
+                } else if (scene->env_light_ != nullptr) {
+                    EmitterQueryRecord lRec_mats;
+                    lRec_mats.wi = rayR.dir_;
+                    if (abs(pdf_mats + scene->env_light_->Pdf(lRec_mats)) > EPSILON)
+                        w_mats = pdf_mats / (pdf_mats + scene->env_light_->Pdf(lRec_mats));
+                }
 
-  }
+            }
+        }
+    };
 
-};
-
-PHOENIX_REGISTER_CLASS(PathmisIntegrator, "pathmis");
+    PHOENIX_REGISTER_CLASS(PathmisIntegrator, "pathmis");
 
 PHOENIX_NAMESPACE_END

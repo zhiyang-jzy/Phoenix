@@ -16,7 +16,7 @@
 	</camera>
 
 	<sampler type="independent">
-		<integer name="sampleCount" value="32"/>
+		<integer name="sampleCount" value="1024"/>
 	</sampler>
 
 	<shape type="obj">

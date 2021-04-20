@@ -51,6 +51,10 @@ class OBJ : public Shape {
     return model.SampleSurface(sample);
   }
 
+  float PdfSurface(const SampleData& sRec)const override{
+      return model.dpdf_.GetNormalization();
+  }
+
   Color3f GetTextureColor(unsigned int geoid, unsigned int priid, Point2f uv) const override {
     const shared_ptr<Mesh> mesh = dict_.at(geoid);
 

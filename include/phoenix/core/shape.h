@@ -28,6 +28,7 @@ class Shape : public PhoenixObject {
   virtual vector<unsigned int> AddToEmbree(Pembree &embree) = 0;
   [[nodiscard]] float GetArea() const { return area_; };
   [[nodiscard]] virtual SampleData SampleSurface(const Point2f &sample) const = 0;
+  [[nodiscard]] virtual float PdfSurface(const SampleData& sRec)const =0;
   void AddChild(shared_ptr<PhoenixObject> child) override;
   virtual Color3f GetTextureColor(unsigned int geoid,unsigned int priid, Point2f uv) const { return {0.0f}; };
   shared_ptr<Emitter> GetEmitter() const { return emitter_; }

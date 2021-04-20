@@ -11,65 +11,63 @@
 PHOENIX_NAMESPACE_BEGIN
 
 
-class AreaLight : public Emitter
-{
+    class AreaLight : public Emitter {
 
- public:
-  Color3f radiance;
- public:
+    public:
+        Color3f radiance;
+    public:
 
-  explicit AreaLight(const PropertyList& props)
-  {
-    radiance = props.GetColor("radiance");
-  }
+        explicit AreaLight(const PropertyList &props) {
+            radiance = props.GetColor("radiance");
+        }
 
-  Color3f Sample(EmitterQueryRecord& lRec, const Point2f& sample)const override
-  {
+        Color3f Sample(EmitterQueryRecord &lRec, const Point2f &sample) const override {
 
-    SampleData sRec =  shape_->SampleSurface(sample);
+            SampleData sRec = shape_->SampleSurface(sample);
 
-    lRec.p = sRec.point;
-    lRec.pdf = sRec.pdf;
-    lRec.n = sRec.normal;
-    lRec.wi = (lRec.p - lRec.ref).normalized();
+            lRec.p = sRec.point;
+            lRec.pdf = sRec.pdf;
+            lRec.n = sRec.normal;
+            lRec.wi = (lRec.p - lRec.ref).normalized();
 
-    Ray shadowRay(lRec.ref, lRec.wi, EPSILON,
-                    (lRec.p - lRec.ref).norm() - EPSILON);
-    lRec.shadowRay = shadowRay;
-    if (Pdf(lRec) > 0)
-      return Eval(lRec) / Pdf(lRec);
-    else
-      return Color3f(0.f);
-    return { 0,0,0 };
+            Ray shadowRay(lRec.ref, lRec.wi, EPSILON,
+                          (lRec.p - lRec.ref).norm() - EPSILON);
+            lRec.shadowRay = shadowRay;
+            if (Pdf(lRec) > 0)
+                return Eval(lRec) / Pdf(lRec);
+            else
+                return Color3f(0.f);
+            return {0, 0, 0};
 
-  }
+        }
 
-  [[nodiscard]] Color3f Eval(const EmitterQueryRecord& lRec) const override
-  {
-    float cos_theta_i = lRec.n.dot(-lRec.wi);
+        [[nodiscard]] Color3f Eval(const EmitterQueryRecord &lRec) const override {
+            float cos_theta_i = lRec.n.dot(-lRec.wi);
 
-    if ((cos_theta_i) >= 0) {
-      return radiance;
-    }
-    else {
-      return Color3f(0.f);
-    }
-  }
+            if ((cos_theta_i) >= 0) {
+                return radiance;
+            } else {
+                return Color3f(0.f);
+            }
+        }
 
-  Color3f GetColor()const override{
-    return radiance;
-  }
-  [[nodiscard]] float Pdf(const EmitterQueryRecord& lRec) const override
-  {
-    float _pdf = lRec.pdf;
+        Color3f GetColor() const override {
+            return radiance;
+        }
 
-    float cosin = std::abs(lRec.n.dot(-lRec.wi));
+        [[nodiscard]] float Pdf(const EmitterQueryRecord &lRec) const override {
+            SampleData sRec(lRec.ref, lRec.p);
+            sRec.normal = lRec.n;
 
-    return _pdf * (lRec.p - lRec.ref).squaredNorm() / cosin;
-  }
-};
+            float cosin = lRec.n.dot(-lRec.wi);
+            if (cosin <= 0) {
+                return 0;
+            }
+            return shape_->PdfSurface(sRec) * (lRec.p - lRec.ref).squaredNorm() / cosin;
+        }
+    };
 
-PHOENIX_REGISTER_CLASS(AreaLight,"area");
+    PHOENIX_REGISTER_CLASS(AreaLight, "area");
 
 PHOENIX_NAMESPACE_END
 

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 
 <scene>
-    <integrator type="naivepath">
+    <integrator type="pathmis">
         <float name="russian" value="0.95"/>
     </integrator>
 
@@ -16,7 +16,7 @@
     </camera>
 
     <sampler type="independent">
-        <integer name="sampleCount" value="32"/>
+        <integer name="sampleCount" value="1024"/>
     </sampler>
 
     <shape type="obj">
@@ -90,7 +90,7 @@
         <string name="filename" value="meshes/ball.obj"/>
         <transform name="toWorld">
             <scale value="0.1,0.1,0.1"/>
-            <translate value="0.1,0.1,0.1"/>
+            <translate value="0.4,0.4,0.4"/>
         </transform>
         <bsdf type="disney">
 <!--            <color name="baseColor" value="0.6 0.6 0.6"/>-->
