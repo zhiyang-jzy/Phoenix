@@ -1,88 +1,109 @@
 <?xml version='1.0' encoding='utf-8'?>
 
 <scene>
-	<integrator type="naivepath">
-		<float name = "russian" value = "0.95"/>
-	</integrator>
+    <integrator type="naivepath">
+        <float name="russian" value="0.95"/>
+    </integrator>
 
-	<camera type="perspective">
-		<float name="fov" value="27.7856"/>
-		<transform name="toWorld">
-			<lookat target="0, 0.893051, 4.41198" origin="0, 0.919769, 5.41159" up="0, 1, 0"/>
-		</transform>
-		<filter type="gaussian"/>
-		<integer name="height" value="600"/>
-		<integer name="width" value="800"/>
-	</camera>
+    <camera type="perspective">
+        <float name="fov" value="27.7856"/>
+        <transform name="toWorld">
+            <lookat target="0, 0.893051, 4.41198" origin="0, 0.919769, 5.41159" up="0, 1, 0"/>
+        </transform>
+        <filter type="gaussian"/>
+        <integer name="height" value="600"/>
+        <integer name="width" value="800"/>
+    </camera>
 
-	<sampler type="independent">
-		<integer name="sampleCount" value="4096"/>
-	</sampler>
+    <sampler type="independent">
+        <integer name="sampleCount" value="32"/>
+    </sampler>
 
-	<shape type="obj">
-		<string name="filename" value="meshes/walls.obj"/>
+    <shape type="obj">
+        <string name="filename" value="meshes/walls.obj"/>
 
-		<bsdf type="diffuse">
-			<color name="albedo" value="0.725 0.71 0.68"/>
-		</bsdf>
-	</shape>
+        <bsdf type="diffuse">
+            <color name="albedo" value="0.725 0.71 0.68"/>
+        </bsdf>
+    </shape>
 
-	<shape type="obj">
-		<string name="filename" value="meshes/rightwall.obj"/>
+    <shape type="obj">
+        <string name="filename" value="meshes/rightwall.obj"/>
 
-		<bsdf type="diffuse">
-			<color name="albedo" value="0.161 0.133 0.427"/>
-		</bsdf>
-	</shape>
+        <bsdf type="diffuse">
+            <color name="albedo" value="0.161 0.133 0.427"/>
+        </bsdf>
+    </shape>
 
-	<shape type="obj">
-		<string name="filename" value="meshes/leftwall.obj"/>
+    <shape type="obj">
+        <string name="filename" value="meshes/leftwall.obj"/>
 
-		<bsdf type="diffuse">
-			<color name="albedo" value="0.630 0.065 0.05"/>
-		</bsdf>
-	</shape>
+        <bsdf type="diffuse">
+            <color name="albedo" value="0.630 0.065 0.05"/>
+        </bsdf>
+    </shape>
 
-	<!-- <shape type="sphere">
-		<point name = "center" value = "0.3,0.35,0"/>
-		<float name = "radius" value = "0.32"/>
+    <!-- <shape type="sphere">
+        <point name = "center" value = "0.3,0.35,0"/>
+        <float name = "radius" value = "0.32"/>
 
-		<bsdf type="diffuse"/>
-	</shape> -->
+        <bsdf type="diffuse"/>
+    </shape> -->
 
-	<shape type="sphere">
-		<point name = "center" value = "-0.4,0.35,-0.4"/>
-		<float name = "radius" value = "0.32"/>
-		<bsdf type="mirror"/>
-	</shape>
+    <shape type="sphere">
+        <point name="center" value="-0.4,0.35,-0.4"/>
+        <float name="radius" value="0.32"/>
+        <bsdf type="mirror"/>
+    </shape>
 
-	<shape type="sphere">
-		<point name = "center" value = "-0.4,0.92,0.2"/>
-		<float name = "radius" value = "0.32"/>
-		<bsdf type="diffuse"/>
-	</shape>
-	<shape type="sphere">
-		<point name = "center" value = "0.3,1.0,0.2"/>
-		<float name = "radius" value = "0.32"/>
-		<bsdf type="dielectric"/>
-	</shape>
+    <shape type="sphere">
+        <point name="center" value="-0.4,0.92,0.2"/>
+        <float name="radius" value="0.32"/>
+        <bsdf type="disney">
+            <color name="baseColor" value="1 0.44 0"/>
+            <float name="subsurface" value="0.8"/>
+            <float name="metallic" value="0."/>
+            <float name="specular" value="0."/>
+            <float name="specularTint" value="0."/>
+            <float name="roughness" value="0.8"/>
+            <float name="sheen" value="0."/>
+            <float name="sheenTint" value="0."/>
+            <float name="clearcoat" value="0."/>
+            <float name="clearcoatGloss" value="0."/>
+        </bsdf>
+    </shape>
+    <shape type="sphere">
+        <point name="center" value="0.3,1.0,0.2"/>
+        <float name="radius" value="0.32"/>
+        <bsdf type="dielectric"/>
+    </shape>
 
-	<shape type="obj">
-		<string name="filename" value="meshes/light.obj"/>
+    <shape type="obj">
+        <string name="filename" value="meshes/light.obj"/>
 
-		<emitter type="area">
-			<color name="radiance" value="40,40,40"/>
-		</emitter>
-	</shape>
+        <emitter type="area">
+            <color name="radiance" value="40,40,40"/>
+        </emitter>
+    </shape>
 
-	<shape type="obj">
-		<string name="filename" value="meshes/ball.obj"/>
-		<transform name="toWorld">
-			<translate value = "0.5,0.5,0.5" />
-			<scale value="0.1,0.1,0.1"/>
-		</transform>
-		<bsdf type="diffuse">
-		</bsdf>
-	</shape>
+    <shape type="obj">
+        <string name="filename" value="meshes/ball.obj"/>
+        <transform name="toWorld">
+            <scale value="0.1,0.1,0.1"/>
+            <translate value="0.1,0.1,0.1"/>
+        </transform>
+        <bsdf type="disney">
+<!--            <color name="baseColor" value="0.6 0.6 0.6"/>-->
+            <float name="subsurface" value="0.8"/>
+            <float name="metallic" value="0."/>
+            <float name="specular" value="0."/>
+            <float name="specularTint" value="0."/>
+            <float name="roughness" value="0.8"/>
+            <float name="sheen" value="0."/>
+            <float name="sheenTint" value="0."/>
+            <float name="clearcoat" value="0."/>
+            <float name="clearcoatGloss" value="0."/>
+        </bsdf>
+    </shape>
 
 </scene>

@@ -29,22 +29,22 @@ struct BSDFQueryRecord {
 
 class BSDF : public PhoenixObject {
  public:
-  virtual Color3f Sample(BSDFQueryRecord &rec, const Point2f &sample) const = 0;
+  virtual Color3f Sample(BSDFQueryRecord &rec, const Point2f &sample) const {return Color3f(0,0,0);};
   virtual Color3f Sample(BSDFQueryRecord &rec, const Point2f &sample, Color3f albedo) const {
     return Color3f(0.3,
                    0.4,
                    0.5);
   }
 
-  virtual Color3f Eval(const BSDFQueryRecord &rec) const = 0;
+  virtual Color3f Eval(const BSDFQueryRecord &rec) const {return Color3f(.3,.4,.5);};
 
   virtual Color3f Eval(const BSDFQueryRecord &rec, Color3f albedo) const { return Color3f(0.3, 0.4, 0.5); }
 
-  virtual float Pdf(const BSDFQueryRecord &rec) const = 0;
+  virtual float Pdf(const BSDFQueryRecord &rec) const =0;
 
   virtual Color3f GetTextureColor(unsigned int geoid, unsigned int primid, Point2f uv) const { return {0.3, 0.4, 0.5}; }
 
-  PhoenixObject::PClassType GetClassType() const { return PhoenixObject::PClassType::PBSDF; }
+  PhoenixObject::PClassType GetClassType() const override{ return PhoenixObject::PClassType::PBSDF; }
 
   virtual bool IsDiffuse() const { return false; }
 

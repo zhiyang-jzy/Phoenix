@@ -31,7 +31,6 @@ class PathmatsIntegrator : public Integrator {
       }
     }
 
-
     if (its.shape->IsEmitter()) {
       EmitterQueryRecord iRec2(ray.orig_, its.point, its.normal);
       return its.shape->GetEmitter()->Eval(iRec2);

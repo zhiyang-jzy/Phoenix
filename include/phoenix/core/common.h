@@ -7,44 +7,51 @@
 
 #include<phoenix/core/phoenix.h>
 #include<algorithm>
+
 PHOENIX_NAMESPACE_BEGIN
 
-inline float deg_to_rad(float deg) { return deg * (PI / 180.f); }
-inline float clamp(const float &lo, const float &hi, const float &v) {
-  return (std::max)(lo, (std::min)(hi, v));
-}
-inline float Fresnel(float cosThetaI, float extIOR, float intIOR) {
-  float etaI = extIOR, etaT = intIOR;
+    inline float deg_to_rad(float deg) { return deg * (PI / 180.f); }
 
-  if (extIOR == intIOR)
-    return 0.0f;
-  if (cosThetaI < 0.0f) {
-    std::swap(etaI, etaT);
-    cosThetaI = -cosThetaI;
-  }
-  float eta = etaI / etaT,
-      sinThetaTSqr = eta * eta * (1 - cosThetaI * cosThetaI);
+    inline float clamp(const float &lo, const float &hi, const float &v) {
+        return (std::max)(lo, (std::min)(hi, v));
+    }
 
-  if (sinThetaTSqr > 1.0f)
-    return 1.0f;
+    inline float Fresnel(float cosThetaI, float extIOR, float intIOR) {
+        float etaI = extIOR, etaT = intIOR;
 
-  float cosThetaT = std::sqrt(1.0f - sinThetaTSqr);
+        if (extIOR == intIOR)
+            return 0.0f;
+        if (cosThetaI < 0.0f) {
+            std::swap(etaI, etaT);
+            cosThetaI = -cosThetaI;
+        }
+        float eta = etaI / etaT,
+                sinThetaTSqr = eta * eta * (1 - cosThetaI * cosThetaI);
 
-  float Rs = (etaI * cosThetaI - etaT * cosThetaT)
-      / (etaI * cosThetaI + etaT * cosThetaT);
-  float Rp = (etaT * cosThetaI - etaI * cosThetaT)
-      / (etaT * cosThetaI + etaI * cosThetaT);
+        if (sinThetaTSqr > 1.0f)
+            return 1.0f;
 
-  return (Rs * Rs + Rp * Rp) / 2.0f;
-}
+        float cosThetaT = std::sqrt(1.0f - sinThetaTSqr);
 
-inline float Clamp(float value, float min, float max) {
-  if (value < min)
-    return min;
-  else if (value > max)
-    return max;
-  else return value;
-}
+        float Rs = (etaI * cosThetaI - etaT * cosThetaT)
+                   / (etaI * cosThetaI + etaT * cosThetaT);
+        float Rp = (etaT * cosThetaI - etaI * cosThetaT)
+                   / (etaT * cosThetaI + etaI * cosThetaT);
+
+        return (Rs * Rs + Rp * Rp) / 2.0f;
+    }
+
+    inline float Clamp(float value, float min, float max) {
+        if (value < min)
+            return min;
+        else if (value > max)
+            return max;
+        else return value;
+    }
+
+    inline float lerp(float t, float v1, float v2) {
+        return ((float) 1 - t) * v1 + t * v2;
+    }
 
 PHOENIX_NAMESPACE_END
 

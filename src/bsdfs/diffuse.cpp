@@ -29,7 +29,7 @@ class DiffuseBSDF : public BSDF {
     return albedo_;
   }
 
-  float Pdf(const BSDFQueryRecord &rec) const {
+  float Pdf(const BSDFQueryRecord &rec) const override {
     if (rec.wo.z() <= 0 || rec.wi.z() <= 0)
       return .0f;
     return INV_PI * rec.wo.normalized().z();
