@@ -21,28 +21,27 @@ PHOENIX_NAMESPACE_BEGIN
     }
 
     unsigned int Pembree::AddMesh(const std::vector<Eigen::Vector3f> &_vertices, const std::vector<uint32_t> _indices) {
+
+
+        unsigned int num_vertices = _vertices.size(), num_indices = _indices.size(), num_faces = _indices.size() / 3;
+        unsigned int num_edges = num_vertices + num_faces - 2;
         RTCGeometry geom = rtcNewGeometry(device_, RTC_GEOMETRY_TYPE_TRIANGLE);
+//        RTCGeometry geom = rtcNewGeometry(device_, RTC_GEOMETRY_TYPE_SUBDIVISION);
 
         auto *vertices = (float *) rtcSetNewGeometryBuffer(geom,
                                                            RTC_BUFFER_TYPE_VERTEX,
                                                            0,
                                                            RTC_FORMAT_FLOAT3,
                                                            3 * sizeof(float),
-                                                           _vertices.size());
+                                                           num_vertices);
         auto *indices = (unsigned *) rtcSetNewGeometryBuffer(geom,
                                                              RTC_BUFFER_TYPE_INDEX,
                                                              0,
                                                              RTC_FORMAT_UINT3,
                                                              3 * sizeof(unsigned),
-                                                             _indices.size());
+                                                             num_indices);
 
         if (vertices && indices) {
-            //vertices[0] = 0.f; vertices[1] = 0.f; vertices[2] = 0.f;
-            //vertices[3] = 1.f; vertices[4] = 0.f; vertices[5] = 0.f;
-            //vertices[6] = 0.f; vertices[7] = 1.f; vertices[8] = 0.f;
-
-            //indices[0] = 0; indices[1] = 1; indices[2] = 2;
-
             for (int i = 0; i < _vertices.size(); i++) {
                 vertices[i * 3] = _vertices[i].x();
                 vertices[i * 3 + 1] = _vertices[i].y();
@@ -54,17 +53,14 @@ PHOENIX_NAMESPACE_BEGIN
             }
         }
 
-        rtcCommitGeometry(geom);
+//        unsigned int *m_faces = new unsigned int[num_faces];
+//        std::fill(m_faces, m_faces + num_faces, 3);
+//        rtcSetSharedGeometryBuffer(geom, RTC_BUFFER_TYPE_FACE, 0, RTC_FORMAT_UINT, m_faces, 0, sizeof(unsigned int),
+//                                   num_faces);
 
-        /*
-         * In rtcAttachGeometry(...), the scene takes ownership of the geom
-         * by increasing its reference count. This means that we don't have
-         * to hold on to the geom handle, and may release it. The geom object
-         * will be released automatically when the scene is destroyed.
-         *
-         * rtcAttachGeometry() returns a geometry ID. We could use this to
-         * identify intersected objects later on.
-         */
+
+
+        rtcCommitGeometry(geom);
         unsigned int id = rtcAttachGeometry(scene_, geom);
         rtcReleaseGeometry(geom);
         return id;
@@ -106,6 +102,18 @@ PHOENIX_NAMESPACE_BEGIN
          */
         rtcIntersect1(scene_, &context, &rayhit);
 
+        float pdu[3], pdv[3], res[3];
+
+//        if (rayhit.hit.geomID != RTC_INVALID_GEOMETRY_ID) {
+//            rtcInterpolate1(rtcGetGeometry(scene_, rayhit.hit.geomID), rayhit.hit.primID, rayhit.hit.u, rayhit.hit.v,
+//                            RTC_BUFFER_TYPE_VERTEX, 0,
+//                            nullptr, pdu, pdv, 3);
+//
+//            rayhit.hit.Ng_x = pdu[1] * pdv[2] - pdu[2] * pdv[1];
+//            rayhit.hit.Ng_y = pdu[2] * pdv[0] - pdu[0] * pdv[2];
+//            rayhit.hit.Ng_z = pdu[0] * pdv[1] - pdu[1] * pdv[0];
+//        }
+
         return rayhit;
 
         //std::cout << origin << std::endl;
@@ -133,7 +141,7 @@ PHOENIX_NAMESPACE_BEGIN
         scene_ = rtcNewScene(device_);
     }
 
-    unsigned int Pembree::AddSphere(const Eigen::Vector3f& center,float radius) {
+    unsigned int Pembree::AddSphere(const Eigen::Vector3f &center, float radius) {
         RTCGeometry geom = rtcNewGeometry(device_, RTC_GEOMETRY_TYPE_SPHERE_POINT);
 
         auto *vertices = (float *) rtcSetNewGeometryBuffer(geom,

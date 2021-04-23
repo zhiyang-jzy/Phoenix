@@ -5,6 +5,7 @@
 #include<phoenix/core/parser.h>
 #include<filesystem>
 #include<iostream>
+#include<phoenix/core/common.h>
 #include<phoenix/core/parsertool.h>
 #include<phoenix/core/properlist.h>
 
@@ -43,6 +44,7 @@ phoenix::SceneParser::SceneParser() {
   str_to_type_["bsdf"] = ParserType::PBSDF;
   str_to_type_["translate"] = ParserType::PTranslate;
   str_to_type_["scale"] = ParserType::PScale;
+  str_to_type_["rotate"] = ParserType::PRotate;
 
 }
 shared_ptr<PhoenixObject> phoenix::SceneParser::ParseTag(pugi::xml_node &node,
@@ -124,6 +126,12 @@ shared_ptr<PhoenixObject> phoenix::SceneParser::ParseTag(pugi::xml_node &node,
         transform_ = Eigen::Translation<float, 3>(v.x(), v.y(), v.z()) * transform_;
         break;
       };
+      case ParserType::PRotate:{
+          float angle = deg_to_rad(std::stof(node.attribute("angle").value()));
+          Eigen::Vector3f axis = str_to_vector3f(node.attribute("axis").value());
+          transform_ = Eigen::AngleAxis<float>(angle, axis) * transform_;
+          break;
+      }
 
       case ParserType::PScale: {
         Eigen::Vector3f v = str_to_vector3f(node.attribute("value").value());

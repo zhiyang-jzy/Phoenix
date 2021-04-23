@@ -6,6 +6,7 @@
 #define PHOENIX_INCLUDE_PHOENIX_CORE_COMMON_H_
 
 #include<phoenix/core/phoenix.h>
+#include<phoenix/core/vector.h>
 #include<algorithm>
 
 PHOENIX_NAMESPACE_BEGIN
@@ -51,6 +52,29 @@ PHOENIX_NAMESPACE_BEGIN
 
     inline float lerp(float t, float v1, float v2) {
         return ((float) 1 - t) * v1 + t * v2;
+    }
+
+    inline string ToLower(const string &value) {
+        string result;
+        result.resize(value.size());
+        std::transform(value.begin(), value.end(), result.begin(), ::tolower);
+        return result;
+    }
+
+    inline bool EndsWith(const std::string &value, const std::string &ending) {
+        if (ending.size() > value.size())
+            return false;
+        return std::equal(ending.rbegin(), ending.rend(), value.rbegin());
+    }
+
+    inline Point2f SphericalCoordinates(const Vector3f &v) {
+        Point2f result(
+                std::acos(v.z()),
+                std::atan2(v.y(), v.x())
+        );
+        if (result.y() < 0)
+            result.y() += 2*M_PI;
+        return result;
     }
 
 PHOENIX_NAMESPACE_END

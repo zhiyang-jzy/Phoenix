@@ -21,9 +21,9 @@ class Scene : public PhoenixObject {
   shared_ptr<Integrator> integrator_;
   vector<shared_ptr<Shape> > shapes_;
   Pembree embree_;
+  shared_ptr<Emitter> env_emtter_;
   unordered_map<unsigned int, shared_ptr<Shape>> shapes_dict_;
   DiscretePDF light_dpdf_;
-  shared_ptr<Emitter> env_light_;
 
 
  public:
@@ -36,6 +36,7 @@ class Scene : public PhoenixObject {
   [[nodiscard]] const vector<shared_ptr<Emitter>>& GetEmitters()const{return emitters_;}
   bool Intersect(const Ray &ray, Interaction &it) const;
   [[nodiscard]] bool Intersect(const Ray &ray)const;
+  shared_ptr<Emitter> GetEnvEmitter()const;
   void AddChild(shared_ptr<PhoenixObject> child) override;
   void Active() override;
   shared_ptr<Emitter> GetRandomEmitter(shared_ptr<Sampler> sampler,float & pdf);

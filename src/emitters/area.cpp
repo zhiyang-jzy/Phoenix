@@ -17,6 +17,10 @@ PHOENIX_NAMESPACE_BEGIN
         Color3f radiance;
     public:
 
+        [[nodiscard]] EmitterType GetEmitterType() const override {
+            return EmitterType::AREA;
+        }
+
         explicit AreaLight(const PropertyList &props) {
             radiance = props.GetColor("radiance");
         }

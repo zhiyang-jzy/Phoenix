@@ -18,12 +18,12 @@ PHOENIX_NAMESPACE_BEGIN
                 Interaction its;
 
                 if (!scene->Intersect(rayR, its)) {
-                    if (scene->env_light_ == nullptr) {
+                    if (scene->GetEnvEmitter() == nullptr) {
                         return Li;
                     } else {
                         EmitterQueryRecord lRec;
                         lRec.wi = rayR.dir_;
-                        return Li + w_mats * t * scene->env_light_->Eval(lRec);
+                        return Li + w_mats * t * scene->GetEnvEmitter()->Eval(lRec);
                     }
                 }
 
@@ -91,11 +91,11 @@ PHOENIX_NAMESPACE_BEGIN
                         if ((pdf_mats + itsR.shape->GetEmitter()->Pdf(lRec_mats)) > EPSILON)
                             w_mats = pdf_mats / (pdf_mats + itsR.shape->GetEmitter()->Pdf(lRec_mats));
                     }
-                } else if (scene->env_light_ != nullptr) {
+                } else if (scene->GetEnvEmitter() != nullptr) {
                     EmitterQueryRecord lRec_mats;
                     lRec_mats.wi = rayR.dir_;
-                    if (abs(pdf_mats + scene->env_light_->Pdf(lRec_mats)) > EPSILON)
-                        w_mats = pdf_mats / (pdf_mats + scene->env_light_->Pdf(lRec_mats));
+                    if (abs(pdf_mats + scene->GetEnvEmitter()->Pdf(lRec_mats)) > EPSILON)
+                        w_mats = pdf_mats / (pdf_mats + scene->GetEnvEmitter()->Pdf(lRec_mats));
                 }
 
             }

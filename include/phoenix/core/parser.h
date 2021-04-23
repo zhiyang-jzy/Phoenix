@@ -38,6 +38,7 @@ class SceneParser {
     PTransform,
     PTranslate,
     PScale,
+    PRotate,
     PColor,
     PInvalid,
   };

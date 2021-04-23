@@ -58,7 +58,7 @@ void PerspectiveCamera::Active() {
 
   if(filter_== nullptr)
   {
-    filter_ = std::dynamic_pointer_cast<Filter>(PhoenixObjectFactory::CreateInstance("gaussian",PropertyList()));
+    filter_ = std::dynamic_pointer_cast<Filter>(PhoenixObjectFactory::CreateInstance("MN",PropertyList()));
   }
 
 }

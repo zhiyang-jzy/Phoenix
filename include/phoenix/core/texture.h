@@ -29,6 +29,7 @@ class ImageTexture : public Texture {
   ImageTexture()
       : data(nullptr), width(0), height(0), bytes_per_scanline(0) {}
   ImageTexture(unsigned char* _data,int width,int height,int bytes_per_scanline);
+  bool LoadFromFile(string path);
 
   ~ImageTexture() {
     delete data;
