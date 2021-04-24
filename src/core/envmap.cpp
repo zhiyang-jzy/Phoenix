@@ -105,7 +105,7 @@ PHOENIX_NAMESPACE_BEGIN
     Color3f Envmap::Sample(Vector3f &dir, const Point2f &sample) const {
         Point2f pixel = SamplePixel(sample);
         dir = PixelToDir(pixel);
-        float jac = (cols() - 1) * (rows() - 1) / (2 * std::pow(M_PI, 2) * Frame::SinTheta(dir));
+        float jac = (cols() - 1) * (rows() - 1) / (2 * std::pow(PI, 2) * Frame::SinTheta(dir));
         float pdf = FindPdf(pixel) * jac;
         return FindColor(pixel) / pdf;
     }
@@ -129,9 +129,9 @@ PHOENIX_NAMESPACE_BEGIN
     float Envmap::FindPdf(const Point2f &point) const {
         /*
         float u = point.x();
-        float theta = u * M_PI / (rows() -1);
+        float theta = u * PI / (rows() -1);
 
-        float jac = (cols() -1) * (rows() -1) / (2 * std::pow(M_PI, 2) * std::sin(theta));
+        float jac = (cols() -1) * (rows() -1) / (2 * std::pow(PI, 2) * std::sin(theta));
 
         */
         int i = std::floor(point.x());
@@ -140,7 +140,7 @@ PHOENIX_NAMESPACE_BEGIN
         //std::cout << "(" << point.x() << "," << point.y() <<")  -- pmarg: " << m_pmarg(0, i) << " pdf: " << m_pdf(i, j) << " jac: " << jac <<" final: " << m_pmarg(0, i) * m_pdf(i, j) * jac << " \n";
 
         return pmarg_(0, i) * pdf_(i, j) /** jac*/;
-        //float theta = M_PI * point.x() / rows();
+        //float theta = PI * point.x() / rows();
         //return m_pmarg(0, i) * m_pdf(i, j) * rows() * cols() * std::pow(INV_PI, 2) / (2 * std::sin(theta));
     }
 
@@ -193,8 +193,8 @@ PHOENIX_NAMESPACE_BEGIN
         float u = p.x();
         float v = p.y();
 
-        float theta = u * M_PI / (rows() - 1);
-        float phi = v * 2 * M_PI / (cols() - 1);
+        float theta = u * PI / (rows() - 1);
+        float phi = v * 2 * PI / (cols() - 1);
 
         return Vector3f(std::sin(theta) * std::cos(phi), std::sin(theta) * std::sin(phi), std::cos(theta)).normalized();
     }

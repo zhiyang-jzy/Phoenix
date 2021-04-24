@@ -30,7 +30,7 @@ find_package(cxxopts CONFIG REQUIRED)
 if(APPLE)
     find_package(embree 3.12.1 CONFIG REQUIRED)
 else()
-    find_package(embree  CONFIG REQUIRED)
+    find_package(embree 3.0  CONFIG REQUIRED)
 endif()
 
 

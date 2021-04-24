@@ -108,7 +108,7 @@ PHOENIX_NAMESPACE_BEGIN
     }
 
     inline Vector3f SquareToGTR2(const Point2f &sample, float alpha) {
-        float phi = 2 * M_PI * sample[0];
+        float phi = 2 * PI * sample[0];
         float theta = acos(sqrt((1 - sample[1]) / (1 + (pow(alpha, 2) - 1) * sample[1])));
         return Vector3f(sin(theta) * cos(phi), sin(theta) * sin(phi), cos(theta));
     }
@@ -120,7 +120,7 @@ PHOENIX_NAMESPACE_BEGIN
     }
 
     inline Vector3f SquareToGTR1(const Point2f &sample, float alpha) {
-        float phi = 2 * M_PI * sample[0];
+        float phi = 2 * PI * sample[0];
         float theta = 0;
         if (alpha < 1)
             theta = acos(sqrt((1 - pow(pow(alpha, 2), 1 - sample[1])) / (1 - pow(alpha, 2))));

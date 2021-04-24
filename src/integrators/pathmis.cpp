@@ -38,7 +38,7 @@ PHOENIX_NAMESPACE_BEGIN
 //                Li=Le;
 
                 // -------------------------------------Russian roulette--------------------------------------- //
-                prob = std::min(t.maxCoeff(), .99f);
+                prob = fmin(t.maxCoeff(), .99f);
                 if (sampler->Next1D() >= prob) {
                     return Li;
                 }
@@ -68,7 +68,7 @@ PHOENIX_NAMESPACE_BEGIN
                 // check if shadow ray is occluded
                 Interaction its_ems;
                 if (!scene->Intersect(lRec_ems.shadowRay, its_ems))
-                    L_ems = f_ems * Li_ems * std::max(0.f, its.geoFrame.ToLocal(lRec_ems.wi).z());
+                    L_ems = f_ems * Li_ems * fmax(0.f, its.geoFrame.ToLocal(lRec_ems.wi).z());
 
                 Li += t * w_ems *L_ems;
 //                Li=Li.abs();
