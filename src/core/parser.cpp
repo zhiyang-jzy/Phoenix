@@ -8,6 +8,7 @@
 #include<phoenix/core/common.h>
 #include<phoenix/core/parsertool.h>
 #include<phoenix/core/properlist.h>
+#include<iostream>
 
 PHOENIX_NAMESPACE_BEGIN
 
@@ -45,6 +46,7 @@ phoenix::SceneParser::SceneParser() {
   str_to_type_["translate"] = ParserType::PTranslate;
   str_to_type_["scale"] = ParserType::PScale;
   str_to_type_["rotate"] = ParserType::PRotate;
+  str_to_type_["matrix"] = ParserType::PMatrix;
 
 }
 shared_ptr<PhoenixObject> phoenix::SceneParser::ParseTag(pugi::xml_node &node,
@@ -68,7 +70,14 @@ shared_ptr<PhoenixObject> phoenix::SceneParser::ParseTag(pugi::xml_node &node,
     node.append_attribute("type") = "scene";
 
   if (tag == ParserType::PTransform)
+  {
     transform_.setIdentity();
+    for(int i=0;i<16;i++)
+    {
+      std::cout<<transform_.matrix().data()[i]<<" ";
+    }
+    std::cout<<std::endl;
+  }
 
   PropertyList prop_list;
 
@@ -118,6 +127,16 @@ shared_ptr<PhoenixObject> phoenix::SceneParser::ParseTag(pugi::xml_node &node,
       }
       case ParserType::PTransform: {
         prop.SetTransform(node.attribute("name").value(), transform_.matrix());
+        for(int i=0;i<16;i++)
+        {
+          std::cout<<transform_.matrix().data()[i]<<" ";
+        }
+        std::cout<<std::endl;
+        break;
+      }
+      case ParserType::PMatrix:{
+        auto res= str_to_matrix(node.attribute("value").value());
+        transform_ = Eigen::Affine3f(res)*transform_;
         break;
       }
 

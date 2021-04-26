@@ -6,9 +6,14 @@
     </integrator>
 
 
-    <emitter type="point">
+    <!-- <emitter type="point">
         <point name="position" value="0,0,0"/>
         <color name="power" value="10,10,10"/>
+    </emitter> -->
+
+
+    <emitter type="env">
+        <string name="filename" value="../../envmap/blue.exr"/>
     </emitter>
 
     <camera type="perspective">
@@ -22,13 +27,17 @@
     </camera>
 
     <sampler type="independent">
-        <integer name="sampleCount" value="1"/>
+        <integer name="sampleCount" value="16"/>
     </sampler>
+
 
     <shape type="sphere">
         <point name="center" value="-3,0,0"/>
         <float name="radius" value="1"/>
-        <bsdf type="diffuse"/>
+        <bsdf type="roughconductor">
+            <string name="cior" value="Ag"/>
+            <float name="alpha" value="0.07"/>
+        </bsdf>
     </shape>
     <shape type="sphere">
         <point name="center" value="3,0,0"/>

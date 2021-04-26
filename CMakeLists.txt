@@ -13,6 +13,8 @@ if(APPLE)
     set(embree_DIR  /Users/yang/local/embree3/lib/cmake/embree-3.12.1)
 endif()
 
+
+
 include_directories(include)
 
 file(GLOB PHOENIX_SOURCE src/core/* src/cameras/* src/shapes/* src/samplers/* src/integrators/* src/filters/* src/emitters/* src/bsdfs/* src/textures/*

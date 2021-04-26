@@ -69,7 +69,7 @@ PHOENIX_NAMESPACE_BEGIN
         Normal3f GetNormal(unsigned int geoid, unsigned int priid, Point2f uv, const Normal3f normal) const override {
             const shared_ptr<Mesh> mesh = dict_.at(geoid);
             Normal3f now_norm = mesh->GetNormal(priid, uv.x(), uv.y());
-            return now_norm;
+            return now_norm.normalized();
         }
 
 

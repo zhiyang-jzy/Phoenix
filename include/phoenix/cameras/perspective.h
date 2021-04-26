@@ -21,7 +21,6 @@ public:
   float near_clip_,far_clip_,fov_;
   Vector2f inv_output_size_;
 
-
 };
 
 

@@ -23,7 +23,7 @@ PHOENIX_NAMESPACE_BEGIN
         }
 
         EnvironmentLight(const PropertyList &props) {
-            std::filesystem::path path(props.GetString("filepath"));
+            std::filesystem::path path(props.GetString("filename"));
             auto now_path = absolute(path);
             envmap_ = Envmap(now_path.string());
         }

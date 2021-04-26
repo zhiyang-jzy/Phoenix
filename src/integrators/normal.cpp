@@ -20,7 +20,7 @@ class NormalIntegrator: public Integrator{
     if(!scene->Intersect(ray,it))
       return {0.0f};
 
-    Vector3f norm = it.normal;
+    Vector3f norm = it.normal.normalized();
     return Color3f(norm.array());
 
   }

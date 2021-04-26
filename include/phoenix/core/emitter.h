@@ -27,9 +27,7 @@ PHOENIX_NAMESPACE_BEGIN
 
         Ray shadowRay;
 
-
         EmitterQueryRecord() = default;
-
 
         explicit EmitterQueryRecord(Point3f ref) : ref(std::move(ref)) { pdf = .0f; }
 

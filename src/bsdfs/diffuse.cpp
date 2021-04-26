@@ -18,6 +18,12 @@ class DiffuseBSDF : public BSDF {
     albedo_ = props.GetColor("albedo", Color3f(0.5f));
     cover_texture_ = props.HasVal("albedo");
   }
+
+  Color3f GetAlbedo(Color3f texcolor) const override{
+    if(cover_texture_)
+      return albedo_;
+    return texcolor;
+  }
   [[nodiscard]] Color3f Eval(const BSDFQueryRecord &rec) const override {
     if (rec.wi.z() <= 0 || rec.wo.z() <= 0)
       return Color3f(0.0f);

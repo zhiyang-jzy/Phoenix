@@ -29,6 +29,7 @@ struct BSDFQueryRecord {
 
 class BSDF : public PhoenixObject {
  public:
+  [[nodiscard]] virtual Color3f GetAlbedo(Color3f texcolor)const {return texcolor;}
   virtual Color3f Sample(BSDFQueryRecord &rec, const Point2f &sample) const {return Color3f(0,0,0);};
   virtual Color3f Sample(BSDFQueryRecord &rec, const Point2f &sample, Color3f albedo) const {
     return Color3f(0.3,

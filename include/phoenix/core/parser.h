@@ -37,6 +37,7 @@ class SceneParser {
     PLookAt,
     PTransform,
     PTranslate,
+    PMatrix,
     PScale,
     PRotate,
     PColor,

@@ -70,23 +70,23 @@ PHOENIX_NAMESPACE_BEGIN
             float sinTheta = Frame::SinTheta(v);
             if (sinTheta == 0.0f)
                 return 1.0f;
-            return clamp(v.y() / sinTheta, -1.0f, 1.0f);
+            return Clamp(v.y() / sinTheta, -1.0f, 1.0f);
         }
 
         static float CosPhi(const Vector3f &v) {
             float sinTheta = Frame::SinTheta(v);
             if (sinTheta == 0.0f)
                 return 1.0f;
-            return clamp(v.x() / sinTheta, -1.0f, 1.0f);
+            return Clamp(v.x() / sinTheta, -1.0f, 1.0f);
         }
 
         static float sinPhi2(const Vector3f &v) {
-            return clamp(v.y() * v.y() / SinTheta2(v), 0.0f, 1.0f);
+            return Clamp(v.y() * v.y() / SinTheta2(v), 0.0f, 1.0f);
         }
 
 
         static float cosPhi2(const Vector3f &v) {
-            return clamp(v.x() * v.x() / SinTheta2(v), 0.0f, 1.0f);
+            return Clamp(v.x() * v.x() / SinTheta2(v), 0.0f, 1.0f);
         }
 
     };

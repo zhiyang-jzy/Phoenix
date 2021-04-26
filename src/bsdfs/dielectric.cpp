@@ -10,6 +10,9 @@ class Dielectric : public BSDF {
   float intIOR_, extIOR_;
 
  public:
+
+
+
   explicit Dielectric(const PropertyList &props) {
     intIOR_ = props.GetFloat("intIOR", 1.5046f);
     extIOR_ = props.GetFloat("extIOR", 1.000277f);

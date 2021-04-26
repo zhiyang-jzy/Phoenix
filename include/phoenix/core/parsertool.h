@@ -15,6 +15,7 @@ Vector3f str_to_vector3f(const string& str);
 Point3f str_to_point3f(const string& str);
 vector<string> tokenize(const string &s, const string &delim = ", ", bool includeEmpty = false);
 int str_to_integer(const string& str);
+Eigen::Matrix4f str_to_matrix(const string &str);
 
 
 PHOENIX_NAMESPACE_END

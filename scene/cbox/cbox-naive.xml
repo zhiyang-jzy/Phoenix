@@ -90,7 +90,7 @@
         <string name="filename" value="meshes/ball.obj"/>
         <transform name="toWorld">
             <scale value="0.1,0.1,0.1"/>
-            <translate value="0.4,0.4,0.4"/>
+            <translate value="0.1,0.1,0.1"/>
         </transform>
         <bsdf type="disney">
 <!--            <color name="baseColor" value="0.6 0.6 0.6"/>-->

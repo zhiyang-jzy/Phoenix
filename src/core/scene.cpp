@@ -78,7 +78,7 @@ PHOENIX_NAMESPACE_BEGIN
             return false;
         auto shape = shapes_dict_.at(it.geoID);
         it.albedo = shape->GetTextureColor(it.geoID, it.primID, it.uv);
-        it.normal = shape->GetNormal(it.geoID, it.primID, it.uv, it.normal);
+//        it.normal = shape->GetNormal(it.geoID, it.primID, it.uv, it.normal);
         it.point = ray.At(it.tfar);
         it.shape = shape;
         return true;

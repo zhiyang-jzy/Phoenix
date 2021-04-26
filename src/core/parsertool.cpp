@@ -19,6 +19,19 @@ Vector3f str_to_vector3f(const string &str) {
     result[i] = str_to_float(tokens[i]);
   return result;
 }
+Eigen::Matrix4f str_to_matrix(const string &str){
+  std::vector<std::string> tokens = tokenize(str);
+  Eigen::Matrix4f res;
+
+
+  if(tokens.size()!=16){
+    spdlog::error("wrong matrix");
+    return Eigen::Matrix4f::Identity();
+  }
+  for(int i=0;i<16;i++)
+    res.data()[i] = str_to_float(tokens[i]);
+  return res;
+}
 
 
 vector<string> tokenize(const string &s, const string &delim, bool includeEmpty) {

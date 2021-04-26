@@ -14,7 +14,7 @@ PHOENIX_NAMESPACE_BEGIN
     }
 
     float SchlickFresnel(float x) {
-        x = clamp(1 - x, 0.f, 1.f);
+        x = Clamp(1 - x, 0.f, 1.f);
         return pow(x, 5);
     }
 
@@ -44,6 +44,11 @@ PHOENIX_NAMESPACE_BEGIN
             clearcoat_gloss = proplist.GetFloat("clearcoatGloss", 0.5);
         }
 
+      Color3f GetAlbedo(Color3f texcolor) const override{
+          if(cover_texture_)
+            return base_color_;
+        return texcolor;
+      }
         Color3f Eval(const BSDFQueryRecord &bRec, Color3f albedo) const override {
             if (bRec.wi.z() < 0 || bRec.wo.z() < 0)
                 return Color3f(0.0f);

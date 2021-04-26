@@ -34,7 +34,6 @@ PHOENIX_NAMESPACE_BEGIN
         size_t compStride = sizeof(float),
                 pixelStride = 3 * compStride,
                 rowStride = pixelStride * cols();
-
         char *ptr = reinterpret_cast<char *>(data());
         frameBuffer.insert("R", Imf::Slice(Imf::FLOAT, ptr, pixelStride, rowStride));
         ptr += compStride;
