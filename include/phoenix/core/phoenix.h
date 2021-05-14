@@ -39,7 +39,6 @@ class Pembree;
 
 template <typename Scalar, int Dimension>  struct TVector;
 template <typename Scalar, int Dimension>  struct TPoint;
-template <typename Point, typename Vector> struct TRay;
 template <typename Point>                  struct TBoundingBox;
 
 typedef TVector<float, 1>       Vector1f;
@@ -64,8 +63,7 @@ typedef TPoint<double, 3>       Point3d;
 typedef TPoint<double, 4>       Point4d;
 typedef TPoint<int, 1>          Point1i;
 typedef TPoint<int, 2>          Point2i;
-typedef TPoint<int, 3>          Point3i;
-typedef TPoint<int, 4>          Point4i;
+
 
 
 const float PI = static_cast<float>(acos(-1.0));

@@ -24,12 +24,6 @@ class DiffuseBSDF : public BSDF {
       return albedo_;
     return texcolor;
   }
-  [[nodiscard]] Color3f Eval(const BSDFQueryRecord &rec) const override {
-    if (rec.wi.z() <= 0 || rec.wo.z() <= 0)
-      return Color3f(0.0f);
-
-    return albedo_ * INV_PI;
-  }
 
   Color3f GetTextureColor(unsigned int geoid,unsigned int primid,Point2f uv)const override{
     return albedo_;
@@ -41,14 +35,6 @@ class DiffuseBSDF : public BSDF {
     return INV_PI * rec.wo.normalized().z();
   }
 
-  Color3f Sample(BSDFQueryRecord &rec, const Point2f &sample) const override {
-    if (rec.wi.z() <= 0)
-      return Color3f(0.f);
-    rec.wo = SquareToCosineHemisphere(sample);
-    rec.eta = 1.0f;
-
-    return albedo_;
-  }
 
   virtual Color3f Eval(const BSDFQueryRecord &rec, Color3f albedo) const override {
     if (rec.wi.z() <= 0 || rec.wo.z() <= 0)

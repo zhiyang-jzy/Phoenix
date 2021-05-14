@@ -30,6 +30,14 @@ void Renderer::ParseXML(const string &xml_path) {
 }
 
 void Renderer::Render() {
+  std::chrono::system_clock::time_point pre_start,pre_end;
+
+  pre_start =  std::chrono::system_clock::now();
+  spdlog::info("start integrator preprocess");
+  scene_->integrator_->Preprocess(scene_);
+  pre_end = std::chrono::system_clock::now();
+  spdlog::info("Time Token {} seconds",std::chrono::duration_cast<std::chrono::seconds>(pre_end - pre_start).count());
+
   BlockGenerator blockGenerator(output_size_, PHOENIX_BLOCK_SIZE);
   result_->Clear();
   std::thread render_thread([&] {

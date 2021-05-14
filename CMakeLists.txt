@@ -5,7 +5,6 @@
 project(PHOENIX)
 cmake_minimum_required(VERSION 3.8)
 
-set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_EXPORT_COMPILE_COMMANDS on)
 
@@ -22,6 +21,7 @@ file(GLOB PHOENIX_SOURCE src/core/* src/cameras/* src/shapes/* src/samplers/* sr
 
 find_package(spdlog CONFIG REQUIRED)
 find_package(Eigen3 CONFIG REQUIRED)
+find_package(imgui CONFIG REQUIRED)
 
 
 find_package(pugixml CONFIG REQUIRED)
@@ -39,7 +39,7 @@ endif()
 find_package(OpenEXR CONFIG REQUIRED)
 
 
-set(all_package spdlog::spdlog Eigen3::Eigen embree pugixml TBB::tbb assimp::assimp  OpenEXR::IlmImf OpenEXR::IlmImfUtil OpenEXR::IlmImfConfig cxxopts::cxxopts)
+set(all_package spdlog::spdlog Eigen3::Eigen embree pugixml TBB::tbb assimp::assimp  OpenEXR::IlmImf OpenEXR::IlmImfUtil OpenEXR::IlmImfConfig cxxopts::cxxopts imgui::imgui)
 
 add_executable(phoenix "src/main/phoenix.cpp" ${PHOENIX_SOURCE})
 

@@ -25,6 +25,8 @@ class Integrator : public PhoenixObject {
 
   [[nodiscard]] string ToString()const override{return "";}
 
+  virtual void Preprocess(const shared_ptr<Scene> scene){}
+
 
 
 };

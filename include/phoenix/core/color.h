@@ -46,7 +46,14 @@ struct Color3f : public Eigen::Array3f {
                                          std::max(g(), 0.0f), std::max(b(), 0.0f)); }
 
    
-  bool isValid() const;
+  bool isValid() const{
+    for (int i=0; i<3; ++i) {
+      float value = coeff(i);
+      if (value < 0 || !std::isfinite(value))
+        return false;
+    }
+    return true;
+  }
 
    
   Color3f toLinearRGB() const;

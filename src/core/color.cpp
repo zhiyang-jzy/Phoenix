@@ -22,5 +22,9 @@ Color3f Color3f::toSRGB() const {
   return result;
 }
 
+float Color3f::getLuminance() const {
+  return coeff(0) * 0.212671f + coeff(1) * 0.715160f + coeff(2) * 0.072169f;
+}
+
 PHOENIX_NAMESPACE_END
 

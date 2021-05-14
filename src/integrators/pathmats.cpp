@@ -41,7 +41,6 @@ class PathmatsIntegrator : public Integrator {
     Color3f bsdfvalue = its.shape->GetBSDF()->Sample(rec, sampler->Next2D(),its.albedo);
 
     Ray light_ray(its.point, its.geoFrame.ToWorld(rec.wo));
-    float cos0 = std::abs(its.geoFrame.n.normalized().dot(rec.wo.normalized()));
 
     if (sampler->Next1D() <= russian_)
       return res + Li(scene, sampler, light_ray) * bsdfvalue / russian_;

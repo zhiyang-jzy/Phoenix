@@ -11,31 +11,13 @@ class MirrorBSDF : public BSDF {
 
   MirrorBSDF(const PropertyList &prop) {}
 
-  [[nodiscard]] Color3f Eval(const BSDFQueryRecord &rec) const override {
-    return Color3f(0.0f);
-  }
+
   Color3f Eval(const BSDFQueryRecord &rec, Color3f albedo) const override {
     return Color3f(0.0f);
   }
 
   float Pdf(const BSDFQueryRecord &) const override {
     return 0.0f;
-  }
-  Color3f Sample(BSDFQueryRecord &rec, const Point2f &) const override {
-    if (rec.wi.z() <= 0)
-      return Color3f(0.0f);
-
-    // Reflection in local coordinates
-    rec.wo = Vector3f(
-        -rec.wi.x(),
-        -rec.wi.y(),
-        rec.wi.z()
-    );
-
-    /* Relative index of refraction: no change */
-    rec.eta = 1.0f;
-
-    return Color3f(1.0f);
   }
 
   Color3f Sample(BSDFQueryRecord &rec, const Point2f &sample, Color3f albedo) const override {

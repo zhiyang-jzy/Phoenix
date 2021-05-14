@@ -82,8 +82,6 @@ BlockGenerator::BlockGenerator(const phoenix::Vector2i &size, int blockSize):siz
 }
 bool BlockGenerator::Next(ImageBlock &block) {
   tbb::mutex::scoped_lock lock(mutex_);
-
-
   std::cerr << "\rremaining: " << (float)blocks_left_/(float)all_blocks_ << ' ' << std::flush;
 
   if (blocks_left_ == 0)
