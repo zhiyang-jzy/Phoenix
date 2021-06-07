@@ -42,8 +42,10 @@ class PathmatsIntegrator : public Integrator {
 
     Ray light_ray(its.point, its.geoFrame.ToWorld(rec.wo));
 
+    float cosin = Frame::CosTheta(rec.wo);
+
     if (sampler->Next1D() <= russian_)
-      return res + Li(scene, sampler, light_ray) * bsdfvalue / russian_;
+      return res + Li(scene, sampler, light_ray) * bsdfvalue/ russian_;
 
     return res;
   }

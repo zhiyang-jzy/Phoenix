@@ -15,6 +15,7 @@ PHOENIX_NAMESPACE_BEGIN
         result.geoID = hit.hit.geomID;
         result.primID = hit.hit.primID;
         result.uv = Point2f(hit.hit.u, hit.hit.v);
+//        result.normal = result.shape->GetNormal(result.geoID,result.primID,result.uv,Normal3f(hit.hit.Ng_x, hit.hit.Ng_y, hit.hit.Ng_z).normalized());
         result.normal = Vector3f(hit.hit.Ng_x, hit.hit.Ng_y, hit.hit.Ng_z).normalized();
         result.tfar = hit.ray.tfar;
         result.geoFrame = Frame(result.normal);
@@ -78,7 +79,7 @@ PHOENIX_NAMESPACE_BEGIN
             return false;
         auto shape = shapes_dict_.at(it.geoID);
         it.albedo = shape->GetTextureColor(it.geoID, it.primID, it.uv);
-//        it.normal = shape->GetNormal(it.geoID, it.primID, it.uv, it.normal);
+        it.normal = shape->GetNormal(it.geoID, it.primID, it.uv, it.normal);
         it.point = ray.At(it.tfar);
         it.shape = shape;
         return true;

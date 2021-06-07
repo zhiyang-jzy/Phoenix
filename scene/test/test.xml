@@ -5,15 +5,12 @@
         <float name="russian" value="0.95"/>
     </integrator>
 
-
-    <!-- <emitter type="point">
-        <point name="position" value="0,0,0"/>
-        <color name="power" value="10,10,10"/>
-    </emitter> -->
-
+    <sampler type="independent">
+        <integer name="sampleCount" value="64"/>
+    </sampler>
 
     <emitter type="env">
-        <string name="filename" value="../../envmap/blue.exr"/>
+        <string name="filename" value="../../envmap/river.exr"/>
     </emitter>
 
     <camera type="perspective">
@@ -22,27 +19,304 @@
             <lookat target="0, 0, 0" origin="0, 15, 0" up="0, 0, 1"/>
         </transform>
         <filter type="gaussian"/>
-        <integer name="height" value="1080"/>
-        <integer name="width" value="1920"/>
+        <integer name="width" value="800" />
+        <integer name="height" value="800" />
     </camera>
 
-    <sampler type="independent">
-        <integer name="sampleCount" value="16"/>
-    </sampler>
-
-
     <shape type="sphere">
-        <point name="center" value="-3,0,0"/>
-        <float name="radius" value="1"/>
-        <bsdf type="roughconductor">
-            <string name="cior" value="Ag"/>
-            <float name="alpha" value="0.07"/>
+        <point name="center" value="0,0,0"/>
+        <float name="radius" value="4"/>
+		<bsdf type="microfacet">
+			<float name="alpha" value = "0.5"/>
+			<color name="kd" value="0, 0, 0"/>
+		</bsdf>
+    </shape>
+
+
+
+    <!-- <shape type="sphere">
+        <point name="center" value="-3,0,-3"/>
+        <float name="radius" value="0.8"/>
+        <bsdf type="diffuse">
+            <color name="albedo" value="1 1 1"/>
         </bsdf>
     </shape>
     <shape type="sphere">
-        <point name="center" value="3,0,0"/>
-        <float name="radius" value="1"/>
-        <bsdf type="dielectric"/>
+        <point name="center" value="-1,0,-3"/>
+        <float name="radius" value="0.8"/>
+        <bsdf type="dielectric">
+        </bsdf>
     </shape>
+    <shape type="sphere">
+        <point name="center" value="1,0,-3"/>
+        <float name="radius" value="0.8"/>
+        <bsdf type="mirror">
+        </bsdf>
+    </shape>
+
+
+
+
+    <shape type="sphere">
+        <point name="center" value="-3,0,-1"/>
+        <float name="radius" value="0.8"/>
+        <bsdf type="smoothconductor">
+            <string name="cior" value="Au"/>
+            <float name="alpha" value="0.1"/>
+        </bsdf>
+    </shape>
+    <shape type="sphere">
+        <point name="center" value="-1,0,-1"/>
+        <float name="radius" value="0.8"/>
+        <bsdf type="smoothconductor">
+            <string name="cior" value="Cu"/>
+            <float name="alpha" value="0.1"/>
+        </bsdf>
+    </shape>
+    <shape type="sphere">
+        <point name="center" value="1,0,-1"/>
+        <float name="radius" value="0.8"/>
+        <bsdf type="smoothconductor">
+            <string name="cior" value="SnTe"/>
+            <float name="alpha" value="0.1"/>
+        </bsdf>
+    </shape>
+    <shape type="sphere">
+        <point name="center" value="3,0,-1"/>
+        <float name="radius" value="0.8"/>
+        <bsdf type="roughconductor">
+            <string name="cior" value="Au"/>
+            <float name="alpha" value="0.1"/>
+        </bsdf>
+    </shape>
+    <shape type="sphere">
+        <point name="center" value="5,0,-1"/>
+        <float name="radius" value="0.8"/>
+        <bsdf type="roughconductor">
+            <string name="cior" value="Cu"/>
+            <float name="alpha" value="0.1"/>
+        </bsdf>
+    </shape>
+    <shape type="sphere">
+        <point name="center" value="7,0,-1"/>
+        <float name="radius" value="0.8"/>
+        <bsdf type="roughconductor">
+            <string name="cior" value="SnTe"/>
+            <float name="alpha" value="0.1"/>
+        </bsdf>
+    </shape>
+
+
+    <shape type="sphere">
+        <point name="center" value="-3,0,1"/>
+        <float name="radius" value="0.8"/>
+        <bsdf type="disney">
+            <color name="baseColor" value="0.29 0.29 0.45"/>
+            <float name="subsurface" value="0" />
+            <float name="metallic" value="0" />
+            <float name="specular" value="0.602" />
+            <float name="specularTint" value="0" />
+            <float name="roughness" value="0" />
+            <float name="sheen" value="0.5" />
+            <float name="sheenTint" value="0.5" />
+            <float name="clearcoat" value="0.31" />
+            <float name="clearcoatGloss" value="0.567" />
+        </bsdf>
+    </shape>
+    <shape type="sphere">
+        <point name="center" value="-1,0,1"/>
+        <float name="radius" value="0.8"/>
+        <bsdf type="disney">
+            <color name="baseColor" value="0.29 0.29 0.45"/>
+            <float name="subsurface" value="0" />
+            <float name="metallic" value="0" />
+            <float name="specular" value="0.602" />
+            <float name="specularTint" value="0" />
+            <float name="roughness" value="0.5" />
+            <float name="sheen" value="0.5" />
+            <float name="sheenTint" value="0.5" />
+            <float name="clearcoat" value="0.31" />
+            <float name="clearcoatGloss" value="0.567" />
+        </bsdf>
+    </shape>
+    <shape type="sphere">
+        <point name="center" value="1,0,1"/>
+        <float name="radius" value="0.8"/>
+        <bsdf type="disney">
+            <color name="baseColor" value="0.29 0.29 0.45"/>
+            <float name="subsurface" value="0" />
+            <float name="metallic" value="0" />
+            <float name="specular" value="0" />
+            <float name="specularTint" value="0" />
+            <float name="roughness" value="0.5" />
+            <float name="sheen" value="0.5" />
+            <float name="sheenTint" value="0.5" />
+            <float name="clearcoat" value="0.31" />
+            <float name="clearcoatGloss" value="0.567" />
+        </bsdf>
+    </shape>
+    <shape type="sphere">
+        <point name="center" value="3,0,1"/>
+        <float name="radius" value="0.8"/>
+        <bsdf type="disney">
+            <color name="baseColor" value="0.96 0.09 0.08"/>
+            <float name="subsurface" value="0" />
+            <float name="metallic" value="0" />
+            <float name="specular" value="0.5" />
+            <float name="specularTint" value="0" />
+            <float name="roughness" value="0.5" />
+            <float name="sheen" value="0.5" />
+            <float name="sheenTint" value="0.5" />
+            <float name="clearcoat" value="0.31" />
+            <float name="clearcoatGloss" value="0.567" />
+        </bsdf>
+    </shape>
+    <shape type="sphere">
+        <point name="center" value="5,0,1"/>
+        <float name="radius" value="0.8"/>
+        <bsdf type="disney">
+            <color name="baseColor" value="0.96 0.09 0.08"/>
+            <float name="subsurface" value="0" />
+            <float name="metallic" value="0" />
+            <float name="specular" value="1" />
+            <float name="specularTint" value="0" />
+            <float name="roughness" value="0.5" />
+            <float name="sheen" value="0.5" />
+            <float name="sheenTint" value="0.5" />
+            <float name="clearcoat" value="0.31" />
+            <float name="clearcoatGloss" value="0.567" />
+        </bsdf>
+    </shape>
+    <shape type="sphere">
+        <point name="center" value="7,0,1"/>
+        <float name="radius" value="0.8"/>
+        <bsdf type="disney">
+            <color name="baseColor" value="0.96 0.09 0.08"/>
+            <float name="subsurface" value="0" />
+            <float name="metallic" value="0" />
+            <float name="specular" value="0.602" />
+            <float name="specularTint" value="0" />
+            <float name="roughness" value="1" />
+            <float name="sheen" value="0.5" />
+            <float name="sheenTint" value="0.5" />
+            <float name="clearcoat" value="0.31" />
+            <float name="clearcoatGloss" value="0.567" />
+        </bsdf>
+    </shape>
+
+
+
+
+    <shape type="sphere">
+        <point name="center" value="-3,0,3"/>
+        <float name="radius" value="0.8"/>
+        <bsdf type="disney">
+            <color name="baseColor" value="1 0.88 0.29"/>
+            <float name="subsurface" value="0" />
+            <float name="metallic" value="0" />
+            <float name="specular" value="0.602" />
+            <float name="specularTint" value="0" />
+            <float name="roughness" value="0.1" />
+            <float name="sheen" value="0.5" />
+            <float name="sheenTint" value="0.5" />
+            <float name="clearcoat" value="0.31" />
+            <float name="clearcoatGloss" value="0.567" />
+        </bsdf>
+    </shape>
+    <shape type="sphere">
+        <point name="center" value="-1,0,3"/>
+        <float name="radius" value="0.8"/>
+        <bsdf type="disney">
+            <color name="baseColor" value="1 0.88 0.29"/>
+            <float name="subsurface" value="0" />
+            <float name="metallic" value="0.5" />
+            <float name="specular" value="0.602" />
+            <float name="specularTint" value="0" />
+            <float name="roughness" value="0.1" />
+            <float name="sheen" value="0.5" />
+            <float name="sheenTint" value="0.5" />
+            <float name="clearcoat" value="0.31" />
+            <float name="clearcoatGloss" value="0.567" />
+        </bsdf>
+    </shape>
+    <shape type="sphere">
+        <point name="center" value="1,0,3"/>
+        <float name="radius" value="0.8"/>
+        <bsdf type="disney">
+            <color name="baseColor" value="1 0.88 0.29"/>
+            <float name="subsurface" value="0" />
+            <float name="metallic" value="1" />
+            <float name="specular" value="0.602" />
+            <float name="specularTint" value="0" />
+            <float name="roughness" value="0.1" />
+            <float name="sheen" value="0.5" />
+            <float name="sheenTint" value="0.5" />
+            <float name="clearcoat" value="0.31" />
+            <float name="clearcoatGloss" value="0.567" />
+        </bsdf>
+    </shape>
+    <shape type="sphere">
+        <point name="center" value="3,0,3"/>
+        <float name="radius" value="0.8"/>
+        <bsdf type="disney">
+            <color name="baseColor" value="0.45 0.13 0.02"/>
+            <float name="subsurface" value="0" />
+            <float name="metallic" value="0" />
+            <float name="specular" value="0.5" />
+            <float name="specularTint" value="0" />
+            <float name="roughness" value="0.5" />
+            <float name="sheen" value="0" />
+            <float name="sheenTint" value="0.5" />
+            <float name="clearcoat" value="0.31" />
+            <float name="clearcoatGloss" value="0.567" />
+        </bsdf>
+    </shape>
+    <shape type="sphere">
+        <point name="center" value="5,0,3"/>
+        <float name="radius" value="0.8"/>
+        <bsdf type="disney">
+            <color name="baseColor" value="0.45 0.13 0.02"/>
+            <float name="subsurface" value="0" />
+            <float name="metallic" value="0" />
+            <float name="specular" value="1" />
+            <float name="specularTint" value="0" />
+            <float name="roughness" value="0.5" />
+            <float name="sheen" value="0.5" />
+            <float name="sheenTint" value="0.5" />
+            <float name="clearcoat" value="0.31" />
+            <float name="clearcoatGloss" value="0.567" />
+        </bsdf>
+    </shape>
+    <shape type="sphere">
+        <point name="center" value="7,0,3"/>
+        <float name="radius" value="0.8"/>
+        <bsdf type="disney">
+            <color name="baseColor" value="0.45 0.13 0.02"/>
+            <float name="subsurface" value="0" />
+            <float name="metallic" value="0" />
+            <float name="specular" value="0.602" />
+            <float name="specularTint" value="0" />
+            <float name="roughness" value="1" />
+            <float name="sheen" value="1" />
+            <float name="sheenTint" value="0.5" />
+            <float name="clearcoat" value="0.31" />
+            <float name="clearcoatGloss" value="0.567" />
+        </bsdf>
+    </shape> -->
+
+
+
+
+
+
+
+    <!-- 
+    <shape type="sphere">
+        <point name="center" value="3,0,3"/>
+        <float name="radius" value="0.8"/>
+        <bsdf type="smoothconductor">
+            <string name="cior" value="Au"/>
+        </bsdf>
+    </shape> -->
 
 </scene>

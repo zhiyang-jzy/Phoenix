@@ -75,4 +75,22 @@ PHOENIX_NAMESPACE_BEGIN
 
     PHOENIX_REGISTER_CLASS(MitchellNetravaliFilter,"MN");
 
+
+
+class TentFilter : public Filter {
+ public:
+  TentFilter(const PropertyList &propList) {
+
+    radius_ = propList.GetFloat("radius", 1.0f);
+  }
+
+  float Eval(float x) const override {
+    return std::max((float ) 0.0f, 1.0f - std::abs(x / radius_));
+  }
+
+ protected:
+};
+
+PHOENIX_REGISTER_CLASS(TentFilter, "tent");
+
 PHOENIX_NAMESPACE_END

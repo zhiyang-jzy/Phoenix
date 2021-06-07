@@ -136,7 +136,7 @@ shared_ptr<PhoenixObject> phoenix::SceneParser::ParseTag(pugi::xml_node &node,
       }
       case ParserType::PMatrix:{
         auto res= str_to_matrix(node.attribute("value").value());
-        transform_ = Eigen::Affine3f(res)*transform_;
+        transform_ = Eigen::Affine3f(res);
         break;
       }
 

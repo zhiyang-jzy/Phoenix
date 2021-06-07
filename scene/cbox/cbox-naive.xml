@@ -1,8 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 
 <scene>
-    <integrator type="pathmis">
-        <float name="russian" value="0.95"/>
+    <integrator type="PhotonMapper1">
+		<integer name="photonCount" value="200000"/>
+		<float name="photonRadius" value="0.05"/>
     </integrator>
 
     <camera type="perspective">
@@ -16,7 +17,7 @@
     </camera>
 
     <sampler type="independent">
-        <integer name="sampleCount" value="32"/>
+        <integer name="sampleCount" value="4"/>
     </sampler>
 
     <shape type="obj">

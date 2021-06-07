@@ -28,6 +28,7 @@ class PhotonMapper1 : public Integrator {
 
   void TraceGlobalPhoton(const shared_ptr<Scene> &scene,
                          shared_ptr<Sampler> &sampler) {
+    spdlog::info("tracing global");
     global_photon_ = make_shared<PhotonMap>();
     global_photon_->reserve(photon_count_);
 
@@ -56,7 +57,7 @@ class PhotonMapper1 : public Integrator {
             Color3f f = bsdf->Sample(bRec, sampler->Next2D(), inter.albedo);
             Vector3f reflected_dir = inter.geoFrame.ToWorld(bRec.wo);
             Color3f incoming_power = photon_power;
-            photon_power *= f * fmax(0.0f,fabsf(Frame::CosTheta(bRec.wo)));
+            photon_power *= f;
             if (f.isZero())
               break;
             if (depth > rr_start_) {
@@ -74,10 +75,11 @@ class PhotonMapper1 : public Integrator {
         }
       }
     }
-    global_photon_->scale(emitted_photons);
+    global_photon_->scale(photon_count_);
     global_photon_->build();
   }
   void TraceCausticPhoton(shared_ptr<Scene> scene, shared_ptr<Sampler> sampler) {
+    spdlog::info("tracing caustic");
     caustic_photon_ = make_shared<PhotonMap>();
     caustic_photon_->reserve(photon_count_);
     int stored_photons = 0, emitted_photons = 0;
@@ -109,7 +111,7 @@ class PhotonMapper1 : public Integrator {
           Color3f f = bsdf->Sample(bRec, sampler->Next2D(), inter.albedo);
           Vector3f reflected_dir = inter.geoFrame.ToWorld(bRec.wo);
           Color3f incoming_power = photon_power;
-          photon_power *= f * fabsf(Frame::CosTheta(bRec.wo));
+          photon_power *= f;
           if (f.isZero())
             break;
           if (depth > rr_start_) {
@@ -126,7 +128,7 @@ class PhotonMapper1 : public Integrator {
         }
       }
     }
-    caustic_photon_->scale(emitted_photons);
+    caustic_photon_->scale(photon_count_);
     caustic_photon_->build();
   }
 

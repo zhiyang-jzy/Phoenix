@@ -23,13 +23,22 @@ Eigen::Matrix4f str_to_matrix(const string &str){
   std::vector<std::string> tokens = tokenize(str);
   Eigen::Matrix4f res;
 
+  std::vector<float> float_res(16);
+
+  for(int i=0;i<16;i++)
+    float_res[i] = str_to_float(tokens[i]);
 
   if(tokens.size()!=16){
     spdlog::error("wrong matrix");
     return Eigen::Matrix4f::Identity();
   }
-  for(int i=0;i<16;i++)
-    res.data()[i] = str_to_float(tokens[i]);
+
+  res<< float_res[0],float_res[4],float_res[8],float_res[12],
+      float_res[1],float_res[5],float_res[9],float_res[13],
+      float_res[2],float_res[6],float_res[10],float_res[14],
+      float_res[3],float_res[7],float_res[11],float_res[15];
+
+  res.transposeInPlace();
   return res;
 }
 

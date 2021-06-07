@@ -35,6 +35,16 @@ class RoughConductor : public BSDF {
     return std::exp(-tmp * tmp) / (PI * alpha_ * alpha_ * ct2 * ct2);
   }
 
+  float EvalGGX(const Normal3f &m) const {
+    float ct = Frame::CosTheta(m), ct2 = ct * ct, a2 = alpha_ * alpha_;
+    float tmp = ct2 * (a2 - 1) + 1;
+    return a2 / (PI * tmp * tmp);
+  }
+
+  float GGXG1(const Vector3f &v, const Normal3f &m) const {
+    float tan_theta = Frame::TanTheta(v);
+  }
+
   float SmithBeckmannG1(const Vector3f &v, const Normal3f &m) const {
     float tanTheta = Frame::TanTheta(v);
     if (tanTheta == 0.0f)
@@ -54,7 +64,7 @@ class RoughConductor : public BSDF {
 
   /// Evaluate the BRDF for the given pair of directions
   /// Always assume that BSDFQueryRecord has directions in the local frame
-  virtual Color3f Eval(const BSDFQueryRecord &bRec,Color3f albedo) const override {
+  virtual Color3f Eval(const BSDFQueryRecord &bRec, Color3f albedo) const override {
 
     if (Frame::CosTheta(bRec.wi) <= 0 || Frame::CosTheta(bRec.wo) <= 0)
       return Color3f(0.0f);
@@ -62,22 +72,22 @@ class RoughConductor : public BSDF {
     Normal3f w_h = (bRec.wi + bRec.wo).normalized();
     float D = EvalBeckmann(w_h);
     Color3f F = FresnelConductor(w_h.dot(bRec.wi), ior_.eta, ior_.k);
-    float G = SmithBeckmannG1(bRec.wo, w_h) * SmithBeckmannG1(bRec.wo, w_h);
+    float G = SmithBeckmannG1(bRec.wi, w_h) * SmithBeckmannG1(bRec.wo, w_h);
 
     return F * D * G / (4 * (Frame::CosTheta(bRec.wi) * Frame::CosTheta(bRec.wo)));
   }
 
   /// Evaluate the sampling density of \ref sample() wrt. solid angles
-  float Pdf(const BSDFQueryRecord &bRec) const override{
+  float Pdf(const BSDFQueryRecord &bRec) const override {
 
     if (Frame::CosTheta(bRec.wo) <= 0.0f || Frame::CosTheta(bRec.wi) <= 0.0f) return 0.0f;
     Normal3f w_h = (bRec.wi + bRec.wo).normalized();
     float jacobian = 0.25f / (w_h.dot(bRec.wo));
-    return SquareToBeckmannPdf(w_h,alpha_) * jacobian;
+    return SquareToBeckmannPdf(w_h, alpha_) * jacobian;
   }
 
   /// Sample the BRDF
-  Color3f Sample(BSDFQueryRecord &bRec, const Point2f &_sample,Color3f albedo) const override{
+  Color3f Sample(BSDFQueryRecord &bRec, const Point2f &_sample, Color3f albedo) const override {
 
     if (Frame::CosTheta(bRec.wi) <= 0)
       return Color3f(0.0f);
@@ -89,7 +99,7 @@ class RoughConductor : public BSDF {
     bRec.wo = 2.0f * w_h.dot(bRec.wi) * w_h - bRec.wi;
     float jacobian = 0.25f / fabsf(w_h.dot(bRec.wo));
     pdf = pdf * jacobian;
-    return Eval(bRec,albedo) / pdf;
+    return Eval(bRec, albedo) / pdf;
   }
 
  private:
@@ -97,7 +107,7 @@ class RoughConductor : public BSDF {
   ComplexIor ior_;
 };
 
-PHOENIX_REGISTER_CLASS(RoughConductor,"roughconductor");
+PHOENIX_REGISTER_CLASS(RoughConductor, "roughconductor");
 
 PHOENIX_NAMESPACE_END
 
