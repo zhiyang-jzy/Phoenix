@@ -6,11 +6,11 @@
     </integrator>
 
     <sampler type="independent">
-        <integer name="sampleCount" value="64"/>
+        <integer name="sampleCount" value="8"/>
     </sampler>
 
     <emitter type="env">
-        <string name="filename" value="../../envmap/river.exr"/>
+        <string name="filename" value="river.exr"/>
     </emitter>
 
     <camera type="perspective">

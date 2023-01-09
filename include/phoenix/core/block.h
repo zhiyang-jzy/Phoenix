@@ -9,8 +9,9 @@
 #include<phoenix/core/color.h>
 #include<phoenix/core/filter.h>
 #include<phoenix/core/vector.h>
-#include<tbb/mutex.h>
+#include<tbb/tbb.h>
 #include<phoenix/core/bitmap.h>
+#include <oneapi/tbb/mutex.h>
 
 
 PHOENIX_NAMESPACE_BEGIN

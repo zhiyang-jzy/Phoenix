@@ -26,7 +26,7 @@ PHOENIX_NAMESPACE_BEGIN
         Pf(row, 0) = 0;
         for (int i = 1; i < nf; ++i)
             Pf(row, i) = Pf(row, i - 1) + pf(row, i - 1);
-        Pf(row, nf) = 1;
+        Pf(row, int(nf)) = 1;
 
         return I;
     }
@@ -134,8 +134,8 @@ PHOENIX_NAMESPACE_BEGIN
         float jac = (cols() -1) * (rows() -1) / (2 * std::pow(PI, 2) * std::sin(theta));
 
         */
-        int i = std::floor(point.x());
-        int j = std::floor(point.y());
+        int i = std::min(std::floor(point.x()), float(pdf_.cols() - 1));
+        int j = std::min(std::floor(point.y()), float(pdf_.rows() - 1));
 
         //std::cout << "(" << point.x() << "," << point.y() <<")  -- pmarg: " << m_pmarg(0, i) << " pdf: " << m_pdf(i, j) << " jac: " << jac <<" final: " << m_pmarg(0, i) * m_pdf(i, j) * jac << " \n";
 
@@ -150,7 +150,7 @@ PHOENIX_NAMESPACE_BEGIN
 
         //in corners and on borders
         if (u >= rows() - 1 || v >= cols() - 1) {
-            return (*this)(u, v);
+            return (*this)(rows() - 1, cols() - 1);
         }
 
         float du = point.x() - u;

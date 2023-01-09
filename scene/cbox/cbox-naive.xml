@@ -2,7 +2,7 @@
 
 <scene>
     <integrator type="PhotonMapper1">
-		<integer name="photonCount" value="200000"/>
+		<integer name="photonCount" value="2000"/>
 		<float name="photonRadius" value="0.05"/>
     </integrator>
 

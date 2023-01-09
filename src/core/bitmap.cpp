@@ -8,7 +8,10 @@
 #include <ImfOutputFile.h>
 #include <ImfChannelList.h>
 #include <ImfStringAttribute.h>
+#include <ImfHeader.h>
 #include <ImfIO.h>
+#include <ImfForward.h>
+#include <ImfFrameBuffer.h>
 #include<phoenix/core/common.h>
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
